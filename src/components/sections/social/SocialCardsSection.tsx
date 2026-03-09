@@ -112,6 +112,14 @@ export default function SocialCardsSection() {
    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+   const [isMobile, setIsMobile] = useState(false)
+
+   useEffect(() => {
+      const checkMobile = () => setIsMobile(window.innerWidth < 768)
+      checkMobile()
+      window.addEventListener('resize', checkMobile)
+      return () => window.removeEventListener('resize', checkMobile)
+   }, [])
 
    useEffect(() => {
       const section = sectionRef.current
@@ -125,9 +133,10 @@ export default function SocialCardsSection() {
          setMousePos({ x, y })
 
          if (containerRef.current) {
+            const tiltMax = window.innerWidth < 768 ? 2 : 10
             gsap.to(containerRef.current, {
-               rotateY: x * 10,
-               rotateX: -y * 10,
+               rotateY: x * tiltMax,
+               rotateX: -y * tiltMax,
                duration: 0.5,
                ease: 'power2.out',
             })
@@ -201,6 +210,7 @@ export default function SocialCardsSection() {
                   mouseX={mousePos.x}
                   mouseY={mousePos.y}
                   url={card.url}
+                  isMobile={isMobile}
                />
             ))}
          </div>

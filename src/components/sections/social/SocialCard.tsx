@@ -13,6 +13,7 @@ interface SocialCardProps {
    mouseX: number;
    mouseY: number;
    url: string;
+   isMobile: boolean;
 }
 
 export default function SocialCard({
@@ -23,7 +24,8 @@ export default function SocialCard({
    setHoveredIndex,
    mouseX,
    mouseY,
-   url
+   url,
+   isMobile
 }: SocialCardProps) {
    const cardRef = useRef<HTMLDivElement>(null)
 
@@ -36,13 +38,13 @@ export default function SocialCard({
 
    // --- BASE STATE CALCULATIONS (The Fan Effect) ---
    // Spread cards horizontally
-   const baseX = offsetFromCenter * 140
+   const baseX = isMobile ? offsetFromCenter * 45 : offsetFromCenter * 140
    // Curve them down slightly at the edges for a natural fan
-   const baseY = Math.abs(offsetFromCenter) * 15
+   const baseY = isMobile ? Math.abs(offsetFromCenter) * 25 : Math.abs(offsetFromCenter) * 15
    // Rotate them like a hand of cards
-   const baseRotate = offsetFromCenter * 6
+   const baseRotate = isMobile ? offsetFromCenter * 8 : offsetFromCenter * 6
    // Shrink outer cards to create the illusion of depth without breaking hitboxes
-   const baseScale = 1 - Math.abs(offsetFromCenter) * 0.06
+   const baseScale = isMobile ? 1 - Math.abs(offsetFromCenter) * 0.12 : 1 - Math.abs(offsetFromCenter) * 0.06
    // Center card is always top Z-index by default
    const baseZIndex = totalCards - Math.abs(offsetFromCenter)
 
@@ -57,16 +59,16 @@ export default function SocialCard({
       if (isHovered) {
          // Pull the hovered card straight up and out
          xOffset = baseX
-         yOffset = -30
+         yOffset = isMobile ? -15 : -30
          rotateZ = 0
-         scale = 1.05
+         scale = isMobile ? 1.02 : 1.05
          zIndex = 50
       } else {
          // Push unhovered cards slightly away to make room
          const pushDirection = index < hoveredIndex! ? -1 : 1
-         xOffset = baseX + (pushDirection * 40)
-         yOffset = baseY + 10
-         rotateZ = baseRotate + (pushDirection * 2)
+         xOffset = isMobile ? baseX + (pushDirection * 15) : baseX + (pushDirection * 40)
+         yOffset = isMobile ? baseY + 5 : baseY + 10
+         rotateZ = isMobile ? baseRotate + (pushDirection * 1) : baseRotate + (pushDirection * 2)
          scale = baseScale * 0.95
          // Keep natural stack order behind the hovered card
          zIndex = baseZIndex

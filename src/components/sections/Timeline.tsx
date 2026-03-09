@@ -28,17 +28,19 @@ export default function Timeline() {
       const ctx = gsap.context(() => {
          const track = trackRef.current!
          const pin = pinRef.current!
-         const totalScroll = track.scrollWidth - pin.offsetWidth
-
-         if (totalScroll <= 0) return
+         // Function to dynamically calculate scroll width, 
+         // important for mobile browsers where the UI bar hides and resizes the page
+         const getScrollAmount = () => {
+            return Math.max(0, track.scrollWidth - pin.offsetWidth)
+         }
 
          gsap.to(track, {
-            x: -totalScroll,
+            x: () => -getScrollAmount(),
             ease: 'none',
             scrollTrigger: {
                trigger: pin,
                start: 'top top',
-               end: () => `+=${totalScroll}`,
+               end: () => `+=${getScrollAmount()}`,
                pin: true,
                pinType: 'transform',
                scrub: 1,

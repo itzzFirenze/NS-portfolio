@@ -16,6 +16,7 @@ export default function MyWorks() {
    const targetRef = useRef<HTMLDivElement>(null)
    const containerRef = useRef<HTMLDivElement>(null)
    const [xRange, setXRange] = useState(0)
+   const [activeId, setActiveId] = useState<number | null>(null)
 
    const { scrollYProgress } = useScroll({
       target: targetRef,
@@ -112,6 +113,7 @@ export default function MyWorks() {
                            key={work.id}
                            className={`group relative ${widthClass} ${heightClass} flex-shrink-0 cursor-pointer`}
                            style={{ transform: `translateY(${yOffset})` }}
+                           onClick={() => setActiveId(activeId === work.id ? null : work.id)}
                         >
                            <div className="w-full h-full overflow-hidden relative rounded-xl border border-white/5">
                               <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 ease-out z-10" />
@@ -125,7 +127,7 @@ export default function MyWorks() {
                                  }}
                               />
 
-                              <div className="absolute inset-0 bg-[#0f0f0f] -z-10 flex items-center justify-center border border-white/5">
+                               <div className="absolute inset-0 bg-[#0f0f0f] -z-10 flex items-center justify-center border border-white/5">
                                  <div className="flex flex-col items-center">
                                     <span className="text-white/10 font-display text-6xl font-black uppercase tracking-widest">{work.id}</span>
                                     <span className="text-white/20 font-body text-xs mt-4 tracking-[0.2em] uppercase">Coming Soon</span>
@@ -133,7 +135,11 @@ export default function MyWorks() {
                               </div>
                            </div>
 
-                           <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 z-20 bg-black/40 backdrop-blur-md p-4 rounded-lg border border-white/10">
+                           <div className={`absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-end transition-all duration-500 z-20 bg-black/40 backdrop-blur-md p-4 rounded-lg border border-white/10 ${
+                              activeId === work.id 
+                                 ? 'opacity-100 translate-y-0' 
+                                 : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                           }`}>
                               <h3 className="text-xl md:text-3xl font-display font-bold text-white uppercase tracking-tighter drop-shadow-lg">
                                  {work.title}
                               </h3>
