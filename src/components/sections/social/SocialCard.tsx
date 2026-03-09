@@ -12,6 +12,7 @@ interface SocialCardProps {
    setHoveredIndex: (idx: number | null) => void;
    mouseX: number;
    mouseY: number;
+   url: string;
 }
 
 export default function SocialCard({
@@ -20,48 +21,58 @@ export default function SocialCard({
    totalCards,
    hoveredIndex,
    setHoveredIndex,
-   mouseX, // Local mouse coords from section (-1 to 1)
+   mouseX,
    mouseY,
+   url
 }: SocialCardProps) {
    const cardRef = useRef<HTMLDivElement>(null)
 
-   // Calculate spreading when a card is hovered
-   // If no card is hovered, they overlap tightly.
-   // If a card is hovered, others spread out.
    const isHovered = hoveredIndex === index
    const isAnyHovered = hoveredIndex !== null
 
-   // Initial stack offset
-   const baseOffset = (index - (totalCards - 1) / 2) * 50 // px translation
-   const baseRotate = (index - (totalCards - 1) / 2) * 4 // deg rotation
+   // Find the true center to anchor the fan effect
+   const centerIndex = Math.floor(totalCards / 2)
+   const offsetFromCenter = index - centerIndex
 
-   // Hover state calculations
-   let xOffset = baseOffset
+   // --- BASE STATE CALCULATIONS (The Fan Effect) ---
+   // Spread cards horizontally
+   const baseX = offsetFromCenter * 140
+   // Curve them down slightly at the edges for a natural fan
+   const baseY = Math.abs(offsetFromCenter) * 15
+   // Rotate them like a hand of cards
+   const baseRotate = offsetFromCenter * 6
+   // Shrink outer cards to create the illusion of depth without breaking hitboxes
+   const baseScale = 1 - Math.abs(offsetFromCenter) * 0.06
+   // Center card is always top Z-index by default
+   const baseZIndex = totalCards - Math.abs(offsetFromCenter)
+
+   // --- HOVER STATE CALCULATIONS ---
+   let xOffset = baseX
+   let yOffset = baseY
    let rotateZ = baseRotate
-   let zIndex = index
-   let zOffset = 0
-   let scale = 1
+   let scale = baseScale
+   let zIndex = baseZIndex
 
    if (isAnyHovered) {
       if (isHovered) {
-         xOffset = 0 // Centered
-         rotateZ = 0 // Facing straight
-         zIndex = 50
-         zOffset = 100 // Forward on Z
+         // Pull the hovered card straight up and out
+         xOffset = baseX
+         yOffset = -30
+         rotateZ = 0
          scale = 1.05
+         zIndex = 50
       } else {
-         // Push others to the side
-         const distance = index - hoveredIndex!
-         xOffset = distance > 0 ? baseOffset + 150 : baseOffset - 150
-         rotateZ = distance > 0 ? baseRotate + 5 : baseRotate - 5
-         scale = 0.9
-         zOffset = -50
-         zIndex = index < hoveredIndex! ? index : totalCards - index
+         // Push unhovered cards slightly away to make room
+         const pushDirection = index < hoveredIndex! ? -1 : 1
+         xOffset = baseX + (pushDirection * 40)
+         yOffset = baseY + 10
+         rotateZ = baseRotate + (pushDirection * 2)
+         scale = baseScale * 0.95
+         // Keep natural stack order behind the hovered card
+         zIndex = baseZIndex
       }
    }
 
-   // Parallax for the background image inside the card based on mouse move
-   // Only prominent when this specific card is hovered, or subtly always
    const parallaxX = isHovered ? mouseX * 20 : mouseX * 5
    const parallaxY = isHovered ? mouseY * 20 : mouseY * 5
 
@@ -75,32 +86,32 @@ export default function SocialCard({
          initial={{ x: '-50%', y: '-50%' }}
          animate={{
             x: `calc(-50% + ${xOffset}px)`,
-            y: '-50%',
+            y: `calc(-50% + ${yOffset}px)`,
             rotateZ: rotateZ,
-            z: zOffset,
+            // Removed Z-translation here to fix the hover hitboxes!
             scale: scale,
          }}
          transition={{
             type: 'spring',
-            stiffness: 200,
-            damping: 25,
+            stiffness: 260,
+            damping: 30,
             mass: 1
          }}
          onMouseEnter={() => setHoveredIndex(index)}
          onMouseLeave={() => setHoveredIndex(null)}
+         onClick={() => window.open(card.url, '_blank')}
       >
          {/* Card Body */}
-         <div 
-            className="relative w-[280px] h-[400px] md:w-[320px] md:h-[460px] rounded-2xl overflow-hidden glass-card group"
+         <div
+            className="relative w-[280px] h-[400px] md:w-[320px] md:h-[460px] rounded-2xl overflow-hidden glass-card group transition-colors duration-300 border border-white/10"
             style={{
-               // Highlight the border slightly when hovered
                borderColor: isHovered ? card.color : 'rgba(255, 255, 255, 0.08)'
             }}
          >
-            {/* Background Image with parallax and zoom */}
-            <motion.div 
+            {/* Background Image */}
+            <motion.div
                className="absolute inset-[-10%] w-[120%] h-[120%] bg-cover bg-center transition-transform duration-700 ease-out"
-               style={{ 
+               style={{
                   backgroundImage: `url(${card.bgImage})`,
                }}
                animate={{
@@ -110,13 +121,11 @@ export default function SocialCard({
                }}
             />
 
-            {/* Dark Overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
 
-            {/* Glowing border effect behind content */}
             {isHovered && (
-               <div 
-                  className="absolute inset-0 opacity-50 blur-2xl transition-opacity duration-300 pointer-events-none"
+               <div
+                  className="absolute inset-0 opacity-40 blur-3xl transition-opacity duration-300 pointer-events-none"
                   style={{ backgroundColor: card.color }}
                />
             )}
@@ -124,27 +133,27 @@ export default function SocialCard({
             {/* Content */}
             <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
                <div className="flex justify-between items-start">
-                  <div 
+                  <div
                      className="w-12 h-12 rounded-full glass flex items-center justify-center transition-transform duration-300"
-                     style={{ 
+                     style={{
                         transform: isHovered ? 'scale(1.1) rotate(-5deg)' : 'scale(1)',
-                        color: isHovered ? card.color : 'white'
+                        color: isHovered ? card.color : 'white',
+                        backgroundColor: isHovered ? 'white' : 'rgba(255,255,255,0.1)'
                      }}
                   >
                      <Icon className="w-6 h-6" />
                   </div>
                   <div className="glass px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase transition-colors"
-                       style={{ color: isHovered ? card.color : 'rgba(255,255,255,0.7)' }}>
+                     style={{ color: isHovered ? card.color : 'rgba(255,255,255,0.7)' }}>
                      {card.handle}
                   </div>
                </div>
-               
+
                <div className="transform transition-transform duration-500" style={{ y: isHovered ? 0 : 5 }}>
                   <h3 className="text-3xl font-display font-bold mb-1 text-white group-hover:drop-shadow-lg">{card.platform}</h3>
                   <p className="text-sm font-light text-white/70 line-clamp-2">{card.description}</p>
-                  
-                  {/* Faux button that reveals on hover */}
-                  <motion.div 
+
+                  <motion.div
                      className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider overflow-hidden"
                      style={{ color: card.color }}
                      initial={{ opacity: 0, height: 0 }}

@@ -14,6 +14,7 @@ export interface CardData {
    bgImage: string;
    color: string;
    icon: React.ElementType<{ className?: string }>;
+   url: string;
 }
 
 // Icons
@@ -46,42 +47,62 @@ const TwitterIcon = (props: any) => (
    </svg>
 )
 
+const TikTokIcon = (props: any) => (
+   <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+   </svg>
+)
+
 const SOCIAL_CARDS: CardData[] = [
    {
       id: 'ig',
       platform: 'Instagram',
       handle: '@neeraj_bakes',
       description: 'Behind the scenes of the bakery, recipe tests, and daily life.',
-      bgImage: 'https://images.unsplash.com/photo-1551106652-a5bcf4b29ce6?q=80&w=1000&auto=format&fit=crop', // Pastries
+      bgImage: 'https://images.unsplash.com/photo-1551106652-a5bcf4b29ce6?q=80&w=1000&auto=format&fit=crop',
       color: '#E1306C',
-      icon: InstagramIcon
-   },
-   {
-      id: 'yt',
-      platform: 'YouTube',
-      handle: 'Neeraj Bakes',
-      description: 'Long-form tutorials on sourdough, croissants, and technical baking.',
-      bgImage: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000&auto=format&fit=crop', // Cake/Baking
-      color: '#FF0000',
-      icon: YouTubeIcon
+      icon: InstagramIcon,
+      url: 'https://instagram.com/neeraj_bakes'
    },
    {
       id: 'tw',
       platform: 'Twitch',
       handle: 'NeerajLive',
       description: 'Live streams of weekend baking sessions and Q&A.',
-      bgImage: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1000&auto=format&fit=crop', // Cafe/Kitchen
+      bgImage: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1000&auto=format&fit=crop',
       color: '#9146FF',
-      icon: TwitchIcon
+      icon: TwitchIcon,
+      url: 'https://instagram.com/neeraj_bakes'
+   },
+   {
+      id: 'yt',
+      platform: 'YouTube',
+      handle: 'Neeraj Bakes',
+      description: 'Long-form tutorials on sourdough, croissants, and technical baking.',
+      bgImage: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000&auto=format&fit=crop',
+      color: '#FF0000',
+      icon: YouTubeIcon,
+      url: 'https://instagram.com/neeraj_bakes'
+   },
+   {
+      id: 'tt',
+      platform: 'TikTok',
+      handle: '@neeraj_bakes',
+      description: 'Quick bites, shaping techniques, and ASMR bread scoring.',
+      bgImage: 'https://images.unsplash.com/photo-1586671201081-115f0d4bd1cd?q=80&w=1000&auto=format&fit=crop', // Dough/ASMR style
+      color: '#00F2FE',
+      icon: TikTokIcon,
+      url: 'https://instagram.com/neeraj_bakes'
    },
    {
       id: 'x',
       platform: 'Twitter / X',
       handle: '@neeraj_tech',
       description: 'Food science notes, process optimization threads, and quick tips.',
-      bgImage: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1000&auto=format&fit=crop', // Bread/Dough
-      color: '#1DA1F2', // Or #000000 for X
-      icon: TwitterIcon
+      bgImage: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1000&auto=format&fit=crop',
+      color: '#1DA1F2',
+      icon: TwitterIcon,
+      url: 'https://instagram.com/neeraj_bakes'
    }
 ]
 
@@ -89,8 +110,7 @@ export default function SocialCardsSection() {
    const sectionRef = useRef<HTMLDivElement>(null)
    const containerRef = useRef<HTMLDivElement>(null)
    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-   
-   // Mouse position tracking for GSAP tilt
+
    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
    useEffect(() => {
@@ -99,17 +119,14 @@ export default function SocialCardsSection() {
 
       const handleMouseMove = (e: MouseEvent) => {
          const rect = section.getBoundingClientRect()
-         // Calculate mouse position relative to center of section, normalized between -1 and 1
          const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)
          const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)
-         
+
          setMousePos({ x, y })
 
-         // Only apply tilt if a specific card IS NOT fully hovered, or apply a subtler tilt if it is.
-         // Since the prompt asks for card tilt, we'll tilt the whole container.
          if (containerRef.current) {
             gsap.to(containerRef.current, {
-               rotateY: x * 10,   // Max 10 degrees tilt
+               rotateY: x * 10,
                rotateX: -y * 10,
                duration: 0.5,
                ease: 'power2.out',
@@ -141,17 +158,15 @@ export default function SocialCardsSection() {
    }, [])
 
    return (
-      <section 
-         ref={sectionRef} 
+      <section
+         ref={sectionRef}
          className="relative w-full h-screen min-h-[800px] flex items-center justify-center overflow-hidden bg-var-bg-dark"
          style={{ perspective: '1200px' }}
       >
-         {/* 3D Background */}
          <Background3D />
 
-         {/* Header */}
          <div className="absolute top-20 left-0 w-full text-center z-10 pointer-events-none">
-            <motion.h2 
+            <motion.h2
                initial={{ opacity: 0, y: -20 }}
                whileInView={{ opacity: 1, y: 0 }}
                viewport={{ once: true }}
@@ -160,7 +175,7 @@ export default function SocialCardsSection() {
             >
                Connect <span className="text-[#FF6B35]">Everywhere</span>
             </motion.h2>
-            <motion.p 
+            <motion.p
                initial={{ opacity: 0 }}
                whileInView={{ opacity: 1 }}
                viewport={{ once: true }}
@@ -171,14 +186,12 @@ export default function SocialCardsSection() {
             </motion.p>
          </div>
 
-         {/* Cards Container - applies 3D transforms based on mouse wrapper */}
-         <div 
-            ref={containerRef} 
+         <div
+            ref={containerRef}
             className="relative w-full h-full flex items-center justify-center transform-gpu"
-            style={{ transformStyle: 'preserve-3d' }}
          >
             {SOCIAL_CARDS.map((card, index) => (
-               <SocialCard 
+               <SocialCard
                   key={card.id}
                   card={card}
                   index={index}
@@ -187,11 +200,11 @@ export default function SocialCardsSection() {
                   setHoveredIndex={setHoveredIndex}
                   mouseX={mousePos.x}
                   mouseY={mousePos.y}
+                  url={card.url}
                />
             ))}
          </div>
-         
-         {/* Bottom gradient fade for seamless integration */}
+
          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#080605] to-transparent pointer-events-none z-20" />
       </section>
    )
