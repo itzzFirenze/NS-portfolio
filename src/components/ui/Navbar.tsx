@@ -62,7 +62,7 @@ export default function Navbar() {
                }}
                whileHover={{ scale: 1.05 }}
             >
-               J.A. <span style={{ color: '#FF6B35' }}>●</span>
+               N.S. <span style={{ color: '#FF6B35' }}>●</span>
             </motion.a>
 
             {/* Desktop links */}

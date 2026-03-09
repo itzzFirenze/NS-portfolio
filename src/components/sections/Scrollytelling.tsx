@@ -8,7 +8,7 @@ import FlourParticles from '@/components/3d/FlourParticles'
 
 const STAGES = [
    {
-      title: 'Ingredients',
+      title: 'Development',
       subtitle: 'The Foundation of Flavour',
       desc: 'Precision sourcing of high-grade bread flours, malted barley, and functional additives. Every parameter measured — protein content, water absorption, ash content.',
       color: '#FFD23F',

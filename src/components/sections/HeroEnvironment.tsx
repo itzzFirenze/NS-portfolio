@@ -119,7 +119,7 @@ export default function HeroEnvironment() {
                <br />
                <span className="text-[#FFF8F0]">the Perfect</span>
                <br />
-               <span className="gradient-text">Process</span>
+               <span className="gradient-text">Recipe</span>
             </motion.h1>
 
             <motion.p
