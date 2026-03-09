@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const works = [
@@ -14,6 +14,8 @@ const works = [
 
 export default function MyWorks() {
    const targetRef = useRef<HTMLDivElement>(null)
+   const containerRef = useRef<HTMLDivElement>(null)
+   const [xRange, setXRange] = useState(0)
 
    const { scrollYProgress } = useScroll({
       target: targetRef,
@@ -27,11 +29,33 @@ export default function MyWorks() {
       restDelta: 0.001
    })
 
-   // To fix the clipping/breaking: We shift the translation back to a safe percentage
-   // The problem with `calc(-100% + 100vw)` is that it requires the parent to accurately know the width
-   // of all absolute/flex items. A percentage-based approach on a flex container is safer.
-   // -80% usually works perfectly for 6 items + an intro screen. You can tweak this up to -90% if needed.
-   const x = useTransform(smoothProgress, [0, 1], ['0%', '-85%'])
+   // Recalculate precisely how far the track can move so that the right edge of the track matches the screen right edge
+   useEffect(() => {
+      const updateWidth = () => {
+         if (containerRef.current) {
+            // scrollWidth gets the actual real width of everything inside the flex container combined
+            const totalWidth = containerRef.current.scrollWidth
+            const windowWidth = window.innerWidth
+            // We want to translate negatively by the total amount minus exactly one screen size
+            setXRange(-(totalWidth - windowWidth))
+         }
+      }
+
+      // Calculate right away and on resize
+      updateWidth()
+      window.addEventListener('resize', updateWidth)
+
+      // Since images can have lazily loaded widths, also run very briefly after mount
+      const to = setTimeout(updateWidth, 100)
+
+      return () => {
+         window.removeEventListener('resize', updateWidth)
+         clearTimeout(to)
+      }
+   }, [])
+
+   // Instead of failing with a CSS calc string, we pass hard JS numbers
+   const x = useTransform(smoothProgress, [0, 1], [0, xRange])
 
    return (
       <section
@@ -39,42 +63,46 @@ export default function MyWorks() {
          className="relative h-[400vh] bg-black z-10"
       >
          <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-            
+
             <motion.div
+               ref={containerRef}
                style={{ x }}
                className="flex h-screen items-center w-max will-change-transform"
             >
                {/* 1. Introductory Screen-sized colored block */}
-               <div className="w-[100vw] h-full flex flex-col items-center justify-center bg-gradient-to-br from-[#FF6B35] to-[#FF2D78] relative shrink-0">
-                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
-                  
-                  <h2 className="font-display text-[5rem] sm:text-[8rem] md:text-[12rem] font-black leading-[0.85] text-white uppercase tracking-tighter drop-shadow-2xl z-10 text-center">
-                     Selected<br />Works
-                  </h2>
-                  <p className="mt-8 text-white/90 font-body text-sm md:text-xl uppercase tracking-[0.3em] font-bold z-10 tracking-widest">
+               <div className="w-[100vw] h-full flex flex-col items-center justify-center bg-black relative shrink-0">
+
+                  <div className="px-4 pb-4">
+                     <h2 className="font-display text-[5rem] sm:text-[8rem] md:text-[12rem] font-black leading-tight uppercase drop-shadow-2xl z-10 text-center bg-clip-text text-transparent bg-gradient-to-br from-[#FF6B35] to-[#FF2D78]">
+                        Selected<br />Works
+                     </h2>
+                  </div>
+
+                  <p className="mt-4 text-white/50 font-body text-sm md:text-xl uppercase tracking-[0.3em] font-bold z-10 tracking-widest">
                      Keep scrolling
                   </p>
-                  
+
                   {/* Visual Indicator to scroll right */}
-                  <div className="absolute bottom-12 right-12 text-white/50 text-6xl font-black z-10 animate-pulse hidden md:block">
+                  <div className="absolute bottom-12 right-12 text-[#FF6B35]/50 text-6xl font-black z-10 animate-pulse hidden md:block">
                      →
                   </div>
                </div>
 
                {/* 2. Gallery Area */}
-               <div className="flex items-center gap-8 sm:gap-16 md:gap-24 px-[5vw] md:px-[10vw] shrink-0">
+               {/* Adding a consistent padding to the right boundary so it stops nicely framing the last image */}
+               <div className="flex items-center gap-8 sm:gap-16 md:gap-24 px-[5vw] md:pl-[10vw] pr-[5vw] md:pr-[10vw] shrink-0">
                   {works.map((work, index) => {
                      // Varied aspect ratios and sizes to make it non-repetitive
                      const isPortrait = index % 3 === 0;
                      const isLargeSquare = index % 3 === 1;
-                     
-                     const widthClass = isPortrait ? 'w-[75vw] sm:w-[50vw] md:w-[35vw] lg:w-[25vw]' 
-                                     : isLargeSquare ? 'w-[85vw] sm:w-[65vw] md:w-[45vw] lg:w-[32vw]' 
-                                     : 'w-[80vw] sm:w-[60vw] md:w-[40vw] lg:w-[28vw]';
 
-                     const heightClass = isPortrait ? 'h-[60vh] sm:h-[65vh] md:h-[70vh]' 
-                                      : isLargeSquare ? 'h-[50vh] sm:h-[55vh] md:h-[60vh]' 
-                                      : 'h-[45vh] sm:h-[50vh] md:h-[55vh]';
+                     const widthClass = isPortrait ? 'w-[75vw] sm:w-[50vw] md:w-[35vw] lg:w-[25vw]'
+                        : isLargeSquare ? 'w-[85vw] sm:w-[65vw] md:w-[45vw] lg:w-[32vw]'
+                           : 'w-[80vw] sm:w-[60vw] md:w-[40vw] lg:w-[28vw]';
+
+                     const heightClass = isPortrait ? 'h-[60vh] sm:h-[65vh] md:h-[70vh]'
+                        : isLargeSquare ? 'h-[50vh] sm:h-[55vh] md:h-[60vh]'
+                           : 'h-[45vh] sm:h-[50vh] md:h-[55vh]';
 
                      // Varied vertical alignment
                      const yOffset = index % 2 === 0 ? '-5vh' : '5vh'
@@ -86,7 +114,7 @@ export default function MyWorks() {
                            style={{ transform: `translateY(${yOffset})` }}
                         >
                            <div className="w-full h-full overflow-hidden relative rounded-xl border border-white/5">
-                              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-700 ease-out z-10" />
+                              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 ease-out z-10" />
 
                               <img
                                  src={work.src}
@@ -118,8 +146,8 @@ export default function MyWorks() {
                   })}
                </div>
 
-               {/* Trailing spacer to give the last image a little padding from the edge */}
-               <div className="w-[30vw] h-full shrink-0" />
+               {/* Trailing empty space after the last image */}
+               <div className="w-[10vw] md:w-[15vw] h-full shrink-0" />
 
             </motion.div>
          </div>
