@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, PointMaterial, Points } from '@react-three/drei'
+import { useInView } from 'framer-motion'
 import * as THREE from 'three'
 
 function Particles() {
@@ -63,9 +64,12 @@ function GlowingOrbs() {
 }
 
 export default function Background3D() {
+   const containerRef = useRef<HTMLDivElement>(null)
+   const isInView = useInView(containerRef, { margin: "0px 0px 1000px 0px" })
+
    return (
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-         <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+      <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none opacity-50">
+         <Canvas camera={{ position: [0, 0, 15], fov: 45 }} dpr={[1, 1.5]} frameloop={isInView ? 'always' : 'never'}>
             <ambientLight intensity={0.5} />
             <Particles />
             <GlowingOrbs />

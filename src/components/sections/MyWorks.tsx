@@ -76,12 +76,12 @@ export default function MyWorks() {
                         {/* Huge background/ambient text - Outline style */}
                         <span
                            className="font-display text-[7rem] sm:text-[12rem] md:text-[16rem] font-black uppercase leading-[0.8] tracking-tighter text-transparent"
-                           style={{ WebkitTextStroke: '2px rgba(255,255,255,0.25)' }}
+                           style={{ WebkitTextStroke: '2px rgba(255,255,255,0.5)' }}
                         >
                            Natural
                         </span>
                         {/* Foreground vivid text slightly overlapping */}
-                        <span className="font-editorial text-[5rem] sm:text-[9rem] md:text-[13rem] italic leading-[0.8] text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] ml-4 sm:ml-16 md:ml-32 mt-[-1rem] sm:mt-[-3rem] md:mt-[-5rem]">
+                        <span className="font-editorial text-[5rem] sm:text-[9rem] md:text-[13rem] italic leading-[0.8] text-transparent bg-clip-text bg-gradient-to-r from-[#FFFFFF] to-[#FFFFFF] ml-4 sm:ml-16 md:ml-32 mt-[-1rem] sm:mt-[-3rem] md:mt-[-5rem]">
                            Fermentation
                         </span>
                      </h2>

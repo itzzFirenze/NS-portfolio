@@ -2,7 +2,7 @@
 import { useRef, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Stars } from '@react-three/drei'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import * as THREE from 'three'
 import Donut from '@/components/3d/Donut'
 import Baguette from '@/components/3d/Baguette'
@@ -61,8 +61,11 @@ function SceneContent() {
 }
 
 export default function HeroEnvironment() {
+   const containerRef = useRef<HTMLElement>(null)
+   const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
+
    return (
-      <section className="relative w-full h-screen overflow-hidden" id="hero">
+      <section ref={containerRef} className="relative w-full h-screen overflow-hidden" id="hero">
          {/* Background gradient */}
          <div className="absolute inset-0 z-0" style={{
             background: 'radial-gradient(ellipse at 20% 50%, rgba(255,107,53,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255,45,120,0.12) 0%, transparent 50%), #080605'
@@ -73,6 +76,7 @@ export default function HeroEnvironment() {
             className="absolute inset-0 z-10"
             camera={{ position: [0, 0.5, 5], fov: 50 }}
             dpr={[1, 1.5]}
+            frameloop={isInView ? 'always' : 'never'}
             gl={{ antialias: true, alpha: true }}
             onCreated={({ gl }) => {
                gl.setClearColor('#080605', 0)

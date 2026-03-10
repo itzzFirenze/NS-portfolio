@@ -3,6 +3,7 @@ import { useRef, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useInView } from 'framer-motion'
 import * as THREE from 'three'
 import FlourParticles from '@/components/3d/FlourParticles'
 
@@ -93,6 +94,7 @@ export default function Scrollytelling() {
    const currentStageRef = useRef(0)
    const stageRefs = useRef<(HTMLDivElement | null)[]>([])
    const dotRefs = useRef<(HTMLDivElement | null)[]>([])
+   const isInView = useInView(sectionRef, { margin: "0px 0px 500px 0px" })
 
    useEffect(() => {
       gsap.registerPlugin(ScrollTrigger)
@@ -159,7 +161,7 @@ export default function Scrollytelling() {
          >
             {/* 3D Canvas — full background */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-               <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]} gl={{ antialias: true, alpha: true }} onCreated={({ gl }) => gl.setClearColor('#000000', 0)}>
+               <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]} frameloop={isInView ? 'always' : 'never'} gl={{ antialias: true, alpha: true }} onCreated={({ gl }) => gl.setClearColor('#000000', 0)}>
                   <ambientLight intensity={0.4} />
                   <pointLight position={[3, 3, 3]} intensity={2} color="#FF6B35" />
                   <pointLight position={[-3, -3, 2]} intensity={1} color="#FF2D78" />

@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useState, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import Donut from '@/components/3d/Donut'
 import Croissant from '@/components/3d/Croissant'
 
@@ -91,8 +91,12 @@ function SpotlightCard({
 }
 
 export default function BentoGrid() {
+   const containerRef = useRef<HTMLElement>(null)
+   const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
+
    return (
       <section
+         ref={containerRef}
          id="about"
          style={{
             width: '100%',
@@ -180,7 +184,7 @@ export default function BentoGrid() {
                {/* Donut 3D */}
                <SpotlightCard style={{ gridColumn: 'span 1', minHeight: 240 }}>
                   <div style={{ position: 'absolute', inset: 0, borderRadius: 20, overflow: 'hidden' }}>
-                     <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]}>
+                     <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]} frameloop={isInView ? 'always' : 'never'}>
                         <ambientLight intensity={0.5} />
                         <pointLight position={[2, 2, 2]} intensity={2} color="#FF2D78" />
                         <Suspense fallback={null}>
@@ -256,7 +260,7 @@ export default function BentoGrid() {
                {/* Croissant 3D */}
                <SpotlightCard style={{ gridColumn: 'span 1', minHeight: 200 }}>
                   <div style={{ position: 'absolute', inset: 0, borderRadius: 20, overflow: 'hidden' }}>
-                     <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]}>
+                     <Canvas camera={{ position: [0, 0, 4] }} dpr={[1, 1.5]} frameloop={isInView ? 'always' : 'never'}>
                         <ambientLight intensity={0.5} />
                         <pointLight position={[2, 2, 2]} intensity={2} color="#FFD23F" />
                         <Suspense fallback={null}>

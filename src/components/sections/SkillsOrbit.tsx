@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useState, Suspense, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
 
 const SKILLS = [
@@ -103,9 +103,12 @@ function OrbitNodes({ onSelect, selected }: {
 
 export default function SkillsOrbit() {
    const [selectedSkill, setSelectedSkill] = useState<number | null>(null)
+   const containerRef = useRef<HTMLElement>(null)
+   const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
 
    return (
       <section
+         ref={containerRef}
          id="skills"
          style={{ background: '#080605', padding: '96px 0 60px', position: 'relative' }}
       >
@@ -144,7 +147,7 @@ export default function SkillsOrbit() {
             <Canvas
                camera={{ position: [0, 4.5, 7.5], fov: 48 }}
                dpr={1}
-               frameloop="always"
+               frameloop={isInView ? 'always' : 'never'}
                gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
                style={{ width: '100%', height: '100%' }}
                onCreated={({ gl }) => gl.setClearColor('#000000', 0)}

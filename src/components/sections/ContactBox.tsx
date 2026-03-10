@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
 import FlourParticles from '@/components/3d/FlourParticles'
 
@@ -71,6 +71,8 @@ export default function ContactBox() {
    const [submitted, setSubmitted] = useState(false)
    const [burst, setBurst] = useState(false)
    const [form, setForm] = useState({ name: '', email: '', message: '' })
+   const containerRef = useRef<HTMLElement>(null)
+   const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
 
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault()
@@ -80,7 +82,7 @@ export default function ContactBox() {
    }
 
    return (
-      <section id="contact" style={{ padding: '80px clamp(20px, 5vw, 80px)', maxWidth: 1100, margin: '0 auto', boxSizing: 'border-box', width: '100%' }}>
+      <section ref={containerRef} id="contact" style={{ padding: '80px clamp(20px, 5vw, 80px)', maxWidth: 1100, margin: '0 auto', boxSizing: 'border-box', width: '100%' }}>
          <motion.div
             style={{ textAlign: 'center', marginBottom: 64 }}
             initial={{ opacity: 0, y: 30 }}
@@ -98,7 +100,7 @@ export default function ContactBox() {
          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, alignItems: 'stretch' }}>
             {/* 3D Box Canvas */}
             <div className="h-80 relative">
-               <Canvas camera={{ position: [0, 1.5, 4.5], fov: 45 }} dpr={[1, 1.5]}>
+               <Canvas camera={{ position: [0, 1.5, 4.5], fov: 45 }} dpr={[1, 1.5]} frameloop={isInView ? 'always' : 'never'}>
                   <ambientLight intensity={0.4} />
                   <pointLight position={[3, 5, 3]} intensity={2} color="#FF6B35" />
                   <pointLight position={[-3, 2, 3]} intensity={1} color="#FF2D78" />
