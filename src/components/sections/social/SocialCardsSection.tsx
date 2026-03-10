@@ -140,7 +140,7 @@ export default function SocialCardsSection() {
       >
          <Background3D />
 
-         <div className="absolute top-20 left-0 w-full text-center z-10 pointer-events-none">
+         <div className="absolute top-20 left-0 w-full flex flex-col items-center justify-center text-center z-10 pointer-events-none">
             <motion.h2
                initial={{ opacity: 0, y: -20 }}
                whileInView={{ opacity: 1, y: 0 }}
@@ -155,7 +155,7 @@ export default function SocialCardsSection() {
                whileInView={{ opacity: 1 }}
                viewport={{ once: true }}
                transition={{ duration: 0.8, delay: 0.2 }}
-               className="text-white/50 max-w-md mx-auto text-sm uppercase tracking-widest"
+               className="text-white/50 max-w-md mx-auto text-sm uppercase tracking-widest mt-2"
             >
                Follow the baking journey across platforms
             </motion.p>

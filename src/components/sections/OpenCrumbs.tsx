@@ -72,9 +72,13 @@ export default function OpenCrumbs() {
                      Open<br />
                      <span className="text-[#FFD23F] italic font-light">Crumbs</span>
                   </h2>
-                  <p className="text-white/50 font-body text-sm md:text-lg max-w-sm leading-relaxed border-l-2 border-[#FFD23F] pl-4">
-                     A scattered trail of moments, techniques, and the raw beauty of the baking process.
-                  </p>
+                  <div className="flex gap-4 max-w-sm">
+                     <div className="w-[2px] bg-[#FFD23F]"></div>
+
+                     <p className="text-white/50 font-body text-sm md:text-lg leading-relaxed">
+                        A scattered trail of moments, techniques, and the raw beauty of the baking process.
+                     </p>
+                  </div>
 
                   {/* Subtle pulsing arrow */}
                   <motion.div
@@ -88,24 +92,17 @@ export default function OpenCrumbs() {
 
                {/* 2. Scattered "Scrapbook" Gallery */}
                <div className="flex items-center gap-12 sm:gap-20 md:gap-32 pr-[15vw] shrink-0 pl-[5vw]">
-                  {CRUMB_IMAGES.map((crumb, index) => {
-                     // Create an organic scattered layout
-                     const isOdd = index % 2 !== 0;
-                     const isEveryThird = index % 3 === 0;
+                  {CRUMB_IMAGES.map((crumb) => {
+                     // Determine odd/even based on ID (1-indexed: 1, 3, 5 are odd)
+                     const isOddImage = crumb.id % 2 !== 0;
 
-                     // Varied portrait dimensions
-                     const widthClass = isEveryThird ? 'w-[65vw] sm:w-[45vw] md:w-[28vw]'
-                        : isOdd ? 'w-[60vw] sm:w-[40vw] md:w-[24vw]'
-                           : 'w-[70vw] sm:w-[50vw] md:w-[32vw]';
+                     // Keep exact same uniform sizes to ensure they are on the same level 
+                     const widthClass = 'w-[60vw] sm:w-[45vw] md:w-[28vw]';
+                     const heightClass = 'aspect-[3/4]';
 
-                     const heightClass = isEveryThird ? 'aspect-[3/4]'
-                        : isOdd ? 'aspect-[2/3]'
-                           : 'aspect-[4/5]';
-
-                     // Staggered vertical positioning
-                     const yTranslate = index % 3 === 0 ? '-10vh' : index % 2 === 0 ? '15vh' : '5vh';
-                     // Slight tilts for a scrapbook feel
-                     const rotation = index % 3 === 0 ? '-2deg' : index % 2 === 0 ? '3deg' : '-1deg';
+                     // Stagger vertical positioning slightly
+                     const yTranslate = isOddImage ? '-5vh' : '15vh';
+                     const rotation = '0deg';
 
                      return (
                         <div
@@ -138,10 +135,13 @@ export default function OpenCrumbs() {
                               </div> */}
                            </div>
 
-                           {/* Text overlay - Slides up from bottom */}
-                           <div className={`absolute -bottom-8 md:-bottom-12 left-0 right-0 p-4 transition-all duration-500 z-30 ${activeId === crumb.id
-                              ? 'opacity-100 translate-y-0'
-                              : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                           {/* Text overlay - Conditional pos/animation depending on odd/even */}
+                           <div className={`absolute left-0 right-0 p-4 transition-all duration-500 z-30 ${isOddImage
+                              ? 'top-full pt-4 md:pt-8'
+                              : 'bottom-full pb-4 md:pb-8'
+                              } ${activeId === crumb.id
+                                 ? 'opacity-100 translate-y-0'
+                                 : `opacity-0 group-hover:opacity-100 group-hover:translate-y-0 ${isOddImage ? 'translate-y-4' : '-translate-y-4'}`
                               }`}>
                               <div className="bg-[#FFD23F] text-black w-max px-3 py-1 text-[10px] font-bold tracking-widest uppercase mb-2">
                                  {crumb.tag}
@@ -153,6 +153,9 @@ export default function OpenCrumbs() {
                         </div>
                      )
                   })}
+                  
+                  {/* Blank space after the last image */}
+                  <div className="w-[15vw] md:w-[25vw] shrink-0" />
                </div>
 
             </motion.div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -113,6 +113,10 @@ canvas {
    font-family: 'Outfit', sans-serif;
 }
 
+.font-editorial {
+   font-family: 'Cormorant Garamond', serif;
+}
+
 .noise {
    position: fixed;
    inset: 0;
@@ -135,13 +139,16 @@ canvas {
    .hidden-mobile {
       display: none !important;
    }
+
    .desktop-cta {
       display: none !important;
    }
+
    .hamburger {
       display: flex !important;
    }
 }
+
 @media (min-width: 768px) {
    .hamburger {
       display: none !important;

@@ -32,23 +32,15 @@ export default function SocialCard({
    const isHovered = hoveredIndex === index
    const isAnyHovered = hoveredIndex !== null
 
-   // Find the true center to anchor the fan effect
    const centerIndex = Math.floor(totalCards / 2)
    const offsetFromCenter = index - centerIndex
 
-   // --- BASE STATE CALCULATIONS (The Fan Effect) ---
-   // Spread cards horizontally
    const baseX = isMobile ? offsetFromCenter * 45 : offsetFromCenter * 140
-   // Curve them down slightly at the edges for a natural fan
    const baseY = isMobile ? Math.abs(offsetFromCenter) * 25 : Math.abs(offsetFromCenter) * 15
-   // Rotate them like a hand of cards
    const baseRotate = isMobile ? offsetFromCenter * 8 : offsetFromCenter * 6
-   // Shrink outer cards to create the illusion of depth without breaking hitboxes
    const baseScale = isMobile ? 1 - Math.abs(offsetFromCenter) * 0.12 : 1 - Math.abs(offsetFromCenter) * 0.06
-   // Center card is always top Z-index by default
    const baseZIndex = totalCards - Math.abs(offsetFromCenter)
 
-   // --- HOVER STATE CALCULATIONS ---
    let xOffset = baseX
    let yOffset = baseY
    let rotateZ = baseRotate
@@ -57,20 +49,17 @@ export default function SocialCard({
 
    if (isAnyHovered) {
       if (isHovered) {
-         // Pull the hovered card straight up and out
          xOffset = baseX
          yOffset = isMobile ? -15 : -30
          rotateZ = 0
          scale = isMobile ? 1.02 : 1.05
          zIndex = 50
       } else {
-         // Push unhovered cards slightly away to make room
          const pushDirection = index < hoveredIndex! ? -1 : 1
          xOffset = isMobile ? baseX + (pushDirection * 15) : baseX + (pushDirection * 40)
          yOffset = isMobile ? baseY + 5 : baseY + 10
          rotateZ = isMobile ? baseRotate + (pushDirection * 1) : baseRotate + (pushDirection * 2)
          scale = baseScale * 0.95
-         // Keep natural stack order behind the hovered card
          zIndex = baseZIndex
       }
    }
@@ -90,7 +79,6 @@ export default function SocialCard({
             x: `calc(-50% + ${xOffset}px)`,
             y: `calc(-50% + ${yOffset}px)`,
             rotateZ: rotateZ,
-            // Removed Z-translation here to fix the hover hitboxes!
             scale: scale,
          }}
          transition={{
@@ -123,37 +111,50 @@ export default function SocialCard({
                }}
             />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
+            {/* Gradient overlay — slightly heavier at top so header content is legible */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/25" />
 
             {isHovered && (
                <div
-                  className="absolute inset-0 opacity-40 blur-3xl transition-opacity duration-300 pointer-events-none"
+                  className="absolute inset-0 opacity-30 blur-3xl transition-opacity duration-300 pointer-events-none"
                   style={{ backgroundColor: card.color }}
                />
             )}
 
-            {/* Content */}
-            <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
-               <div className="flex justify-between items-start">
+            {/* ── Content ── inset-8 = 32px padding on all sides, well away from edges */}
+            <div className="absolute inset-8 flex flex-col justify-between z-10">
+
+               {/* Top row: icon + handle pill */}
+               <div className="flex items-start justify-between">
+                  {/* Icon bubble */}
                   <div
-                     className="w-12 h-12 rounded-full glass flex items-center justify-center transition-transform duration-300"
+                     className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
                      style={{
-                        transform: isHovered ? 'scale(1.1) rotate(-5deg)' : 'scale(1)',
                         color: isHovered ? card.color : 'white',
-                        backgroundColor: isHovered ? 'white' : 'rgba(255,255,255,0.1)'
+                        backgroundColor: isHovered ? 'white' : 'rgba(255,255,255,0.12)',
+                        boxShadow: isHovered ? `0 0 16px ${card.color}55` : 'none'
                      }}
                   >
-                     <Icon className="w-6 h-6" />
+                     <Icon className="w-5 h-5" />
                   </div>
-                  <div className="glass px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase transition-colors"
-                     style={{ color: isHovered ? card.color : 'rgba(255,255,255,0.7)' }}>
+
+                  {/* Handle pill — max-width so it never bleeds to the edge */}
+                  <div
+                     className="glass px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase max-w-[52%] truncate transition-colors duration-300"
+                     style={{ color: isHovered ? card.color : 'rgba(255,255,255,0.65)' }}
+                  >
                      {card.handle}
                   </div>
                </div>
 
-               <div className="transform transition-transform duration-500" style={{ y: isHovered ? 0 : 5 }}>
-                  <h3 className="text-3xl font-display font-bold mb-1 text-white group-hover:drop-shadow-lg">{card.platform}</h3>
-                  <p className="text-sm font-light text-white/70 line-clamp-2">{card.description}</p>
+               {/* Bottom block: platform name + description + CTA */}
+               <div>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 text-white leading-tight group-hover:drop-shadow-lg">
+                     {card.platform}
+                  </h3>
+                  <p className="text-xs md:text-sm font-light text-white/65 leading-relaxed line-clamp-2">
+                     {card.description}
+                  </p>
 
                   <motion.div
                      className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider overflow-hidden"
@@ -162,11 +163,12 @@ export default function SocialCard({
                      animate={{ opacity: isHovered ? 1 : 0, height: isHovered ? 'auto' : 0 }}
                   >
                      <span>Explore</span>
-                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                      </svg>
                   </motion.div>
                </div>
+
             </div>
          </div>
       </motion.div>

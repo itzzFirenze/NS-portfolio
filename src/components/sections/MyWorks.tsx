@@ -4,12 +4,10 @@ import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 
 const works = [
-   { id: 1, title: 'Artisan Bread', src: '/1.jpg', year: '2025' },
-   { id: 2, title: 'Pastry Art', src: '/2.jpg', year: '2026' },
-   { id: 3, title: 'Cake Design', src: '/3.jpg', year: '2024' },
-   { id: 4, title: 'Croissant Bake', src: '/4.jpg', year: '2026' },
-   { id: 5, title: 'Sourdough Loaf', src: '/5.jpg', year: '2025' },
-   { id: 6, title: 'Dessert Plating', src: '/6.jpg', year: '2026' },
+   { id: 1, title: 'Artisan Bread', src: '/natural-fermentation/nf1.png', year: '2025' },
+   { id: 2, title: 'Pastry Art', src: '/natural-fermentation/nf2.png', year: '2026' },
+   { id: 3, title: 'Sourdough Loaf', src: '/natural-fermentation/nf3.png', year: '2025' },
+   { id: 4, title: 'Dessert Plating', src: '/natural-fermentation/nf4.png', year: '2026' },
 ]
 
 export default function MyWorks() {
@@ -71,21 +69,35 @@ export default function MyWorks() {
                className="flex h-screen items-center w-max will-change-transform"
             >
                {/* 1. Introductory Screen-sized colored block */}
-               <div className="w-[100vw] h-full flex flex-col items-center justify-center bg-black relative shrink-0">
+               <div className="w-[100vw] h-full flex flex-col items-start justify-center pl-[5vw] md:pl-[10vw] pr-[5vw] bg-black relative shrink-0">
 
-                  <div className="px-4 pb-4">
-                     <h2 className="font-display text-[5rem] sm:text-[8rem] md:text-[12rem] font-black leading-tight uppercase drop-shadow-2xl z-10 text-center bg-clip-text text-transparent bg-gradient-to-br from-[#FF6B35] to-[#FF2D78]">
-                        Selected<br />Works
+                  <div className="relative z-10 w-full">
+                     <h2 className="flex flex-col text-left">
+                        {/* Huge background/ambient text - Outline style */}
+                        <span
+                           className="font-display text-[7rem] sm:text-[12rem] md:text-[16rem] font-black uppercase leading-[0.8] tracking-tighter text-transparent"
+                           style={{ WebkitTextStroke: '2px rgba(255,255,255,0.25)' }}
+                        >
+                           Natural
+                        </span>
+                        {/* Foreground vivid text slightly overlapping */}
+                        <span className="font-editorial text-[5rem] sm:text-[9rem] md:text-[13rem] italic leading-[0.8] text-transparent bg-clip-text bg-gradient-to-r from-[#FF6B35] to-[#FFD23F] ml-4 sm:ml-16 md:ml-32 mt-[-1rem] sm:mt-[-3rem] md:mt-[-5rem]">
+                           Fermentation
+                        </span>
                      </h2>
+
+                     {/* Decorative element & Scroll prompt */}
+                     <div className="mt-12 md:mt-24 ml-4 sm:ml-16 md:ml-32 flex items-center gap-6">
+                        <div className="w-12 md:w-24 h-[1px] bg-white/30"></div>
+                        <p className="text-white/70 font-display text-xs md:text-sm uppercase tracking-[0.5em] font-medium">
+                           Scroll to explore
+                        </p>
+                     </div>
                   </div>
 
-                  <p className="mt-4 text-white/50 font-body text-sm md:text-xl uppercase tracking-[0.3em] font-bold z-10 tracking-widest">
-                     Keep scrolling
-                  </p>
-
                   {/* Visual Indicator to scroll right */}
-                  <div className="absolute bottom-12 right-12 text-[#FF6B35]/50 text-6xl font-black z-10 animate-pulse hidden md:block">
-                     →
+                  <div className="absolute bottom-12 right-12 text-[#FF6B35]/50 text-6xl font-light z-10 animate-pulse hidden md:block font-editorial italic">
+                     &rarr;
                   </div>
                </div>
 
@@ -93,17 +105,9 @@ export default function MyWorks() {
                {/* Adding a consistent padding to the right boundary so it stops nicely framing the last image */}
                <div className="flex items-center gap-8 sm:gap-16 md:gap-24 px-[5vw] md:pl-[10vw] pr-[5vw] md:pr-[10vw] shrink-0">
                   {works.map((work, index) => {
-                     // Varied aspect ratios and sizes to make it non-repetitive
-                     const isPortrait = index % 3 === 0;
-                     const isLargeSquare = index % 3 === 1;
-
-                     const widthClass = isPortrait ? 'w-[75vw] sm:w-[50vw] md:w-[35vw] lg:w-[25vw]'
-                        : isLargeSquare ? 'w-[85vw] sm:w-[65vw] md:w-[45vw] lg:w-[32vw]'
-                           : 'w-[80vw] sm:w-[60vw] md:w-[40vw] lg:w-[28vw]';
-
-                     const heightClass = isPortrait ? 'h-[60vh] sm:h-[65vh] md:h-[70vh]'
-                        : isLargeSquare ? 'h-[50vh] sm:h-[55vh] md:h-[60vh]'
-                           : 'h-[45vh] sm:h-[50vh] md:h-[55vh]';
+                     // Make all images portrait uniformly
+                     const widthClass = 'w-[50vw] sm:w-[45vw] md:w-[30vw] lg:w-[20vw]';
+                     const heightClass = 'h-[42vh] sm:h-[45vh] md:h-[50vh]';
 
                      // Varied vertical alignment
                      const yOffset = index % 2 === 0 ? '-5vh' : '5vh'
@@ -115,19 +119,18 @@ export default function MyWorks() {
                            style={{ transform: `translateY(${yOffset})` }}
                            onClick={() => setActiveId(activeId === work.id ? null : work.id)}
                         >
-                           <div className="w-full h-full overflow-hidden relative rounded-xl border border-white/5">
-                              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700 ease-out z-10" />
-
+                           <div className="w-full h-full relative">
+                              {/* Removed the inset background overlay, borders, and hardcoded bg colors */}
                               <img
                                  src={work.src}
                                  alt={work.title}
-                                 className="w-full h-full object-cover transform scale-110 group-hover:scale-100 transition-transform duration-[1.2s] ease-[0.16,1,0.3,1]"
+                                 className="w-full h-full object-contain transform scale-110 group-hover:scale-100 transition-transform duration-[1.2s] ease-[0.16,1,0.3,1]"
                                  onError={(e) => {
                                     (e.target as HTMLImageElement).style.display = 'none';
                                  }}
                               />
 
-                               <div className="absolute inset-0 bg-[#0f0f0f] -z-10 flex items-center justify-center border border-white/5">
+                              <div className="absolute inset-0 -z-10 flex items-center justify-center">
                                  <div className="flex flex-col items-center">
                                     <span className="text-white/10 font-display text-6xl font-black uppercase tracking-widest">{work.id}</span>
                                     <span className="text-white/20 font-body text-xs mt-4 tracking-[0.2em] uppercase">Coming Soon</span>
@@ -135,11 +138,10 @@ export default function MyWorks() {
                               </div>
                            </div>
 
-                           <div className={`absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-end transition-all duration-500 z-20 bg-black/40 backdrop-blur-md p-4 rounded-lg border border-white/10 ${
-                              activeId === work.id 
-                                 ? 'opacity-100 translate-y-0' 
-                                 : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
-                           }`}>
+                           <div className={`absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-end transition-all duration-500 z-20 bg-black/40 backdrop-blur-md p-4 rounded-lg border border-white/10 ${activeId === work.id
+                              ? 'opacity-100 translate-y-0'
+                              : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                              }`}>
                               <h3 className="text-xl md:text-3xl font-display font-bold text-white uppercase tracking-tighter drop-shadow-lg">
                                  {work.title}
                               </h3>
@@ -153,7 +155,7 @@ export default function MyWorks() {
                </div>
 
                {/* Trailing empty space after the last image */}
-               <div className="w-[10vw] md:w-[15vw] h-full shrink-0" />
+               <div className="w-[5vw] md:w-[12vw] h-full shrink-0" />
 
             </motion.div>
          </div>
