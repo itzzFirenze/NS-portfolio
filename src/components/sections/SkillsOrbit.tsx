@@ -60,7 +60,7 @@ function OrbitNodes({ onSelect, selected }: {
    }, [textures])
 
    // Define expanding radius and unique speeds for each of the 4 orbits
-   const RADII = [2.0, 2.8, 3.6, 4.4]
+   const RADII = [2.2, 3.1, 4.0, 4.9]
    const SPEEDS = [0.22, 0.14, 0.18, 0.11] // Prime-ish variations so they don't align often
 
    useFrame(({ clock, camera }) => {
@@ -94,7 +94,12 @@ function OrbitNodes({ onSelect, selected }: {
          {RADII.map((r, i) => (
             <mesh key={`ring-${i}`} rotation={[-Math.PI / 2, 0, 0]}>
                <torusGeometry args={[r, 0.006, 32, 64]} />
-               <meshBasicMaterial color={SKILLS[i].color} transparent opacity={0.15} />
+               <meshBasicMaterial
+                  color={SKILLS[i].color}
+                  transparent
+                  opacity={0.15}
+                  depthWrite={false} // <-- Added
+               />
             </mesh>
          ))}
 
@@ -118,29 +123,55 @@ function OrbitNodes({ onSelect, selected }: {
                   scaleTargets.current[i] = 1 // Reset scale
                }}
             >
-               {/* Solid backing to occlude the orbit rings behind the node */}
-               <mesh position={[0, 0, -0.01]}>
-                  <circleGeometry args={[0.5, 32]} />
-                  <meshBasicMaterial color="#080605" depthWrite={true} />
+               {/* Solid backing to occlude the orbit rings */}
+               <mesh position={[0, 0, -0.03]}> {/* Pushed slightly further back */}
+                  <circleGeometry args={[0.75, 32]} />
+                  <meshBasicMaterial
+                     color="#080605"
+                     depthWrite={true}
+                     polygonOffset={true}
+                     polygonOffsetFactor={-1} // Gentle pull forward
+                     polygonOffsetUnits={-1}
+                  />
                </mesh>
 
                {/* Background Glow Base */}
-               <mesh>
-                  <circleGeometry args={[0.5, 32]} />
-                  <meshBasicMaterial color={skill.color} transparent opacity={0.15} depthWrite={false} />
+               <mesh position={[0, 0, 0]}>
+                  <circleGeometry args={[0.75, 32]} />
+                  <meshBasicMaterial
+                     color={skill.color}
+                     transparent
+                     opacity={0.15}
+                     depthWrite={false}
+                     polygonOffset={true}
+                     polygonOffsetFactor={-2} // Pulled slightly more forward than backing
+                  />
                </mesh>
 
                {/* Clean border ring to frame the logo nicely */}
-               <mesh>
-                  <ringGeometry args={[0.48, 0.5, 32]} />
-                  <meshBasicMaterial color={skill.color} transparent opacity={0.6} />
+               <mesh position={[0, 0, 0.01]}>
+                  <ringGeometry args={[0.72, 0.75, 32]} />
+                  <meshBasicMaterial
+                     color={skill.color}
+                     transparent
+                     opacity={0.6}
+                     depthWrite={false}
+                     polygonOffset={true}
+                     polygonOffsetFactor={-2}
+                  />
                </mesh>
 
                {/* The actual PNG Logo mapped to a flat plane */}
-               <mesh position={[0, 0, 0.01]}>
-                  <planeGeometry args={[0.65, 0.65]} />
-                  {/* Map the unique texture from our loaded array */}
-                  <meshBasicMaterial map={textures[i]} transparent alphaTest={0.05} />
+               <mesh position={[0, 0, 0.02]}> {/* Pulled slightly forward physically */}
+                  <planeGeometry args={[1.0, 1.0]} />
+                  <meshBasicMaterial
+                     map={textures[i]}
+                     transparent
+                     alphaTest={0.05}
+                     depthWrite={false}
+                     polygonOffset={true}
+                     polygonOffsetFactor={-3} // Pulled the most forward so it always sits on top
+                  />
                </mesh>
             </group>
          ))}
@@ -172,7 +203,7 @@ export default function SkillsOrbit() {
 
          {/* Section header */}
          <motion.div
-            style={{ textAlign: 'center', marginBottom: 20, position: 'relative', zIndex: 2 }}
+            style={{ textAlign: 'center', marginBottom: 0, position: 'relative', zIndex: 2 }} // Changed marginBottom to 0
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -187,7 +218,8 @@ export default function SkillsOrbit() {
          </motion.div>
 
          {/* 3D Canvas Area */}
-         <div style={{ position: 'relative', maxWidth: 900, margin: '0 auto', height: 550 }}>
+         <div style={{ position: 'relative', maxWidth: 900, margin: '-110px auto 0', height: 550 }}>
+            {/* Changed margin to pull the canvas up */}
             <Canvas
                camera={{ position: [0, 6.5, 10.5], fov: 45 }}
                dpr={[1, 2]}
@@ -260,7 +292,7 @@ export default function SkillsOrbit() {
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: '12px 20px',
-            maxWidth: 600,
+            maxWidth: 1000,
             margin: '0 auto',
             padding: '0 24px',
             position: 'relative',
@@ -273,21 +305,35 @@ export default function SkillsOrbit() {
                   style={{
                      background: selectedSkill === i ? `${s.color}22` : 'rgba(255,255,255,0.03)',
                      border: `1px solid ${selectedSkill === i ? s.color : 'rgba(255,255,255,0.08)'}`,
-                     borderRadius: 999,
-                     padding: '6px 16px',
+                     borderRadius: 16, // Reduced from 999 to look better with stacked content
+                     padding: '12px 16px', // Adjusted padding for vertical height
                      fontSize: 12,
                      color: selectedSkill === i ? s.color : 'rgba(255,255,255,0.6)',
                      cursor: 'pointer',
                      fontFamily: 'Inter, sans-serif',
                      transition: 'all 0.3s ease',
+                     // --- NEW STYLES TO CENTER CONTENT ---
+                     display: 'flex',
+                     flexDirection: 'column',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     gap: '8px', // Space between logo and text
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.borderColor = s.color}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = s.color)}
                   onMouseLeave={(e) => {
-                     if (selectedSkill !== i) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
+                     if (selectedSkill !== i) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
                   }}
                >
-                  <img src={s.logo} alt={s.name} style={{ width: 16, height: 16, objectFit: 'contain', verticalAlign: 'middle', marginRight: 6 }} />
-                  <span style={{ verticalAlign: 'middle' }}>{s.name}</span>
+                  <img
+                     src={s.logo}
+                     alt={s.name}
+                     style={{
+                        width: 20, // Slightly larger usually looks better when centered
+                        height: 20,
+                        objectFit: 'contain'
+                     }}
+                  />
+                  <span>{s.name}</span>
                </button>
             ))}
          </div>
