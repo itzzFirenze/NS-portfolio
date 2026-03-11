@@ -9,7 +9,7 @@ const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid'), { ssr
 // const SkillsOrbit = dynamic(() => import('@/components/sections/SkillsOrbit'), { ssr: false })
 const MyWorks = dynamic(() => import('@/components/sections/MyWorks'), { ssr: false })
 const OpenCrumbs = dynamic(() => import('@/components/sections/OpenCrumbs'), { ssr: false })
-const Timeline = dynamic(() => import('@/components/sections/Timeline'), { ssr: false })
+const SkillsOrbit = dynamic(() => import('@/components/sections/SkillsOrbit'), { ssr: false })
 const ContactBox = dynamic(() => import('@/components/sections/ContactBox'), { ssr: false })
 const SocialCardsSection = dynamic(() => import('@/components/sections/social/SocialCardsSection'), { ssr: false })
 
@@ -65,7 +65,7 @@ export default function Home() {
          <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,45,120,0.3), transparent)' }} />
 
          {/* Career timeline */}
-         <Timeline />
+         <SkillsOrbit />
 
          {/* Divider */}
          <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,210,63,0.3), transparent)' }} />
