@@ -3,6 +3,12 @@ import './globals.css'
 import LenisProvider from '@/components/providers/LenisProvider'
 import Navbar from '@/components/ui/Navbar'
 import CustomCursor from '@/components/ui/CustomCursor'
+import { Poppins } from "next/font/google";
+
+export const poppins = Poppins({
+   subsets: ["latin"],
+   weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
    title: 'Joel A. | Senior Process Technologist',

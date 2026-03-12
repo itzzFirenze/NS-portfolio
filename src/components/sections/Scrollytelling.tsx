@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -50,40 +50,155 @@ const STAGES = [
    },
 ]
 
-function DoughBlob({ progressRef }: { progressRef: React.MutableRefObject<number> }) {
-   const meshRef = useRef<THREE.Mesh>(null)
+// A single gear-like ring with teeth
+function AbstractGear({
+   radius,
+   tube,
+   teethCount,
+   color,
+   speed,
+   direction,
+}: {
+   radius: number
+   tube: number
+   teethCount: number
+   color: string
+   speed: number
+   direction: 1 | -1
+}) {
+   const groupRef = useRef<THREE.Group>(null)
    const matRef = useRef<THREE.MeshStandardMaterial>(null)
-   const targetColor = useRef(new THREE.Color(STAGES[0].blobColor))
+
+   // Pre-calculate teeth positions
+   const teeth = Array.from({ length: teethCount }).map((_, i) => {
+      const angle = (i / teethCount) * Math.PI * 2
+      return [Math.cos(angle) * radius, 0, Math.sin(angle) * radius] as [number, number, number]
+   })
 
    useFrame(({ clock }) => {
-      if (!meshRef.current || !matRef.current) return
-      const t = clock.getElapsedTime()
-      const p = progressRef.current
-      const stageIdx = Math.min(Math.floor(p * 5), 4)
-      const stage = STAGES[stageIdx]
-
-      meshRef.current.scale.setScalar(
-         THREE.MathUtils.lerp(meshRef.current.scale.x, stage.blobScale, 0.04)
-      )
-      meshRef.current.rotation.y += 0.01
-      meshRef.current.rotation.x = Math.sin(t * 0.5) * 0.2
-      targetColor.current.set(stage.blobColor)
-      matRef.current.color.lerp(targetColor.current, 0.03)
-      matRef.current.emissive.lerp(targetColor.current, 0.02)
+      if (groupRef.current) {
+         // Substantially slowed down horizontal rotation
+         groupRef.current.rotation.y += speed * direction * 0.002
+         // Added a slight tilt and very slow vertical bob
+         groupRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.2) * 0.15 + 0.2
+      }
+      if (matRef.current) {
+         // Smoothly transition colors
+         const target = new THREE.Color(color)
+         matRef.current.color.lerp(target, 0.05)
+         matRef.current.emissive.lerp(target, 0.05)
+      }
    })
 
    return (
-      <mesh ref={meshRef}>
-         <sphereGeometry args={[1, 32, 32]} />
-         <meshStandardMaterial
-            ref={matRef}
-            color={STAGES[0].blobColor}
-            roughness={0.5}
-            metalness={0.1}
-            emissive={STAGES[0].blobColor}
-            emissiveIntensity={0.15}
+      <group ref={groupRef}>
+         {/* Main Ring */}
+         <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[radius, tube, 32, 64]} />
+            <meshStandardMaterial
+               ref={matRef}
+               color={color}
+               roughness={0.2}
+               metalness={0.8}
+               emissive={color}
+               emissiveIntensity={0.1}
+            />
+         </mesh>
+         
+         {/* Gear Teeth */}
+         {teeth.map((pos, i) => (
+            <mesh key={i} position={pos} rotation={[0, -((i / teethCount) * Math.PI * 2), 0]}>
+               <boxGeometry args={[tube * 3, tube * 1.5, tube * 4]} />
+               <meshStandardMaterial
+                  color={color}
+                  roughness={0.3}
+                  metalness={0.7}
+                  emissive={color}
+                  emissiveIntensity={0.2}
+               />
+            </mesh>
+         ))}
+      </group>
+   )
+}
+
+function MechanicalCore({ progressRef }: { progressRef: React.MutableRefObject<number> }) {
+   const coreRef = useRef<THREE.Mesh>(null)
+   const groupRef = useRef<THREE.Group>(null)
+   const [stageIdx, setStageIdx] = useState(0)
+
+   useFrame(({ clock }) => {
+      if (!groupRef.current || !coreRef.current) return
+      
+      const p = progressRef.current
+      const currentStage = Math.min(Math.floor(p * 5), 4)
+      setStageIdx(currentStage)
+      const stage = STAGES[currentStage]
+      const t = clock.getElapsedTime()
+
+      // Target scale for the whole system - reduced overall size greatly
+      groupRef.current.scale.setScalar(
+         THREE.MathUtils.lerp(groupRef.current.scale.x, stage.blobScale * 0.8, 0.05)
+      )
+
+      // Animate core much slower
+      coreRef.current.rotation.x += 0.001
+      coreRef.current.rotation.y += 0.002
+      
+      // Makes the core pulse based on the stage - much gentler pulse
+      const pulse = Math.sin(t * 2) * 0.05 + 1
+      coreRef.current.scale.setScalar(
+         THREE.MathUtils.lerp(coreRef.current.scale.x, pulse, 0.1)
+      )
+   })
+
+   return (
+      <group ref={groupRef}>
+         {/* Inner glowing core */}
+         <mesh ref={coreRef}>
+            <icosahedronGeometry args={[0.5, 1]} />
+            <meshStandardMaterial
+               color={STAGES[stageIdx].blobColor}
+               roughness={0.1}
+               metalness={0.9}
+               emissive={STAGES[stageIdx].blobColor}
+               emissiveIntensity={0.8}
+               wireframe={true}
+            />
+         </mesh>
+
+         {/* Inner Fast Gear */}
+         <AbstractGear
+            radius={1.2}
+            tube={0.08}
+            teethCount={8}
+            color={STAGES[stageIdx].blobColor}
+            speed={2 + stageIdx * 1.5}
+            direction={1}
          />
-      </mesh>
+
+         {/* Middle Counter-Rotating Gear */}
+         <AbstractGear
+            radius={1.8}
+            tube={0.1}
+            teethCount={12}
+            color={STAGES[stageIdx].color}
+            speed={1 + stageIdx}
+            direction={-1}
+         />
+         
+         {/* Outer Slow Frame Ring (No Teeth) - Tilted for 3D effect */}
+         <mesh rotation={[Math.PI / 2.5, 0.1, 0]}>
+             <torusGeometry args={[2.5, 0.01, 16, 100]} />
+             <meshStandardMaterial
+                color="#ffffff"
+                roughness={0.5}
+                metalness={0.5}
+                transparent={true}
+                opacity={0.15}
+             />
+         </mesh>
+      </group>
    )
 }
 
@@ -166,7 +281,7 @@ export default function Scrollytelling() {
                   <pointLight position={[3, 3, 3]} intensity={2} color="#FF6B35" />
                   <pointLight position={[-3, -3, 2]} intensity={1} color="#FF2D78" />
                   <FlourParticles count={120} spread={8} size={0.02} />
-                  <DoughBlob progressRef={progressRef} />
+                  <MechanicalCore progressRef={progressRef} />
                </Canvas>
             </div>
 
