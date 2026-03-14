@@ -20,6 +20,7 @@ const config: Config = {
          fontFamily: {
             'display': ['Outfit', 'sans-serif'],
             'body': ['Inter', 'sans-serif'],
+            'signature': ['var(--font-caveat)', 'cursive'],
          },
          backgroundImage: {
             'radial-orange': 'radial-gradient(circle at center, #FF6B35, transparent)',

@@ -3,11 +3,17 @@ import './globals.css'
 import LenisProvider from '@/components/providers/LenisProvider'
 import Navbar from '@/components/ui/Navbar'
 import CustomCursor from '@/components/ui/CustomCursor'
-import { Poppins } from "next/font/google";
+import { Poppins, Caveat } from "next/font/google";
 
 export const poppins = Poppins({
    subsets: ["latin"],
    weight: ["400", "500", "600", "700"],
+});
+
+export const caveat = Caveat({
+   subsets: ["latin"],
+   weight: ["400", "500", "600", "700"],
+   variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
    return (
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning className={caveat.variable}>
          <head>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

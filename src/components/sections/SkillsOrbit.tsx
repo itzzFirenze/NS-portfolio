@@ -3,6 +3,7 @@ import { useRef, useState, Suspense, useMemo } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
+import { useGLTF } from '@react-three/drei'
 
 // Added a 'logo' property to each skill pointing to distinct PNGs
 const SKILLS = [
@@ -12,30 +13,21 @@ const SKILLS = [
    { name: 'Signature Flatbreads', icon: '⚙️', color: '#3b82f6', logo: '/logos/signature-logo.png', desc: 'Lean manufacturing, FMEA, value stream mapping, and SPC applied to high-volume production lines.' },
 ]
 
-/** Central wheat stalk */
-function WheatModel() {
+/** Central Baker Figure */
+function BakerModel() {
    const groupRef = useRef<THREE.Group>(null)
+   const { scene } = useGLTF('/baker.glb')
+
    useFrame((_, delta) => {
       if (groupRef.current) groupRef.current.rotation.y += delta * 0.3
    })
+
    return (
-      <group ref={groupRef}>
-         <mesh position={[0, -0.3, 0]}>
-            <cylinderGeometry args={[0.04, 0.06, 1.2, 8]} />
-            <meshStandardMaterial color="#C8860A" roughness={0.7} />
-         </mesh>
-         {Array.from({ length: 6 }, (_, i) => (
-            <mesh key={i} position={[Math.cos((i / 6) * Math.PI * 2) * 0.2, 0.4, Math.sin((i / 6) * Math.PI * 2) * 0.2]}>
-               <sphereGeometry args={[0.07, 8, 8]} />
-               <meshStandardMaterial color="#FFD23F" roughness={0.4} emissive="#FF6B35" emissiveIntensity={0.2} />
-            </mesh>
-         ))}
-         <mesh position={[0, 0.65, 0]}>
-            <sphereGeometry args={[0.1, 10, 10]} />
-            <meshStandardMaterial color="#FFD23F" roughness={0.3} emissive="#FF6B35" emissiveIntensity={0.3} />
-         </mesh>
-         {/* Subtle core glow */}
-         <pointLight color="#FFD23F" intensity={3} distance={5} />
+      <group ref={groupRef} position={[0, 0.4, 0]} scale={1.5}>
+         <primitive object={scene} />
+         {/* Warm front light for the baker */}
+         <pointLight color="#FFD23F" intensity={5} distance={15} position={[0, 3, 3]} />
+         <directionalLight intensity={2} position={[2, 2, 5]} color="#ffffff" />
       </group>
    )
 }
@@ -227,12 +219,13 @@ export default function SkillsOrbit() {
                gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
                style={{ width: '100%', height: '100%' }}
             >
-               <ambientLight intensity={0.4} />
-               <pointLight position={[0, 6, 6]} intensity={1.5} color="#FFD23F" />
-               <pointLight position={[6, -3, 6]} intensity={0.8} color="#FF6B35" />
+               <ambientLight intensity={1.5} />
+               <directionalLight position={[0, 5, 8]} intensity={2.5} color="#ffffff" />
+               <pointLight position={[0, 6, 6]} intensity={2.5} color="#FFD23F" />
+               <pointLight position={[6, -3, 6]} intensity={1.5} color="#FF6B35" />
 
                <Suspense fallback={null}>
-                  <WheatModel />
+                  <BakerModel />
                   <OrbitNodes onSelect={i => setSelectedSkill(i === selectedSkill ? null : i)} selected={selectedSkill} />
                </Suspense>
             </Canvas>
