@@ -120,7 +120,7 @@ export default function HeroEnvironment() {
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  src="/profile2.webp"
+                  src="/profile3.webp"
                   alt="Owner"
                   className="w-full h-full object-cover object-center"
                />
