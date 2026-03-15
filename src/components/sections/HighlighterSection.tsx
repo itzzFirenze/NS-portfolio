@@ -18,9 +18,9 @@ export default function HighlighterSection() {
                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
             >
                <div className="flex justify-center items-center w-full mb-10">
-                  <img src="/baker-logo.png" alt="Logo Placeholder" className="w-40 h-40 object-contain opacity-80" />
+                  <img src="/baker-logo.png" alt="Logo Placeholder" className="w-50 h-50 object-contain opacity-80" />
                </div>
-               <h2 className="font-display text-4xl md:text-5xl lg:text-5xl font-bold mb-8 text-white/90 leading-tight">
+               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white/90 leading-tight">
                   Refining {" "}
                   <Highlighter action="highlight" color="#FF6B35" isView={true}>
                      RECIPES,
