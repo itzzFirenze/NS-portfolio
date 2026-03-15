@@ -4,13 +4,10 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Stars } from '@react-three/drei'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import * as THREE from 'three'
-import Donut from '@/components/3d/Donut'
-import Baguette from '@/components/3d/Baguette'
-import Cake from '@/components/3d/Cake'
-import Croissant from '@/components/3d/Croissant'
 import FlourParticles from '@/components/3d/FlourParticles'
 import Loader from '@/components/ui/Loader'
 import SignatureText from '@/components/ui/SignatureText'
+import ScrollVelocity from '@/components/ui/ScrollVelocity'
 
 function CameraRig() {
    const { camera } = useThree()
@@ -21,7 +18,6 @@ function CameraRig() {
       camera.position.y = THREE.MathUtils.lerp(camera.position.y, mouse.current.y * 0.4 + 0.5, 0.04)
       camera.lookAt(0, 0, 0)
    })
-
 
    return (
       <mesh
@@ -50,13 +46,6 @@ function SceneContent() {
          <Environment preset="night" />
          <Stars radius={30} depth={10} count={500} factor={2} saturation={0} fade speed={0.5} />
          <FlourParticles count={180} spread={10} />
-
-         {/* Floating bakery items at orbit positions (hidden for now) */}
-         {/* <Donut position={[-1.4, 0.5, 0]} scale={1.1} /> */}
-         {/* <Baguette position={[1.5, 0.3, -0.5]} scale={1.0} /> */}
-         {/* <Cake position={[0, -0.4, -1]} scale={0.9} scrollProgress={1} /> */}
-         {/* <Croissant position={[-0.2, 1.2, 0.5]} scale={0.95} /> */}
-
          <CameraRig />
       </>
    )
@@ -70,20 +59,22 @@ export default function HeroEnvironment() {
       offset: ["start start", "end end"]
    })
 
-   const imgScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.5])
-   const imgBlur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", "blur(10px)"])
+   // Grayscale + blur on scroll
+   const imgGrayscale = useTransform(scrollYProgress, [0, 0.8], ["grayscale(0%) blur(0px)", "grayscale(100%) blur(8px)"])
+   const imgScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.4])
 
    const contentOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
    const contentY = useTransform(scrollYProgress, [0.6, 0.8], [40, 0])
    const contentPointerEvents = useTransform(scrollYProgress, (v) => v > 0.7 ? "auto" : "none")
 
+   // ScrollVelocity text fades in as image starts graying out
+   const tickerOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1])
+
    return (
       <section ref={containerRef} className="relative w-full h-[200vh]" id="hero">
          <div className="sticky top-0 h-screen w-full overflow-hidden">
-            {/* Background gradient */}
-            <div className="absolute inset-0 z-0" style={{
-               background: 'radial-gradient(ellipse at 20% 50%, rgba(255,107,53,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255,45,120,0.12) 0%, transparent 50%), #080605'
-            }} />
+            {/* Background */}
+            <div className="absolute inset-0 z-0" style={{ background: '#282c20' }} />
 
             {/* 3D Canvas */}
             <Canvas
@@ -92,9 +83,7 @@ export default function HeroEnvironment() {
                dpr={[1, 1.5]}
                frameloop={isInView ? 'always' : 'never'}
                gl={{ antialias: true, alpha: true }}
-               onCreated={({ gl }) => {
-                  gl.setClearColor('#080605', 0)
-               }}
+               onCreated={({ gl }) => { gl.setClearColor('#282c20', 0) }}
             >
                <Suspense fallback={null}>
                   <SceneContent />
@@ -103,37 +92,52 @@ export default function HeroEnvironment() {
 
             <Loader />
 
-            {/* Viewport Full Image */}
+            {/* ── ScrollVelocity text — behind the profile image ── */}
             <motion.div
-               style={{ scale: imgScale, filter: imgBlur }}
+               style={{ opacity: tickerOpacity }}
+               className="absolute inset-0 z-[14] flex flex-col justify-center pointer-events-none select-none"
+            >
+               <ScrollVelocity
+                  texts={['Crafting the perfect recipe', 'Where science meets flavour']}
+                  velocity={60}
+                  numCopies={4}
+                  className="font-display font-semibold tracking-tight"
+                  parallaxClassName="py-2"
+                  scrollerStyle={{
+                     fontSize: 'clamp(1.8rem, 5vw, 4rem)',
+                     color: '#ffffff',
+                     lineHeight: 1,
+                  }}
+               />
+            </motion.div>
+
+            {/* Profile image — ON TOP of the ticker text */}
+            <motion.div
+               style={{ scale: imgScale, filter: imgGrayscale }}
                className="absolute inset-0 z-[15] pointer-events-none drop-shadow-[0_0_80px_rgba(255,107,53,0.35)]"
             >
                <motion.img
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                  src="/profile1.png" alt="Owner" className="w-full h-full object-cover object-center"
-
+                  src="/profile1.png"
+                  alt="Owner"
+                  className="w-full h-full object-cover object-center"
                />
             </motion.div>
 
             {/* Hero Overlay Text */}
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-between text-center px-6 pt-24 pb-12 pointer-events-none">
-
                {/* Center Area: Signature */}
                <div className="relative flex items-center justify-center w-full flex-grow">
                   <SignatureText />
                </div>
 
-               {/* Bottom Area: Subtext & Buttons */}
+               {/* Bottom Area: Buttons */}
                <motion.div
                   style={{ opacity: contentOpacity, y: contentY, pointerEvents: contentPointerEvents as any }}
                   className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-30 px-6"
                >
-                  {/* <p className="text-[rgba(255,248,240,0.65)] text-lg md:text-xl max-w-lg leading-relaxed mb-8">
-                     Where food science meets industrial precision — innovating bakery production, one formulation at a time.
-                  </p> */}
-
                   <div className="flex gap-4 flex-wrap justify-center items-center">
                      <a
                         href="#process"
@@ -191,7 +195,7 @@ export default function HeroEnvironment() {
                </motion.div>
             </div>
 
-            {/* Scroll hint — full inline styles to survive global CSS reset */}
+            {/* Scroll hint */}
             <motion.div
                style={{
                   position: 'absolute',
@@ -216,18 +220,6 @@ export default function HeroEnvironment() {
                   transition={{ duration: 2, repeat: Infinity }}
                />
             </motion.div>
-
-            {/* Corner decoration */}
-            {/* <div className="absolute top-24 right-6 text-xs text-white/20 font-body tracking-widest uppercase pointer-events-none z-20">
-               {['Drag objects', '↙ Drag objects ↙'].map((t, i) => (
-                  <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.8 + i * 0.2 }}>
-                     {i === 0 && <div className="mb-1">{t}</div>}
-                  </motion.div>
-               ))}
-               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }}>
-                  Drag objects to rotate
-               </motion.div>
-            </div> */}
          </div>
       </section>
    )

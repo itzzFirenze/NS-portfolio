@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SplitText from './SplitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,9 +37,9 @@ export default function SignatureText() {
                const el = document.createElementNS('http://www.w3.org/2000/svg', 'path')
                el.setAttribute('d', sourcePath.getAttribute('d') || '')
 
-               el.style.fill = 'transparent'
+               el.style.fill = '#FF6B35'
                el.style.stroke = '#FF6B35'
-               el.style.strokeWidth = '3'
+               el.style.strokeWidth = '6'
                el.style.strokeLinecap = 'round'
                el.style.strokeLinejoin = 'round'
 
@@ -81,7 +80,7 @@ export default function SignatureText() {
             )
 
             // Fill them in and remove stroke
-            tl.to(paths, { fill: '#FF6B35', stroke: 'transparent', duration: 0.1, ease: 'power2.inOut' }, ">")
+            tl.to(paths, { fill: '#FF6B35', stroke: '#FF6B35', duration: 0.1, ease: 'power2.inOut' }, ">")
 
          }).catch(err => {
             console.error("Failed to load typo.svg:", err)
@@ -94,30 +93,9 @@ export default function SignatureText() {
       <div ref={containerRef} className="flex flex-col items-center justify-center w-full z-30 pointer-events-none drop-shadow-md">
          <svg
             ref={svgRef}
-            className="w-[90%] max-w-[750px] h-auto drop-shadow-md"
+            className="w-[90%] max-w-[800px] h-auto drop-shadow-md"
             xmlns="http://www.w3.org/2000/svg"
          />
-         <div
-            className="h-[60px] flex items-center justify-center mt-6"
-            style={{ fontFamily: '"Outfit", "Poppins"', fontWeight: 500, paddingLeft: '23%' }}
-         >
-            {showText && (
-               <SplitText
-                  text="Crafting the perfect recipe"
-                  className="text-2xl md:text-3xl tracking-wide text-orange-500 drop-shadow-md m-0"
-                  delay={50}
-                  duration={1.25}
-                  ease="power3.out"
-                  splitType="chars"
-                  from={{ opacity: 0, y: 40 }}
-                  to={{ opacity: 1, y: 0 }}
-                  threshold={0.1}
-                  rootMargin="-100px"
-                  textAlign="center"
-                  tag="span"
-               />
-            )}
-         </div>
       </div>
    )
 }
