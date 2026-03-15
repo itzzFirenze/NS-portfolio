@@ -13,7 +13,8 @@ export default function SignatureText() {
    useEffect(() => {
       let trigger: ScrollTrigger
 
-      fetch('/typo.svg')
+      // Fetch the new SVG file
+      fetch('/newtypo.svg')
          .then(res => res.text())
          .then(svgText => {
             const parser = new DOMParser()
@@ -27,28 +28,63 @@ export default function SignatureText() {
             if (sourceSvg.getAttribute('viewBox')) {
                svg.setAttribute('viewBox', sourceSvg.getAttribute('viewBox')!)
             } else {
-               svg.setAttribute('viewBox', "221.596 251.674 1289.232 195.842")
+               svg.setAttribute('viewBox', '0 0 503 112') // Fallback for newtypo.svg
             }
 
-            const sourcePaths = Array.from(sourceSvg.querySelectorAll('path'))
-            const paths: SVGPathElement[] = []
+            // Clear existing elements
+            while (svg.firstChild) svg.removeChild(svg.firstChild)
 
-            sourcePaths.forEach((sourcePath) => {
-               const el = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-               el.setAttribute('d', sourcePath.getAttribute('d') || '')
+            // Clone layout (defs, g, paths) directly so it retains structure and scaling
+            Array.from(sourceSvg.children).forEach(child => {
+               svg.appendChild(child.cloneNode(true))
+            })
 
-               el.style.fill = '#FF6B35'
+            // Remove any background rects coming from exports
+            const rects = svg.querySelectorAll('rect')
+            rects.forEach(r => r.remove())
+
+            // Prevent outer SVG fills from overriding our paths
+            svg.style.fill = 'transparent'
+
+            // Look for <use> instances (font glyphs) or direct paths
+            const uses = Array.from(svg.querySelectorAll('use'))
+            const directPaths = Array.from(svg.querySelectorAll('g > path, svg > path'))
+
+            // Since newtypo uses `<defs>` + `<use>`, we animate `<use>` directly
+            const elementsToAnimate = uses.length > 0 ? uses : directPaths
+
+            elementsToAnimate.forEach((element) => {
+               const el = element as SVGElement & { dataset: any }
+               let len = 1000
+
+               // If it's a <use>, we have to measure its referenced <path>
+               if (el.tagName.toLowerCase() === 'use') {
+                  const href = el.getAttribute('href') || el.getAttribute('xlink:href')
+                  if (href) {
+                     // Get the path from <defs>
+                     const sourcePath = svg.querySelector(href) as SVGPathElement
+                     if (sourcePath && sourcePath.getTotalLength) {
+                        len = sourcePath.getTotalLength()
+                     }
+                  }
+                  // It's inside a scaled group (scale=0.072), so 40 * 0.072 ≈ 2.8px visual stroke
+                  el.style.strokeWidth = '10'
+               } else {
+                  // Standard direct path handling (like typo.svg)
+                  const pathEl = el as SVGPathElement
+                  if (pathEl.getTotalLength) len = pathEl.getTotalLength()
+                  el.style.strokeWidth = '0.5'
+               }
+
+               // Apply base styles for drawing
+               el.style.fill = 'transparent'
                el.style.stroke = '#FF6B35'
-               el.style.strokeWidth = '6'
                el.style.strokeLinecap = 'round'
                el.style.strokeLinejoin = 'round'
-
-               svg.appendChild(el)
-
-               const len = el.getTotalLength() || 1000
                el.style.strokeDasharray = `${len + 5} ${len + 5}`
 
-               paths.push(el)
+               // Store len on dataset for stagger lookup
+               el.dataset.len = len.toString()
             })
 
             const tl = gsap.timeline()
@@ -64,10 +100,10 @@ export default function SignatureText() {
                }
             })
 
-            // Draw paths
-            tl.fromTo(paths,
+            // Draw outlines
+            tl.fromTo(elementsToAnimate,
                {
-                  strokeDashoffset: (i, el) => (el.getTotalLength() || 1000) + 5,
+                  strokeDashoffset: (i, el) => parseFloat(el.dataset.len || '1000') + 5,
                   opacity: 0,
                   fill: 'transparent'
                },
@@ -79,11 +115,11 @@ export default function SignatureText() {
                }
             )
 
-            // Fill them in and remove stroke
-            tl.to(paths, { fill: '#FF6B35', stroke: '#FF6B35', duration: 0.1, ease: 'power2.inOut' }, ">")
+            // Fill shapes and leave stroke intact
+            tl.to(elementsToAnimate, { fill: '#FF6B35', stroke: '#FF6B35', duration: 0.1, ease: 'power2.inOut' }, ">")
 
          }).catch(err => {
-            console.error("Failed to load typo.svg:", err)
+            console.error("Failed to load newtypo.svg:", err)
          })
 
       return () => { trigger?.kill() }
