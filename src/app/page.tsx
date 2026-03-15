@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 
 // Lazy-load heavy 3D sections
 const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), { ssr: false })
+const HighlighterSection = dynamic(() => import('@/components/sections/HighlighterSection'), { ssr: false })
 const Scrollytelling = dynamic(() => import('@/components/sections/Scrollytelling'), { ssr: false })
 const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid'), { ssr: false })
 const GallerySneakPeek = dynamic(() => import('@/components/sections/GallerySneakPeek'), { ssr: false })
@@ -38,8 +39,11 @@ export default function Home() {
          {/* Hero: full 3D environment */}
          <HeroEnvironment />
 
+         {/* Highlighter Demo Section */}
+         <HighlighterSection />
+
          {/* Scrollytelling: 5-stage baking narrative */}
-         <Scrollytelling />
+         {/* <Scrollytelling /> */}
 
          {/* Bento Grid: projects, stats, certifications */}
          <BentoGrid />

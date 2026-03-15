@@ -74,7 +74,7 @@ export default function HeroEnvironment() {
       <section ref={containerRef} className="relative w-full h-[200vh]" id="hero">
          <div className="sticky top-0 h-screen w-full overflow-hidden">
             {/* Background */}
-            <div className="absolute inset-0 z-0" style={{ background: '#282c20' }} />
+            <div className="absolute inset-0 z-0" style={{ background: '#080605' }} />
 
             {/* 3D Canvas */}
             <Canvas
@@ -134,7 +134,7 @@ export default function HeroEnvironment() {
                </div>
 
                {/* Bottom Area: Buttons */}
-               <motion.div
+               {/* <motion.div
                   style={{ opacity: contentOpacity, y: contentY, pointerEvents: contentPointerEvents as any }}
                   className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-30 px-6"
                >
@@ -192,7 +192,7 @@ export default function HeroEnvironment() {
                         Get In Touch
                      </a>
                   </div>
-               </motion.div>
+               </motion.div> */}
             </div>
 
             {/* Scroll hint */}
