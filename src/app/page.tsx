@@ -3,7 +3,10 @@ import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 
 // Lazy-load heavy 3D sections
-const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), { ssr: false })
+const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), { 
+   ssr: false,
+   loading: () => <div className="w-full h-[200vh] bg-[#080605]" /> 
+})
 const HighlighterSection = dynamic(() => import('@/components/sections/HighlighterSection'), { ssr: false })
 const Scrollytelling = dynamic(() => import('@/components/sections/Scrollytelling'), { ssr: false })
 const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid'), { ssr: false })
