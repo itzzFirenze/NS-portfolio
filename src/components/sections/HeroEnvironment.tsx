@@ -119,8 +119,8 @@ export default function HeroEnvironment() {
                <motion.img
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                  src="/profile1.png"
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  src="/profile1.webp"
                   alt="Owner"
                   className="w-full h-full object-cover object-center"
                />
