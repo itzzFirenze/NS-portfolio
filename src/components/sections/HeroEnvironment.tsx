@@ -130,9 +130,9 @@ export default function HeroEnvironment() {
                   style={{ opacity: contentOpacity, y: contentY, pointerEvents: contentPointerEvents as any }}
                   className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-30 px-6"
                >
-                  <p className="text-[rgba(255,248,240,0.65)] text-lg md:text-xl max-w-lg leading-relaxed mb-8">
+                  {/* <p className="text-[rgba(255,248,240,0.65)] text-lg md:text-xl max-w-lg leading-relaxed mb-8">
                      Where food science meets industrial precision — innovating bakery production, one formulation at a time.
-                  </p>
+                  </p> */}
 
                   <div className="flex gap-4 flex-wrap justify-center items-center">
                      <a

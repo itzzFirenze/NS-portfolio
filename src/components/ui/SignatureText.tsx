@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import BlurText from './BlurText'
+import SplitText from './SplitText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -99,15 +99,22 @@ export default function SignatureText() {
          />
          <div
             className="h-[60px] flex items-center justify-center mt-6"
-            style={{ fontFamily: '"Outfit", "Poppins"', fontWeight: 800 }}
+            style={{ fontFamily: '"Outfit", "Poppins"', fontWeight: 500, paddingLeft: '23%' }}
          >
             {showText && (
-               <BlurText
-                  text="crafting the perfect recipe"
-                  delay={45}
-                  animateBy="words"
-                  direction="top"
+               <SplitText
+                  text="Crafting the perfect recipe"
                   className="text-2xl md:text-3xl tracking-wide text-orange-500 drop-shadow-md m-0"
+                  delay={50}
+                  duration={1.25}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0.1}
+                  rootMargin="-100px"
+                  textAlign="center"
+                  tag="span"
                />
             )}
          </div>
