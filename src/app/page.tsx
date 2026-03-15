@@ -6,10 +6,7 @@ import { motion } from 'framer-motion'
 const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), { ssr: false })
 const Scrollytelling = dynamic(() => import('@/components/sections/Scrollytelling'), { ssr: false })
 const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid'), { ssr: false })
-// const SkillsOrbit = dynamic(() => import('@/components/sections/SkillsOrbit'), { ssr: false })
-const MyWorks = dynamic(() => import('@/components/sections/MyWorks'), { ssr: false })
-const OpenCrumbs = dynamic(() => import('@/components/sections/OpenCrumbs'), { ssr: false })
-const CircularGallery = dynamic(() => import('@/components/ui/CircularGallery'), { ssr: false })
+const GallerySneakPeek = dynamic(() => import('@/components/sections/GallerySneakPeek'), { ssr: false })
 const SkillsOrbit = dynamic(() => import('@/components/sections/SkillsOrbit'), { ssr: false })
 const ContactBox = dynamic(() => import('@/components/sections/ContactBox'), { ssr: false })
 const SocialCardsSection = dynamic(() => import('@/components/sections/social/SocialCardsSection'), { ssr: false })
@@ -47,50 +44,8 @@ export default function Home() {
          {/* Bento Grid: projects, stats, certifications */}
          <BentoGrid />
 
-         {/* Divider */}
-         <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,107,53,0.3), transparent)' }} />
-
-         {/* My Works Gallery */}
-         <MyWorks />
-
-         {/* Divider */}
-         <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,210,63,0.3), transparent)' }} />
-
-         {/* Open Crumbs Gallery */}
-         <OpenCrumbs />
-
-         {/* Divider */}
-         <div className="w-full h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,210,63,0.3), transparent)' }} />
-
-         {/* Circular Gallery — Open Crumbs */}
-         <section className="py-16 px-6">
-            <div className="mb-8 px-4 flex flex-col items-center">
-               <h2 className="text-center font-display text-[3rem] md:text-[5rem] font-bold leading-none tracking-tighter text-[#FFF8F0]">
-                  Gallery
-               </h2>
-               <p className="text-center text-white/40 font-body text-sm mt-2 max-w-md w-full mx-auto">
-                  Drag to explore.
-               </p>
-            </div>
-            <div style={{ height: '550px', position: 'relative' }}>
-               <CircularGallery
-                  items={[
-                     { image: '/open-crumbs/crumb1.png', text: 'Morning Prep' },
-                     { image: '/open-crumbs/crumb2.png', text: 'Dough Hydration' },
-                     { image: '/open-crumbs/crumb3.png', text: 'Scoring' },
-                     { image: '/open-crumbs/crumb4.png', text: 'Oven Spring' },
-                     { image: '/open-crumbs/crumb5.png', text: 'Cooling Racks' },
-                     { image: '/open-crumbs/crumb6.png', text: 'Perfect Crumb' },
-                  ]}
-                  bend={3}
-                  textColor="#ffffff"
-                  borderRadius={0.15}
-                  font="600 24px Poppins"
-                  scrollSpeed={2}
-                  scrollEase={0.04}
-               />
-            </div>
-         </section>
+         {/* Gallery Sneak Peek */}
+         <GallerySneakPeek />
 
          {/* Skills orbit (Disabled for now) */}
          {/* <SkillsOrbit /> */}

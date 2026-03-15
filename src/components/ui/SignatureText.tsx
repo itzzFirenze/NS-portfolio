@@ -8,9 +8,9 @@ gsap.registerPlugin(ScrollTrigger)
 
 // Shifted the Y values up by 40 pixels to avoid overlapping with the bottom text/buttons
 const LINES = [
-   { text: 'crafting', y: 50 },
-   { text: 'the perfect', y: 120 },
-   { text: 'recipe', y: 190 },
+   { text: 'crafting', y: 140 },
+   { text: 'the perfect', y: 195 },
+   { text: 'recipe', y: 250 },
 ]
 const FONT_SIZE = 80
 const VIEWBOX_WIDTH = 700

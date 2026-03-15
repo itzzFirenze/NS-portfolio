@@ -57,11 +57,12 @@ export default function MyWorks() {
    const x = useTransform(smoothProgress, [0, 1], [0, xRange])
 
    return (
-      <section
-         ref={targetRef}
-         className="relative h-[400vh] bg-black z-10"
-      >
-         <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+      <section className="w-full relative">
+         <div 
+            ref={targetRef}
+            className="relative h-[400vh] bg-black z-10"
+         >
+            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
 
             <motion.div
                ref={containerRef}
@@ -158,6 +159,7 @@ export default function MyWorks() {
                <div className="w-[5vw] md:w-[12vw] h-full shrink-0" />
 
             </motion.div>
+         </div>
          </div>
       </section>
    )

@@ -70,7 +70,7 @@ export default function HeroEnvironment() {
       offset: ["start start", "end end"]
    })
 
-   const imgScale = useTransform(scrollYProgress, [0, 0.8], [0.8, 0.6])
+   const imgScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.5])
    const imgBlur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", "blur(10px)"])
 
    const contentOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
@@ -103,27 +103,25 @@ export default function HeroEnvironment() {
 
             <Loader />
 
+            {/* Viewport Full Image */}
+            <motion.div
+               style={{ scale: imgScale, filter: imgBlur }}
+               className="absolute inset-0 z-[15] pointer-events-none drop-shadow-[0_0_80px_rgba(255,107,53,0.35)]"
+            >
+               <motion.img
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+                  src="/profile1.png" alt="Owner" className="w-full h-full object-cover object-center"
+
+               />
+            </motion.div>
+
             {/* Hero Overlay Text */}
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-between text-center px-6 pt-24 pb-12 pointer-events-none">
 
-               {/* Center Area: Image & Signature */}
-               <div className="relative flex items-center justify-center w-full max-w-6xl mt-[5vh]">
-                  <motion.div
-                     style={{ scale: imgScale, filter: imgBlur }}
-                     className="relative w-[85%] sm:w-[500px] md:w-[650px] lg:w-[800px] pointer-events-none drop-shadow-[0_0_80px_rgba(255,107,53,0.35)] z-10"
-                  >
-                     <motion.img
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        src="/hihi.png" alt="Owner" className="w-full h-auto object-contain"
-                        style={{
-                           // Soften the brightness to match dark mode, bump contrast for punch, 
-                           // add an orange-ish warm hue skew, and slightly desaturate
-                           filter: 'brightness(0.9) contrast(1.1) sepia(0.3) hue-rotate(-15deg) saturate(1.15)',
-                        }}
-                     />
-                  </motion.div>
+               {/* Center Area: Signature */}
+               <div className="relative flex items-center justify-center w-full flex-grow">
                   <SignatureText />
                </div>
 

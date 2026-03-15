@@ -53,11 +53,12 @@ export default function OpenCrumbs() {
    const x = useTransform(smoothProgress, [0, 1], [0, xRange])
 
    return (
-      <section
-         ref={targetRef}
-         className="relative h-[300vh] bg-[#0a0604] z-10"
-      >
-         <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+      <section className="w-full relative">
+         <div 
+            ref={targetRef}
+            className="relative h-[300vh] bg-[#0a0604] z-10"
+         >
+            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
             <motion.div
                ref={containerRef}
                style={{ x }}
@@ -159,6 +160,7 @@ export default function OpenCrumbs() {
                </div>
 
             </motion.div>
+         </div>
          </div>
       </section>
    )
