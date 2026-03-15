@@ -1,92 +1,116 @@
 'use client'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import opentype from 'opentype.js'
+import BlurText from './BlurText'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Shifted the Y values up by 40 pixels to avoid overlapping with the bottom text/buttons
-const LINES = [
-   { text: 'crafting', y: 140 },
-   { text: 'the perfect', y: 195 },
-   { text: 'recipe', y: 250 },
-]
-const FONT_SIZE = 80
-const VIEWBOX_WIDTH = 700
-
 export default function SignatureText() {
+   const containerRef = useRef<HTMLDivElement>(null)
    const svgRef = useRef<SVGSVGElement>(null)
+   const [showText, setShowText] = useState(false)
 
    useEffect(() => {
       let trigger: ScrollTrigger
 
-      opentype.load('/fonts/Caveat-Bold.ttf').then(font => {
-         const svg = svgRef.current
-         if (!svg) return
+      fetch('/typo.svg')
+         .then(res => res.text())
+         .then(svgText => {
+            const parser = new DOMParser()
+            const doc = parser.parseFromString(svgText, 'image/svg+xml')
+            const sourceSvg = doc.querySelector('svg')
+            const svg = svgRef.current
 
-         const paths: SVGPathElement[] = []
+            if (!sourceSvg || !svg) return
 
-         LINES.forEach(({ text, y }) => {
-            // Dynamically center the text by measuring its width in pixels for this font size
-            const textWidth = font.getAdvanceWidth(text, FONT_SIZE)
-            const x = (VIEWBOX_WIDTH - textWidth) / 2
+            // Copy viewBox
+            if (sourceSvg.getAttribute('viewBox')) {
+               svg.setAttribute('viewBox', sourceSvg.getAttribute('viewBox')!)
+            } else {
+               svg.setAttribute('viewBox', "221.596 251.674 1289.232 195.842")
+            }
 
-            const otPath = font.getPath(text, x, y, FONT_SIZE)
-            const contours = otPath.toPathData(2).match(/M[^M]+/g) || []
+            const sourcePaths = Array.from(sourceSvg.querySelectorAll('path'))
+            const paths: SVGPathElement[] = []
 
-            contours.forEach(d => {
+            sourcePaths.forEach((sourcePath) => {
                const el = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-               el.setAttribute('d', d.trim())
-               el.style.fill = 'none'
+               el.setAttribute('d', sourcePath.getAttribute('d') || '')
+
+               el.style.fill = 'transparent'
                el.style.stroke = '#FF6B35'
                el.style.strokeWidth = '3'
                el.style.strokeLinecap = 'round'
                el.style.strokeLinejoin = 'round'
+
                svg.appendChild(el)
 
                const len = el.getTotalLength() || 1000
-               // Add a slight buffer (+5) to prevent SVG dot artifacts due to rounding/antialiasing
                el.style.strokeDasharray = `${len + 5} ${len + 5}`
-               // We will let GSAP set the initial offset via fromTo
+
                paths.push(el)
             })
-         })
 
-         const tl = gsap.timeline()
+            const tl = gsap.timeline()
 
-         trigger = ScrollTrigger.create({
-            animation: tl,
-            trigger: '#hero',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1,
-         })
-
-         tl.fromTo(paths,
-            {
-               strokeDashoffset: (i, el) => (el.getTotalLength() || 1000) + 5,
-               opacity: 0
-            },
-            {
-               strokeDashoffset: 0,
-               opacity: 1,
-               ease: 'none',
-               stagger: 0.2, // Tighter stagger so it completes before the end of the scroll
+            trigger = ScrollTrigger.create({
+               animation: tl,
+               trigger: '#hero',
+               start: 'top top',
+               end: 'bottom bottom',
+               scrub: 1,
+               onUpdate: (self) => {
+                  setShowText(self.progress > 0.8)
+               }
             })
-      }).catch(err => {
-         console.error("Failed to load Caveat TTF for opentype rendering:", err)
-      })
+
+            // Draw paths
+            tl.fromTo(paths,
+               {
+                  strokeDashoffset: (i, el) => (el.getTotalLength() || 1000) + 5,
+                  opacity: 0,
+                  fill: 'transparent'
+               },
+               {
+                  strokeDashoffset: 0,
+                  opacity: 1,
+                  ease: 'none',
+                  stagger: 0.1,
+               }
+            )
+
+            // Fill them in and remove stroke
+            tl.to(paths, { fill: '#FF6B35', stroke: 'transparent', duration: 0.1, ease: 'power2.inOut' }, ">")
+
+         }).catch(err => {
+            console.error("Failed to load typo.svg:", err)
+         })
 
       return () => { trigger?.kill() }
    }, [])
 
    return (
-      <svg
-         ref={svgRef}
-         viewBox="0 0 700 340"
-         className="absolute inset-0 w-full h-full z-30 pointer-events-none drop-shadow-md"
-         xmlns="http://www.w3.org/2000/svg"
-      />
+      <div ref={containerRef} className="flex flex-col items-center justify-center w-full z-30 pointer-events-none drop-shadow-md">
+         <svg
+            ref={svgRef}
+            className="w-[90%] max-w-[750px] h-auto drop-shadow-md"
+            xmlns="http://www.w3.org/2000/svg"
+         />
+         <div
+            className="h-[60px] flex items-center justify-center mt-6"
+            style={{ fontFamily: '"Outfit", "Poppins"', fontWeight: 800 }}
+         >
+            {showText && (
+               <BlurText
+                  text="crafting the perfect recipe"
+                  delay={45}
+                  animateBy="words"
+                  direction="top"
+                  className="text-2xl md:text-3xl tracking-wide text-orange-500 drop-shadow-md m-0"
+               />
+            )}
+         </div>
+      </div>
    )
 }
