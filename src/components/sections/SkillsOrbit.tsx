@@ -4,11 +4,12 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
+import FlourParticles from '../3d/FlourParticles'
+import FlourParticlesOverlay from '../ui/FlourParticlesOverlay'
 
 type SkillExperience = {
    role: string;
    year: string;
-   desc: string;
 };
 
 type Skill = {
@@ -17,25 +18,58 @@ type Skill = {
    logo: string;
    role?: string;
    year?: string;
-   desc?: string;
    experiences?: SkillExperience[];
 };
 
 // Added a 'logo' property to each skill pointing to distinct PNGs
 const SKILLS: Skill[] = [
-   { name: 'Kempinski Al Othman Hotel, Al Khobar KSA', role: 'Head Baker', year: 'Oct 2022 - Present', color: '#FFD23F', logo: '/logos/othman-logo.png', desc: "9 food and beverage outlets, 12 meeting rooms and 2 Ballroom." },
    {
-      name: 'Crowne Plaza & Staybridge Suite (IHG) Yas Island Abu-Dhabi.',
+      name: 'Al Hatab Bakery, KSA',
+      role: 'Research & Development Baker',
+      year: 'Aug 2024 - Present',
+      color: '#FFD23F',
+      logo: '/logos/al-hatab-logo.png'
+   },
+   {
+      name: 'Kempinski Al Othman Hotel, KSA',
+      role: 'Head Baker',
+      year: 'Oct 2022 - Aug 2024',
+      color: '#FFD23F',
+      logo: '/logos/othman-logo.png'
+   },
+   {
+      name: 'Crowne Plaza, Abu-Dhabi',
       color: '#a855f7',
       logo: '/logos/crowne-logo.png',
       experiences: [
-         { role: 'Complex Head Baker', year: 'Dec 2016 - Nov 2021', desc: '7 food and beverage outlets, 5 meeting rooms, 428 Guest romms 1 Ballroom.' },
-         { role: 'Sr. Chef De Partie Bakery', year: 'May 2014 - Dec 2016', desc: 'Syatbridge Suite 164 rooms.' },
-         { role: 'Chef De Partie Bakery', year: 'May 2013 - May 2014', desc: '7 food and beverage outlets, 5 meeting rooms, 428 Guest romms 1 Ballroom.' }
+         {
+            role: 'Head Baker',
+            year: 'Dec 2016 - Nov 2021'
+         },
+         {
+            role: 'Sr. Chef De Partie Bakery',
+            year: 'May 2014 - Dec 2016'
+         },
+         {
+            role: 'Chef De Partie Bakery',
+            year: 'May 2013 - May 2014'
+         }
       ]
    },
-   { name: 'Le Meridien abu-Dhabi', role: 'Demi Chef De Partie Bakery & Pastry', year: 'May 2011 - April 2013', color: '#FF6B35', logo: '/logos/lameridien-logo.png', desc: 'Food and beverage outlets, meeting romms, ballrom romms and 248 Guest.' },
-   { name: 'Al-Dhafra Tourist Village Abu-Dhabi', role: 'Commis 1 – Bakery & Pastry', year: 'Jun 2009 - Feb 2011', color: '#3b82f6', logo: '/logos/aldhafra-logo.png', desc: 'from Jun 2009 to February 2011.' },
+   {
+      name: 'Le Meridien, Abu-Dhabi',
+      role: 'Demi Chef De Partie Bakery & Pastry',
+      year: 'May 2011 - April 2013',
+      color: '#FF6B35',
+      logo: '/logos/lameridien-logo.png'
+   },
+   {
+      name: 'Al-Dhafra Tourist Village, Abu-Dhabi',
+      role: 'Commis 1 – Bakery & Pastry',
+      year: 'Jun 2009 - Feb 2011',
+      color: '#3b82f6',
+      logo: '/logos/aldhafra-logo.png'
+   },
 ]
 
 /** Central Baker Figure */
@@ -77,8 +111,8 @@ function OrbitNodes({ onSelect, selected }: {
    }, [textures])
 
    // Define expanding radius and unique speeds for each of the 4 orbits
-   const RADII = [2.2, 3.1, 4.0, 4.9]
-   const SPEEDS = [0.22, 0.14, 0.18, 0.11] // Prime-ish variations so they don't align often
+   const RADII = [2.2, 3.1, 4.0, 4.9, 5.8]
+   const SPEEDS = [0.22, 0.14, 0.18, 0.11, 0.16] // Prime-ish variations so they don't align often
 
    useFrame(({ clock, camera }) => {
       const t = clock.getElapsedTime()
@@ -207,6 +241,9 @@ export default function SkillsOrbit() {
          id="skills"
          style={{ background: '#080605', padding: '96px 0 60px', position: 'relative', overflow: 'hidden' }}
       >
+         {/* Full-section flour particle overlay */}
+         <FlourParticlesOverlay count={80} position="absolute" />
+
          {/* Background glow */}
          <div style={{
             position: 'absolute',
@@ -226,11 +263,8 @@ export default function SkillsOrbit() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
          >
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.3em', color: '#FFD23F', textTransform: 'uppercase', marginBottom: 14, fontFamily: 'Inter, sans-serif' }}>
-               Core Competencies
-            </div>
             <h2 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 'clamp(2rem, 4vw, 3rem)', color: '#FFF8F0', marginBottom: 8 }}>
-               Skills <span className="gradient-text-alt">Orbit</span>
+               <span className="gradient-text-alt">The Journey</span>
             </h2>
          </motion.div>
 
@@ -250,6 +284,7 @@ export default function SkillsOrbit() {
                <pointLight position={[6, -3, 6]} intensity={1.5} color="#FF6B35" />
 
                <Suspense fallback={null}>
+                  <FlourParticles count={350} spread={16} size={0.04} speed={0.12} />
                   <BakerModel />
                   <OrbitNodes onSelect={i => setSelectedSkill(i === selectedSkill ? null : i)} selected={selectedSkill} />
                </Suspense>
@@ -298,9 +333,6 @@ export default function SkillsOrbit() {
                                  <div key={idx} style={{ paddingBottom: idx !== SKILLS[selectedSkill].experiences!.length - 1 ? '16px' : '0', borderBottom: idx !== SKILLS[selectedSkill].experiences!.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
                                     <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#FFF8F0' }}>{exp.role}</div>
                                     <div style={{ fontSize: 12, color: SKILLS[selectedSkill].color, marginBottom: 6, fontWeight: 500 }}>{exp.year}</div>
-                                    <p style={{ fontSize: 13, color: 'rgba(255,248,240,0.7)', lineHeight: 1.5, margin: 0, fontFamily: 'Inter, sans-serif' }}>
-                                       {exp.desc}
-                                    </p>
                                  </div>
                               ))}
                            </div>
@@ -308,9 +340,6 @@ export default function SkillsOrbit() {
                            <div style={{ textAlign: 'center' }}>
                               <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#FFF8F0' }}>{SKILLS[selectedSkill].role}</div>
                               <div style={{ fontSize: 12, color: SKILLS[selectedSkill].color, marginBottom: 10, fontWeight: 500 }}>{SKILLS[selectedSkill].year}</div>
-                              <p style={{ fontSize: 13, color: 'rgba(255,248,240,0.7)', lineHeight: 1.6, margin: 0, fontFamily: 'Inter, sans-serif' }}>
-                                 {SKILLS[selectedSkill].desc}
-                              </p>
                            </div>
                         )}
                      </div>
@@ -332,7 +361,7 @@ export default function SkillsOrbit() {
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: '12px 20px',
-            maxWidth: 1000,
+            maxWidth: 1200,
             margin: '0 auto',
             padding: '0 24px',
             position: 'relative',

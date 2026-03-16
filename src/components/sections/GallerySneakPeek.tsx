@@ -21,65 +21,136 @@ export default function GallerySneakPeek() {
          ref={containerRef}
          style={{ position: 'relative', overflow: 'hidden', background: '#030303', padding: '96px 24px' }}
       >
-         {/* Button hover styles injected once */}
          <style>{`
-        .gallery-cta {
-          display: inline-block;
-          position: relative;
-          padding: 16px 40px;
-          border-radius: 9999px;
-          background: #ffffff;
-          color: #000000;
-          font-weight: 600;
-          font-size: 0.8125rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          text-decoration: none;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-        .gallery-cta__label {
-          display: block;
-          position: relative;
-          z-index: 2;
-          color: #000;
-          transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.32s ease;
-        }
-        .gallery-cta__fill {
-          position: absolute;
-          inset: 0;
-          background: #FF6B35;
-          border-radius: 9999px;
-          transform: translateY(101%);
-          transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
-        }
-        .gallery-cta__hover {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          font-weight: 600;
-          font-size: 0.8125rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          white-space: nowrap;
-          transform: translateY(101%);
-          transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
-          z-index: 3;
-        }
-        .gallery-cta:hover .gallery-cta__label {
-          transform: translateY(-101%);
-          opacity: 0;
-        }
-        .gallery-cta:hover .gallery-cta__fill {
-          transform: translateY(0);
-        }
-        .gallery-cta:hover .gallery-cta__hover {
-          transform: translateY(0);
-        }
-      `}</style>
+            .gallery-cta {
+               display: inline-block;
+               position: relative;
+               padding: 16px 40px;
+               border-radius: 9999px;
+               background: #ffffff;
+               color: #000000;
+               font-weight: 600;
+               font-size: 0.8125rem;
+               letter-spacing: 0.12em;
+               text-transform: uppercase;
+               text-decoration: none;
+               overflow: hidden;
+               white-space: nowrap;
+            }
+            .gallery-cta__label {
+               display: block;
+               position: relative;
+               z-index: 2;
+               color: #000;
+               transition: transform 0.32s cubic-bezier(0.4,0,0.2,1), opacity 0.32s ease;
+            }
+            .gallery-cta__fill {
+               position: absolute;
+               inset: 0;
+               background: #FF6B35;
+               border-radius: 9999px;
+               transform: translateY(101%);
+               transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+            }
+            .gallery-cta__hover {
+               position: absolute;
+               inset: 0;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               color: #fff;
+               font-weight: 600;
+               font-size: 0.8125rem;
+               letter-spacing: 0.12em;
+               text-transform: uppercase;
+               white-space: nowrap;
+               transform: translateY(101%);
+               transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+               z-index: 3;
+            }
+            .gallery-cta:hover .gallery-cta__label { transform: translateY(-101%); opacity: 0; }
+            .gallery-cta:hover .gallery-cta__fill  { transform: translateY(0); }
+            .gallery-cta:hover .gallery-cta__hover { transform: translateY(0); }
+
+            /* ── Layout ── */
+            .gallery-layout {
+               max-width: 1280px;
+               margin: 0 auto;
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               gap: 64px;
+            }
+            .gallery-text-col {
+               flex: 0 0 360px;
+               display: flex;
+               flex-direction: column;
+               align-items: flex-start;
+               position: relative;
+               z-index: 10;
+            }
+            .gallery-images-col {
+               flex: 1 1 0;
+               height: 600px;
+               display: flex;
+               gap: 24px;
+               justify-content: center;
+               align-items: center;
+            }
+            .gallery-img-col {
+               display: flex;
+               flex-direction: column;
+               gap: 24px;
+               width: 33.333%;
+            }
+            .gallery-img-col--mid {
+               margin-top: 128px;
+            }
+
+            /* ── Tablet (≤ 768px) ── */
+            @media (max-width: 768px) {
+               .gallery-layout {
+                  flex-direction: column;
+                  gap: 48px;
+                  align-items: stretch;
+               }
+               .gallery-text-col {
+                  flex: unset;
+                  align-items: center;
+                  text-align: center;
+               }
+               .gallery-images-col {
+                  height: 520px;
+                  gap: 12px;
+               }
+               .gallery-img-col {
+                  gap: 12px;
+               }
+               .gallery-img-col--mid {
+                  margin-top: 48px;
+               }
+            }
+
+            /* ── Mobile (≤ 480px) ── */
+            @media (max-width: 480px) {
+               section {
+                  padding: 64px 16px !important;
+               }
+               .gallery-images-col {
+                  height: 440px;
+                  gap: 8px;
+               }
+               .gallery-img-col {
+                  gap: 8px;
+               }
+               .gallery-img-col--mid {
+                  margin-top: 32px;
+               }
+               .gallery-text-col h2 {
+                  font-size: 3rem !important;
+               }
+            }
+         `}</style>
 
          {/* Background Glow */}
          <div style={{
@@ -95,25 +166,10 @@ export default function GallerySneakPeek() {
             pointerEvents: 'none',
          }} />
 
-         {/* Main layout */}
-         <div style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '64px',
-         }}>
+         <div className="gallery-layout">
 
             {/* ── Text Column ── */}
-            <div style={{
-               flex: '0 0 360px',
-               display: 'flex',
-               flexDirection: 'column',
-               alignItems: 'flex-start',
-               position: 'relative',
-               zIndex: 10,
-            }}>
+            <div className="gallery-text-col">
                <motion.span
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -178,49 +234,76 @@ export default function GallerySneakPeek() {
                </motion.div>
             </div>
 
-            {/* ── Images Grid — animations untouched ── */}
-            <div style={{
-               flex: '1 1 0',
-               height: '600px',
-               display: 'flex',
-               gap: '24px',
-               justifyContent: 'center',
-               alignItems: 'center',
-            }}>
-               <motion.div style={{ y: y1 }} className="flex flex-col gap-4 md:gap-6 w-1/3">
-                  <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden group">
-                     <Image src="/open-crumbs/crumb1.png" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+            {/* ── Images Grid ── */}
+            <div className="gallery-images-col">
+
+               {/* Column 1 */}
+               <motion.div style={{ y: y1 }} className="gallery-img-col">
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/open-crumbs/crumb1.png" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
-                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden group hidden md:block">
-                     <Image src="/1.jpg" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/1.jpg" alt="Gallery preview" fill
+                        sizes="(max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
                </motion.div>
 
-               <motion.div style={{ y: y2 }} className="flex flex-col gap-4 md:gap-6 w-1/3 mt-16 md:mt-32">
-                  <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden group">
-                     <Image src="/2.jpg" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+               {/* Column 2 */}
+               <motion.div style={{ y: y2 }} className="gallery-img-col gallery-img-col--mid">
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/2.jpg" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
-                  <div className="relative w-full aspect-square rounded-2xl overflow-hidden group">
-                     <Image src="/open-crumbs/crumb3.png" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/open-crumbs/crumb3.png" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
                </motion.div>
 
-               <motion.div style={{ y: y3 }} className="flex flex-col gap-4 md:gap-6 w-1/3">
-                  <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden group">
-                     <Image src="/open-crumbs/crumb6.png" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+               {/* Column 3 */}
+               <motion.div style={{ y: y3 }} className="gallery-img-col">
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/open-crumbs/crumb6.png" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
-                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden group hidden md:block">
-                     <Image src="/5.jpg" alt="Gallery preview" fill sizes="(max-width: 768px) 33vw, 20vw" className="object-cover group-hover:scale-110 transition-transform duration-700" />
-                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/5.jpg" alt="Gallery preview" fill
+                        sizes="(max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
                   </div>
                </motion.div>
+
             </div>
-
          </div>
       </section>
    )
