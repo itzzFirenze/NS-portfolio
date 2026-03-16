@@ -239,7 +239,7 @@ export default function SkillsOrbit() {
       <section
          ref={containerRef}
          id="skills"
-         style={{ background: '#080605', padding: '96px 0 60px', position: 'relative', overflow: 'hidden' }}
+         style={{ background: '#080605', padding: '24px 0 60px', position: 'relative', overflow: 'hidden' }}
       >
          {/* Full-section flour particle overlay */}
          <FlourParticlesOverlay count={80} position="absolute" />
@@ -269,10 +269,10 @@ export default function SkillsOrbit() {
          </motion.div>
 
          {/* 3D Canvas Area */}
-         <div style={{ position: 'relative', maxWidth: 900, margin: '-110px auto 0', height: 550 }}>
+         <div style={{ position: 'relative', maxWidth: 900, margin: '-120px auto 0', height: 550 }}>
             {/* Changed margin to pull the canvas up */}
             <Canvas
-               camera={{ position: [0, 6.5, 10.5], fov: 45 }}
+               camera={{ position: [0, 6.5, 12], fov: 45 }}
                dpr={[1, 2]}
                frameloop={isInView ? 'always' : 'never'}
                gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
@@ -362,7 +362,7 @@ export default function SkillsOrbit() {
             justifyContent: 'center',
             gap: '12px 20px',
             maxWidth: 1200,
-            margin: '0 auto',
+            margin: '24px auto',
             padding: '0 24px',
             position: 'relative',
             zIndex: 10

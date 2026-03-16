@@ -1,31 +1,22 @@
 'use client'
 import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { GiCroissant, GiCakeSlice, GiFireBowl } from 'react-icons/gi'
-import { PiMedalFill, PiTrophyFill } from 'react-icons/pi'
-import { MdFactory } from 'react-icons/md'
-import { LuAward } from 'react-icons/lu'
+import { GiCroissant } from 'react-icons/gi'
 import { TbCertificate } from 'react-icons/tb'
-
-const ACHIEVEMENTS = [
-   { icon: PiTrophyFill, color: '#FFD23F', label: 'Employee (Supervisor) of the Quarter — Kempinski Hotel' },
-   { icon: LuAward, color: '#FF6B35', label: 'Award from St. Regis Hotel Saadiyat Island, Abu Dhabi' },
-   { icon: GiCakeSlice, color: '#FF2D78', label: 'Salt, Sugar & Chocolate Display Specialist' },
-   { icon: GiFireBowl, color: '#FF6B35', label: 'Certified Fire Safety & IHG Marline Courses' },
-]
+import { FaCrown } from "react-icons/fa";
 
 const PROJECTS = [
    {
-      title: 'Clean Label Reformulation',
+      title: 'The Clean Label Essentials',
       tag: 'Product Development',
-      desc: 'Eliminated all E-number additives while maintaining 35-day shelf life through natural antimicrobial hurdle technology.',
+      desc: 'Honest, junk-free breads—from silky toast to golden buns—crafted with simple, real ingredients for a pure, homemade taste.',
       color: '#FF6B35',
       gradientColor: 'rgba(255,107,53,0.15)',
       borderColor: 'rgba(255,107,53,0.3)',
    },
    {
       title: 'Sourdough Scale-Up',
-      tag: 'Process Engineering',
+      tag: 'Process Design',
       desc: 'Took an artisan 3-phase sourdough from a 50 kg pilot to 2.5-tonne industrial batches with no flavour compromise.',
       color: '#FF2D78',
       gradientColor: 'rgba(255,45,120,0.15)',
@@ -33,11 +24,27 @@ const PROJECTS = [
    },
    {
       title: 'Line Efficiency Program',
-      tag: 'Process Optimization',
-      desc: 'Implemented SPC monitoring and preventive maintenance scheduling, cutting downtime losses by 22%.',
+      tag: 'Display Specialist',
+      desc: 'I don’t just bake; I build. By mastering the distinct temperaments of sugar, salt, and cacao, I create bespoke showpieces that serve as the heartbeat of any event. Whether it’s a modern chocolate sculpture or a traditional salt-dough bread display, my work is defined by precision, passion, and a obsession with the impossible build.',
       color: '#FFD23F',
       gradientColor: 'rgba(255,210,63,0.15)',
       borderColor: 'rgba(255,210,63,0.3)',
+   },
+   {
+      title: 'The Wild Yeast Collection',
+      tag: 'Product Development',
+      desc: 'Wild-yeast sourdoughs and airy, olive-oil classics—long-fermented for a deeper flavor and the perfect, bubbly crunch.',
+      color: '#FF6B35',
+      gradientColor: 'rgba(255,107,53,0.15)',
+      borderColor: 'rgba(255,107,53,0.3)',
+   },
+   {
+      title: 'The All-Butter Viennoiserie',
+      tag: 'Product Development',
+      desc: 'Golden, 100% butter pastries—shatteringly crisp on the outside and melt-in-your-mouth soft on the inside.',
+      color: '#FF6B35',
+      gradientColor: 'rgba(255,107,53,0.15)',
+      borderColor: 'rgba(255,107,53,0.3)',
    },
 ]
 
@@ -59,6 +66,18 @@ const RESPONSIBILITIES = [
    'Control food stock and cost in the section',
    'Support Executive Pastry Chef in daily operations',
 ]
+
+const BIO_WORDS = [
+   'Hi,', 'I', 'am', 'Nir', 'Magar', ',', 'a', 'bakery', 'professional', 'with', 'extensive',
+   'experience', 'in', 'new', 'product', 'development', 'within', 'the', 'baking', 'industry.',
+   'I', 'specialize', 'in', 'formulating', 'a', 'diverse', 'range', 'of', 'baked', 'goods,',
+   'from', 'artisanal', 'sourdoughs', 'to', 'pastries,', 'cookies', 'and', 'chocolates.',
+   'Driven', 'by', 'creativity,', 'precision,', 'and', 'a', 'passion', 'for', 'baking,',
+   'I', 'continuously', 'strive', 'to', 'develop', 'products', 'that', 'combine',
+   'craftsmanship,', 'innovation,', 'and', 'operational', 'excellence.',
+]
+
+const HIGHLIGHT_WORDS = ['Nir', 'Magar']
 
 const RESPONSIVE_STYLES = `
    .bento-section { padding: 96px 0 80px; }
@@ -95,6 +114,31 @@ const RESPONSIVE_STYLES = `
       gap: 40px;
       text-align: center;
       flex-shrink: 0;
+   }
+
+   .bio-word {
+      display: inline-block;
+      margin-right: 5px;
+      margin-bottom: 4px;
+   }
+
+   .bio-word.highlight {
+      color: #FF6B35;
+   }
+
+   .bio-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,107,53,0.5), rgba(255,45,120,0.5), transparent);
+      margin: 24px 0;
+   }
+
+   .floating-icon {
+      animation: floatIcon 4s ease-in-out infinite;
+   }
+   @keyframes floatIcon {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(4deg); }
    }
 
    /* ── Tablet ── */
@@ -194,6 +238,32 @@ function SpotlightCard({
    )
 }
 
+// Wrapper that animates a full row into view on scroll
+function RowReveal({
+   children,
+   delay = 0,
+   className = '',
+   style = {},
+}: {
+   children: React.ReactNode
+   delay?: number
+   className?: string
+   style?: React.CSSProperties
+}) {
+   return (
+      <motion.div
+         className={className}
+         style={style}
+         initial={{ opacity: 0, y: 48, filter: 'blur(6px)' }}
+         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+         viewport={{ once: true, margin: '-60px' }}
+         transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      >
+         {children}
+      </motion.div>
+   )
+}
+
 export default function BentoGrid() {
    return (
       <section id="about" className="bento-section" style={{ width: '100%', background: '#080605' }}>
@@ -229,200 +299,247 @@ export default function BentoGrid() {
             {/* ── Bento grid ── */}
             <div className="bento-grid">
 
-               {/* ── Row 1: Honours & Awards — full width ── */}
-               <SpotlightCard className="col-full" style={{ padding: '32px 28px' }}>
-                  <div style={{
-                     fontSize: 10, fontWeight: 600, letterSpacing: '0.2em',
-                     color: '#FFD23F', textTransform: 'uppercase',
-                     fontFamily: 'Inter, sans-serif', marginBottom: 24,
-                  }}>
-                     Honours &amp; Awards
-                  </div>
-                  <div className="achievements-grid">
-                     {ACHIEVEMENTS.map((a, i) => (
-                        <motion.div
-                           key={i}
-                           initial={{ opacity: 0, scale: 0.8 }}
-                           whileInView={{ opacity: 1, scale: 1 }}
-                           viewport={{ once: true }}
-                           transition={{ delay: i * 0.1 }}
-                           style={{ textAlign: 'center' }}
-                        >
-                           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
-                              <a.icon size={40} color={a.color} />
-                           </div>
-                           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.6, fontFamily: 'Inter, sans-serif' }}>
-                              {a.label}
-                           </div>
-                        </motion.div>
-                     ))}
-                  </div>
-               </SpotlightCard>
+               {/* ── Row 1: Bio — full width ── */}
+               <RowReveal className="col-full" delay={0}>
+                  <SpotlightCard style={{ padding: '40px 36px', overflow: 'hidden' }}>
+                     {/* Ambient background orbs */}
+                     <div style={{
+                        position: 'absolute', top: -60, right: -60, width: 260, height: 260,
+                        borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)',
+                        pointerEvents: 'none',
+                     }} />
+                     <div style={{
+                        position: 'absolute', bottom: -40, left: '30%', width: 200, height: 200,
+                        borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,45,120,0.07) 0%, transparent 70%)',
+                        pointerEvents: 'none',
+                     }} />
 
-               {/* ── Row 2: Kempinski (1) | Project 1 (2) | Certifications (1) ── */}
+                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 32, flexWrap: 'wrap' }}>
 
-               <SpotlightCard
-                  className="col-1"
-                  style={{ minHeight: 220, padding: '28px 24px' }}
-                  innerStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 16 }}
-               >
-                  <PiTrophyFill size={48} color="#FFD23F" />
-                  <div>
-                     <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 16, color: '#FFF8F0', marginBottom: 8, lineHeight: 1.3 }}>
-                        Supervisor of the Quarter
-                     </div>
-                     <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
-                        Kempinski Hotel — outstanding leadership &amp; production excellence
-                     </div>
-                  </div>
-                  <div style={{ width: '100%', height: 2, borderRadius: 2, background: 'linear-gradient(90deg, transparent, #FF2D78, transparent)' }} />
-               </SpotlightCard>
+                        {/* Left: Animated icon cluster */}
+                        <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                           <motion.div
+                              className="floating-icon"
+                              initial={{ opacity: 0, scale: 0 }}
+                              whileInView={{ opacity: 1, scale: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                              style={{
+                                 width: 72, height: 72, borderRadius: 20,
+                                 background: 'linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,45,120,0.15))',
+                                 border: '1px solid rgba(255,107,53,0.3)',
+                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                              }}
+                           >
+                              <GiCroissant size={38} color="#FF6B35" />
+                           </motion.div>
 
-               <SpotlightCard className="col-2" style={{ padding: '28px 30px' }}>
-                  <span style={{
-                     display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
-                     fontWeight: 600, marginBottom: 14, background: PROJECTS[0].gradientColor,
-                     color: PROJECTS[0].color, border: `1px solid ${PROJECTS[0].borderColor}`,
-                     fontFamily: 'Inter, sans-serif',
-                  }}>
-                     {PROJECTS[0].tag}
-                  </span>
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#FFF8F0', marginBottom: 12 }}>
-                     {PROJECTS[0].title}
-                  </h3>
-                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
-                     {PROJECTS[0].desc}
-                  </p>
-                  <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[0].color}, transparent)` }} />
-               </SpotlightCard>
+                           {/* Vertical accent line */}
+                           <motion.div
+                              initial={{ scaleY: 0 }}
+                              whileInView={{ scaleY: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 0.8, delay: 0.6 }}
+                              style={{
+                                 width: 2, height: 48,
+                                 background: 'linear-gradient(to bottom, #FF6B35, transparent)',
+                                 transformOrigin: 'top',
+                              }}
+                           />
 
-               <SpotlightCard className="col-1" style={{ padding: '24px 22px' }}>
-                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', color: '#FFD23F', textTransform: 'uppercase', marginBottom: 16, fontFamily: 'Inter, sans-serif' }}>
-                     Certifications
-                  </div>
-                  <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
-                     {CERTIFICATIONS.map((c, i) => (
-                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.5, fontFamily: 'Inter, sans-serif' }}>
-                           <TbCertificate size={14} color="#FF6B35" style={{ flexShrink: 0, marginTop: 2 }} />
-                           {c}
-                        </li>
-                     ))}
-                  </ul>
-               </SpotlightCard>
-
-               {/* ── Row 3: Project 2 (2) | St. Regis (1) | Industrial Scale (1) ── */}
-
-               <SpotlightCard className="col-2" style={{ padding: '28px 30px' }}>
-                  <span style={{
-                     display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
-                     fontWeight: 600, marginBottom: 14, background: PROJECTS[1].gradientColor,
-                     color: PROJECTS[1].color, border: `1px solid ${PROJECTS[1].borderColor}`,
-                     fontFamily: 'Inter, sans-serif',
-                  }}>
-                     {PROJECTS[1].tag}
-                  </span>
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#FFF8F0', marginBottom: 12 }}>
-                     {PROJECTS[1].title}
-                  </h3>
-                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
-                     {PROJECTS[1].desc}
-                  </p>
-                  <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[1].color}, transparent)` }} />
-               </SpotlightCard>
-
-               <SpotlightCard
-                  className="col-1"
-                  style={{ minHeight: 200, padding: '28px 24px' }}
-                  innerStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 16 }}
-               >
-                  <PiMedalFill size={44} color="#FF6B35" />
-                  <div>
-                     <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 16, color: '#FFF8F0', marginBottom: 8, lineHeight: 1.3 }}>
-                        St. Regis Award
-                     </div>
-                     <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
-                        Saadiyat Island, Abu Dhabi — excellence in luxury hospitality baking
-                     </div>
-                  </div>
-                  <div style={{ width: '100%', height: 2, borderRadius: 2, background: 'linear-gradient(90deg, transparent, #FFD23F, transparent)' }} />
-               </SpotlightCard>
-
-               <SpotlightCard
-                  className="col-1"
-                  style={{ padding: '28px 22px' }}
-                  innerStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 10 }}
-               >
-                  <MdFactory size={40} color="#FF6B35" />
-                  <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 14, color: '#FFF8F0' }}>Industrial Scale</div>
-                  <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, fontFamily: 'Inter, sans-serif' }}>
-                     2.5-tonne batch capacity across sourdough lines
-                  </div>
-               </SpotlightCard>
-
-               {/* ── Row 4: Project 3 — full width ── */}
-               <SpotlightCard className="col-full" style={{ padding: '28px 32px' }}>
-                  <div className="project3-inner">
-                     <div style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{
-                           display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
-                           fontWeight: 600, marginBottom: 14, background: PROJECTS[2].gradientColor,
-                           color: PROJECTS[2].color, border: `1px solid ${PROJECTS[2].borderColor}`,
-                           fontFamily: 'Inter, sans-serif',
-                        }}>
-                           {PROJECTS[2].tag}
-                        </span>
-                        <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#FFF8F0', marginBottom: 12 }}>
-                           {PROJECTS[2].title}
-                        </h3>
-                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
-                           {PROJECTS[2].desc}
-                        </p>
-                     </div>
-                     <div className="project3-stats">
-                        <div>
-                           <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 40, color: '#FFD23F' }}>22%</div>
-                           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Downtime Reduced</div>
+                           <motion.div
+                              initial={{ opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: 1 }}
+                              style={{
+                                 width: 8, height: 8, borderRadius: '50%',
+                                 background: '#FF2D78',
+                                 boxShadow: '0 0 12px #FF2D78',
+                              }}
+                           />
                         </div>
-                        <div>
-                           <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 900, fontSize: 40, color: '#FF6B35' }}>SPC</div>
-                           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Monitoring Deployed</div>
+
+                        {/* Right: Animated bio text */}
+                        <div style={{ flex: 1, minWidth: 240 }}>
+                           <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ duration: 0.5 }}
+                              style={{
+                                 fontSize: 10, fontWeight: 600, letterSpacing: '0.3em',
+                                 color: '#FF6B35', textTransform: 'uppercase',
+                                 fontFamily: 'Inter, sans-serif', marginBottom: 18,
+                              }}
+                           >
+                              About Me
+                           </motion.div>
+
+                           <div style={{ lineHeight: 1.95, fontSize: 16, fontFamily: 'Outfit, sans-serif', color: 'rgba(255,248,240,0.85)' }}>
+                              {BIO_WORDS.map((word, i) => {
+                                 const isHighlight = HIGHLIGHT_WORDS.includes(word)
+                                 return (
+                                    <motion.span
+                                       key={i}
+                                       className={`bio-word${isHighlight ? ' highlight' : ''}`}
+                                       initial={{ opacity: 0, y: 8, filter: 'blur(4px)' }}
+                                       whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                       viewport={{ once: true }}
+                                       transition={{
+                                          duration: 0.35,
+                                          delay: 0.1 + i * 0.03,
+                                          ease: 'easeOut',
+                                       }}
+                                       style={{
+                                          fontWeight: isHighlight ? 700 : 400,
+                                          color: isHighlight ? '#FF6B35' : undefined,
+                                       }}
+                                    >
+                                       {word}
+                                    </motion.span>
+                                 )
+                              })}
+                           </div>
+
+                           <div className="bio-divider" />
+
                         </div>
                      </div>
-                  </div>
-               </SpotlightCard>
+                  </SpotlightCard>
+               </RowReveal>
 
-               {/* ── Row 5: Responsibilities — full width ── */}
-               <SpotlightCard className="col-full" style={{ padding: '32px 28px' }}>
-                  <div style={{
-                     fontSize: 10, fontWeight: 600, letterSpacing: '0.2em',
-                     color: '#FF2D78', textTransform: 'uppercase',
-                     fontFamily: 'Inter, sans-serif', marginBottom: 8,
-                  }}>
-                     Role
-                  </div>
-                  <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 22, color: '#FFF8F0', marginBottom: 24 }}>
-                     Head Baker — Responsibilities
-                  </h3>
-                  <div className="responsibilities-grid">
-                     {RESPONSIBILITIES.map((r, i) => (
-                        <motion.div
-                           key={i}
-                           initial={{ opacity: 0, x: -10 }}
-                           whileInView={{ opacity: 1, x: 0 }}
-                           viewport={{ once: true }}
-                           transition={{ delay: i * 0.05 }}
-                           style={{
-                              display: 'flex', alignItems: 'flex-start', gap: 10,
-                              fontSize: 13, color: 'rgba(255,255,255,0.65)',
-                              lineHeight: 1.6, fontFamily: 'Inter, sans-serif',
-                           }}
-                        >
-                           <GiCroissant size={14} color="#FF6B35" style={{ flexShrink: 0, marginTop: 3 }} />
-                           {r}
-                        </motion.div>
-                     ))}
-                  </div>
-               </SpotlightCard>
+               {/* ── Row 2: Crown (1) | Project 1 (2) | Certifications (1) ── */}
+               <RowReveal className="col-1" delay={0}>
+                  <SpotlightCard
+                     style={{ minHeight: 220, padding: '28px 24px', height: '100%' }}
+                     innerStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 16 }}
+                  >
+                     <FaCrown size={48} color="#FFD23F" />
+                     <div>
+                        <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 16, color: '#FFF8F0', marginBottom: 8, lineHeight: 1.3 }}>
+                           Private chef of the Prince
+                        </div>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
+                           Served as a private chef for the palace of his highness crown prince of Fujairah
+                        </div>
+                     </div>
+                     <div style={{ width: '100%', height: 2, borderRadius: 2, background: 'linear-gradient(90deg, transparent, #FF2D78, transparent)' }} />
+                  </SpotlightCard>
+               </RowReveal>
+
+               <RowReveal className="col-2" delay={0.1}>
+                  <SpotlightCard style={{ padding: '28px 30px', height: '100%' }}>
+                     <span style={{
+                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
+                        fontWeight: 600, marginBottom: 14, background: PROJECTS[0].gradientColor,
+                        color: PROJECTS[0].color, border: `1px solid ${PROJECTS[0].borderColor}`,
+                        fontFamily: 'Inter, sans-serif',
+                     }}>
+                        {PROJECTS[0].tag}
+                     </span>
+
+                     <ul style={{ paddingLeft: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8, listStyleType: 'none' }}>
+                        {[PROJECTS[0], PROJECTS[3], PROJECTS[4]].map((project, i) => (
+                           <li key={i} style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                              <span style={{ color: PROJECTS[0].color, flexShrink: 0, marginTop: 2 }}>•</span>
+                              <span><span style={{ fontWeight: 500, color: '#FFF8F0' }}>{project.title}</span> : {project.desc}</span>
+                           </li>
+                        ))}
+                     </ul>
+
+                     <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[0].color}, transparent)` }} />
+                  </SpotlightCard>
+               </RowReveal>
+
+               <RowReveal className="col-1" delay={0.2}>
+                  <SpotlightCard style={{ padding: '24px 22px', height: '100%' }}>
+                     <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', color: '#FFD23F', textTransform: 'uppercase', marginBottom: 16, fontFamily: 'Inter, sans-serif' }}>
+                        Certifications
+                     </div>
+                     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
+                        {CERTIFICATIONS.map((c, i) => (
+                           <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: 'rgba(255,255,255,0.65)', lineHeight: 1.5, fontFamily: 'Inter, sans-serif' }}>
+                              <TbCertificate size={14} color="#FF6B35" style={{ flexShrink: 0, marginTop: 2 }} />
+                              {c}
+                           </li>
+                        ))}
+                     </ul>
+                  </SpotlightCard>
+               </RowReveal>
+
+               {/* ── Row 3: Project 2 (2) | Display Specialist (2) ── */}
+               {/* <RowReveal className="col-2" delay={0}>
+                  <SpotlightCard style={{ padding: '28px 30px', height: '100%' }}>
+                     <span style={{
+                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
+                        fontWeight: 600, marginBottom: 14, background: PROJECTS[1].gradientColor,
+                        color: PROJECTS[1].color, border: `1px solid ${PROJECTS[1].borderColor}`,
+                        fontFamily: 'Inter, sans-serif',
+                     }}>
+                        {PROJECTS[1].tag}
+                     </span>
+                     <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#FFF8F0', marginBottom: 12 }}>
+                        {PROJECTS[1].title}
+                     </h3>
+                     <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
+                        {PROJECTS[1].desc}
+                     </p>
+                     <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[1].color}, transparent)` }} />
+                  </SpotlightCard>
+               </RowReveal> */}
+
+               <RowReveal className="col-full" delay={0}>
+                  <SpotlightCard style={{ padding: '32px 28px', height: '100%' }}>
+                     <span style={{
+                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
+                        fontWeight: 600, marginBottom: 14, background: PROJECTS[2].gradientColor,
+                        color: PROJECTS[2].color, border: `1px solid ${PROJECTS[2].borderColor}`,
+                        fontFamily: 'Inter, sans-serif',
+                     }}>
+                        {PROJECTS[2].tag}
+                     </span>
+                     <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
+                        {PROJECTS[2].desc}
+                     </p>
+                     <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[2].color}, transparent)` }} />
+                  </SpotlightCard>
+               </RowReveal>
+
+               {/* ── Row 4: Responsibilities — full width ── */}
+               {/* <RowReveal className="col-full" delay={0}>
+                  <SpotlightCard style={{ padding: '32px 28px' }}>
+                     <div style={{
+                        fontSize: 10, fontWeight: 600, letterSpacing: '0.2em',
+                        color: '#FF2D78', textTransform: 'uppercase',
+                        fontFamily: 'Inter, sans-serif', marginBottom: 8,
+                     }}>
+                        Role
+                     </div>
+                     <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 22, color: '#FFF8F0', marginBottom: 24 }}>
+                        Head Baker — Responsibilities
+                     </h3>
+                     <div className="responsibilities-grid">
+                        {RESPONSIBILITIES.map((r, i) => (
+                           <motion.div
+                              key={i}
+                              initial={{ opacity: 0, x: -10 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: i * 0.05 }}
+                              style={{
+                                 display: 'flex', alignItems: 'flex-start', gap: 10,
+                                 fontSize: 13, color: 'rgba(255,255,255,0.65)',
+                                 lineHeight: 1.6, fontFamily: 'Inter, sans-serif',
+                              }}
+                           >
+                              <GiCroissant size={14} color="#FF6B35" style={{ flexShrink: 0, marginTop: 3 }} />
+                              {r}
+                           </motion.div>
+                        ))}
+                     </div>
+                  </SpotlightCard>
+               </RowReveal> */}
 
             </div>
          </div>
