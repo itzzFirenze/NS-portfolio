@@ -23,7 +23,7 @@ function Footer() {
          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="font-display font-bold gradient-text">Nir Bahadur</div>
             <div className="text-xs text-white/30 tracking-widest uppercase">
-               Senior Process Technologist · Bakery & Food Science
+               Baker · Bakery & Food Science
             </div>
             <div className="flex gap-4 text-xs text-white/30">
                <a href="mailto:neeraj@example.com" className="hover:text-[#FF6B35] transition-colors no-underline">Email</a>

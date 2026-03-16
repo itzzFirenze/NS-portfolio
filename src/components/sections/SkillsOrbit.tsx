@@ -27,7 +27,7 @@ const SKILLS: Skill[] = [
       name: 'Al Hatab Bakery, KSA',
       role: 'Research & Development Baker',
       year: 'Aug 2024 - Present',
-      color: '#FFD23F',
+      color: '#1d982d',
       logo: '/logos/al-hatab-logo.png'
    },
    {

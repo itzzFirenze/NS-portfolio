@@ -170,20 +170,6 @@ export default function GallerySneakPeek() {
 
             {/* ── Text Column ── */}
             <div className="gallery-text-col">
-               <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  style={{
-                     color: '#FF6B35',
-                     fontSize: '1.875rem',
-                     fontFamily: 'var(--font-caveat, cursive)',
-                     marginBottom: '16px',
-                     display: 'block',
-                  }}
-               >
-                  Sneak Peek
-               </motion.span>
 
                <motion.h2
                   initial={{ opacity: 0, y: 20 }}

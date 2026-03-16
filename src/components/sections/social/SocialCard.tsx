@@ -147,14 +147,11 @@ export default function SocialCard({
                   </div>
                </div>
 
-               {/* Bottom block: platform name + description + CTA */}
+               {/* Bottom block: platform name + CTA */}
                <div>
                   <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 text-white leading-tight group-hover:drop-shadow-lg">
                      {card.platform}
                   </h3>
-                  <p className="text-xs md:text-sm font-light text-white/65 leading-relaxed line-clamp-2">
-                     {card.description}
-                  </p>
 
                   <motion.div
                      className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider overflow-hidden"

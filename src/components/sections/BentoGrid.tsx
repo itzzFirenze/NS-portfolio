@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { GiCroissant } from 'react-icons/gi'
 import { TbCertificate } from 'react-icons/tb'
 import { FaCrown } from "react-icons/fa";
+import FlourParticlesOverlay from '../ui/FlourParticlesOverlay'
 
 const PROJECTS = [
    {
@@ -266,7 +267,9 @@ function RowReveal({
 
 export default function BentoGrid() {
    return (
-      <section id="about" className="bento-section" style={{ width: '100%', background: '#080605' }}>
+      <section id="about" className="bento-section" style={{ width: '100%', background: '#080605', position: 'relative', overflow: 'hidden' }}>
+         {/* Full-section flour particle overlay */}
+         <FlourParticlesOverlay count={100} position="absolute" />
 
          <style>{RESPONSIVE_STYLES}</style>
 
@@ -368,7 +371,7 @@ export default function BentoGrid() {
                               viewport={{ once: true }}
                               transition={{ duration: 0.5 }}
                               style={{
-                                 fontSize: 10, fontWeight: 600, letterSpacing: '0.3em',
+                                 fontSize: 13, fontWeight: 600, letterSpacing: '0.3em',
                                  color: '#FF6B35', textTransform: 'uppercase',
                                  fontFamily: 'Inter, sans-serif', marginBottom: 18,
                               }}
@@ -431,7 +434,7 @@ export default function BentoGrid() {
                <RowReveal className="col-2" delay={0.1}>
                   <SpotlightCard style={{ padding: '28px 30px', height: '100%' }}>
                      <span style={{
-                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
+                        display: 'inline-block', fontSize: 13, padding: '4px 12px', borderRadius: 999,
                         fontWeight: 600, marginBottom: 14, background: PROJECTS[0].gradientColor,
                         color: PROJECTS[0].color, border: `1px solid ${PROJECTS[0].borderColor}`,
                         fontFamily: 'Inter, sans-serif',
@@ -454,7 +457,7 @@ export default function BentoGrid() {
 
                <RowReveal className="col-1" delay={0.2}>
                   <SpotlightCard style={{ padding: '24px 22px', height: '100%' }}>
-                     <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.2em', color: '#FFD23F', textTransform: 'uppercase', marginBottom: 16, fontFamily: 'Inter, sans-serif' }}>
+                     <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.2em', color: '#FFD23F', textTransform: 'uppercase', marginBottom: 16, fontFamily: 'Inter, sans-serif' }}>
                         Certifications
                      </div>
                      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
@@ -468,31 +471,10 @@ export default function BentoGrid() {
                   </SpotlightCard>
                </RowReveal>
 
-               {/* ── Row 3: Project 2 (2) | Display Specialist (2) ── */}
-               {/* <RowReveal className="col-2" delay={0}>
-                  <SpotlightCard style={{ padding: '28px 30px', height: '100%' }}>
-                     <span style={{
-                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
-                        fontWeight: 600, marginBottom: 14, background: PROJECTS[1].gradientColor,
-                        color: PROJECTS[1].color, border: `1px solid ${PROJECTS[1].borderColor}`,
-                        fontFamily: 'Inter, sans-serif',
-                     }}>
-                        {PROJECTS[1].tag}
-                     </span>
-                     <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 20, color: '#FFF8F0', marginBottom: 12 }}>
-                        {PROJECTS[1].title}
-                     </h3>
-                     <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>
-                        {PROJECTS[1].desc}
-                     </p>
-                     <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[1].color}, transparent)` }} />
-                  </SpotlightCard>
-               </RowReveal> */}
-
                <RowReveal className="col-full" delay={0}>
                   <SpotlightCard style={{ padding: '32px 28px', height: '100%' }}>
                      <span style={{
-                        display: 'inline-block', fontSize: 11, padding: '4px 12px', borderRadius: 999,
+                        display: 'inline-block', fontSize: 13, padding: '4px 12px', borderRadius: 999,
                         fontWeight: 600, marginBottom: 14, background: PROJECTS[2].gradientColor,
                         color: PROJECTS[2].color, border: `1px solid ${PROJECTS[2].borderColor}`,
                         fontFamily: 'Inter, sans-serif',
@@ -505,41 +487,6 @@ export default function BentoGrid() {
                      <div style={{ marginTop: 20, height: 2, borderRadius: 2, background: `linear-gradient(90deg, ${PROJECTS[2].color}, transparent)` }} />
                   </SpotlightCard>
                </RowReveal>
-
-               {/* ── Row 4: Responsibilities — full width ── */}
-               {/* <RowReveal className="col-full" delay={0}>
-                  <SpotlightCard style={{ padding: '32px 28px' }}>
-                     <div style={{
-                        fontSize: 10, fontWeight: 600, letterSpacing: '0.2em',
-                        color: '#FF2D78', textTransform: 'uppercase',
-                        fontFamily: 'Inter, sans-serif', marginBottom: 8,
-                     }}>
-                        Role
-                     </div>
-                     <h3 style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 800, fontSize: 22, color: '#FFF8F0', marginBottom: 24 }}>
-                        Head Baker — Responsibilities
-                     </h3>
-                     <div className="responsibilities-grid">
-                        {RESPONSIBILITIES.map((r, i) => (
-                           <motion.div
-                              key={i}
-                              initial={{ opacity: 0, x: -10 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: i * 0.05 }}
-                              style={{
-                                 display: 'flex', alignItems: 'flex-start', gap: 10,
-                                 fontSize: 13, color: 'rgba(255,255,255,0.65)',
-                                 lineHeight: 1.6, fontFamily: 'Inter, sans-serif',
-                              }}
-                           >
-                              <GiCroissant size={14} color="#FF6B35" style={{ flexShrink: 0, marginTop: 3 }} />
-                              {r}
-                           </motion.div>
-                        ))}
-                     </div>
-                  </SpotlightCard>
-               </RowReveal> */}
 
             </div>
          </div>

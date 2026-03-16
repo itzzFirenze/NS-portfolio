@@ -20,12 +20,12 @@ export const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-   title: 'Nir Bahadur | Senior Process Technologist',
-   description: 'Immersive portfolio of Nir Bahadur, Senior Process Technologist specializing in industrial bakery, food science, process optimization, and product innovation.',
+   title: 'Nir Bahadur | Baker',
+   description: 'Immersive portfolio of Nir Bahadur, Baker specializing in industrial bakery, food science, process optimization, and product innovation.',
    keywords: ['bakery', 'food science', 'process technologist', 'product development', 'industrial baking'],
    openGraph: {
-      title: 'Nir Bahadur | Senior Process Technologist',
-      description: 'An immersive 3D portfolio experience for a Senior Process Technologist in the bakery industry.',
+      title: 'Nir Bahadur | Baker',
+      description: 'An immersive 3D portfolio experience for a Baker in the bakery industry.',
       type: 'website',
    },
 }

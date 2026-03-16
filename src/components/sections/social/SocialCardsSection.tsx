@@ -10,66 +10,42 @@ export interface CardData {
    id: string;
    platform: string;
    handle: string;
-   description: string;
    bgImage: string;
    color: string;
    icon: React.ElementType<{ className?: string }>;
    url: string;
 }
 
-import { FaInstagram, FaTwitch, FaYoutube, FaTiktok, FaXTwitter } from 'react-icons/fa6'
+import { FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa6'
 
 const SOCIAL_CARDS: CardData[] = [
    {
       id: 'ig',
       platform: 'Instagram',
-      handle: '@neeraj_bakes',
-      description: 'Behind the scenes of the bakery, recipe tests, and daily life.',
-      bgImage: 'https://images.unsplash.com/photo-1551106652-a5bcf4b29ce6?q=80&w=1000&auto=format&fit=crop',
+      handle: '@magarniranjan',
+      bgImage: 'socials/instagram.jpg',
       color: '#E1306C',
       icon: FaInstagram,
-      url: 'https://instagram.com/neeraj_bakes'
-   },
-   {
-      id: 'tw',
-      platform: 'Twitch',
-      handle: 'NeerajLive',
-      description: 'Live streams of weekend baking sessions and Q&A.',
-      bgImage: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1000&auto=format&fit=crop',
-      color: '#9146FF',
-      icon: FaTwitch,
-      url: 'https://instagram.com/neeraj_bakes'
+      url: 'https://www.instagram.com/magarniranjan?igsh=eDJnOHdnMmdtZ2J1'
    },
    {
       id: 'yt',
-      platform: 'YouTube',
-      handle: 'Neeraj Bakes',
-      description: 'Long-form tutorials on sourdough, croissants, and technical baking.',
-      bgImage: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=1000&auto=format&fit=crop',
-      color: '#FF0000',
-      icon: FaYoutube,
-      url: 'https://instagram.com/neeraj_bakes'
+      platform: 'Linkedin',
+      handle: 'Nir Bahadur Palli Magar',
+      bgImage: 'socials/linkedin.jpg',
+      color: '#087ebb',
+      icon: FaLinkedin,
+      url: 'https://www.linkedin.com/in/nir-bahadur-palli-magar-4216337a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app'
    },
    {
       id: 'tt',
-      platform: 'TikTok',
-      handle: '@neeraj_bakes',
-      description: 'Quick bites, shaping techniques, and ASMR bread scoring.',
-      bgImage: 'https://images.unsplash.com/photo-1586671201081-115f0d4bd1cd?q=80&w=1000&auto=format&fit=crop', // Dough/ASMR style
-      color: '#00F2FE',
-      icon: FaTiktok,
-      url: 'https://instagram.com/neeraj_bakes'
+      platform: 'Facebook',
+      handle: 'Niranjan Palli Magar',
+      bgImage: 'socials/fb.jpg',
+      color: '#3a5da0',
+      icon: FaFacebook,
+      url: 'https://www.facebook.com/share/14Vy5EaDnsz/?mibextid=wwXIfr'
    },
-   {
-      id: 'x',
-      platform: 'Twitter / X',
-      handle: '@neeraj_tech',
-      description: 'Food science notes, process optimization threads, and quick tips.',
-      bgImage: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1000&auto=format&fit=crop',
-      color: '#1DA1F2',
-      icon: FaXTwitter,
-      url: 'https://instagram.com/neeraj_bakes'
-   }
 ]
 
 export default function SocialCardsSection() {
