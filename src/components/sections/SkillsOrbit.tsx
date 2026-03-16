@@ -5,12 +5,37 @@ import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 
+type SkillExperience = {
+   role: string;
+   year: string;
+   desc: string;
+};
+
+type Skill = {
+   name: string;
+   color: string;
+   logo: string;
+   role?: string;
+   year?: string;
+   desc?: string;
+   experiences?: SkillExperience[];
+};
+
 // Added a 'logo' property to each skill pointing to distinct PNGs
-const SKILLS = [
-   { name: 'Al Hatab Bakery', icon: '🌾', color: '#FFD23F', logo: '/logos/al-hatab-logo.png', desc: "High-hydration, enriched, and lean dough systems. Baker's percentage mastery for consistent batch scaling." },
-   { name: 'Kerala Technical University', icon: '⚗️', color: '#a855f7', logo: '/logos/ktu-logo.png', desc: 'Emulsification science, starch gelatinisation, protein denaturation, and Maillard reaction control.' },
-   { name: 'University of Reading', icon: '🏭', color: '#FF6B35', logo: '/logos/reading-logo.png', desc: 'Tunnel, deck, convection, and rotary oven management with multi-zone temperature profiling.' },
-   { name: 'Signature Flatbreads', icon: '⚙️', color: '#3b82f6', logo: '/logos/signature-logo.png', desc: 'Lean manufacturing, FMEA, value stream mapping, and SPC applied to high-volume production lines.' },
+const SKILLS: Skill[] = [
+   { name: 'Kempinski Al Othman Hotel, Al Khobar KSA', role: 'Head Baker', year: 'Oct 2022 - Present', color: '#FFD23F', logo: '/logos/othman-logo.png', desc: "9 food and beverage outlets, 12 meeting rooms and 2 Ballroom." },
+   {
+      name: 'Crowne Plaza & Staybridge Suite (IHG) Yas Island Abu-Dhabi.',
+      color: '#a855f7',
+      logo: '/logos/crowne-logo.png',
+      experiences: [
+         { role: 'Complex Head Baker', year: 'Dec 2016 - Nov 2021', desc: '7 food and beverage outlets, 5 meeting rooms, 428 Guest romms 1 Ballroom.' },
+         { role: 'Sr. Chef De Partie Bakery', year: 'May 2014 - Dec 2016', desc: 'Syatbridge Suite 164 rooms.' },
+         { role: 'Chef De Partie Bakery', year: 'May 2013 - May 2014', desc: '7 food and beverage outlets, 5 meeting rooms, 428 Guest romms 1 Ballroom.' }
+      ]
+   },
+   { name: 'Le Meridien abu-Dhabi', role: 'Demi Chef De Partie Bakery & Pastry', year: 'May 2011 - April 2013', color: '#FF6B35', logo: '/logos/lameridien-logo.png', desc: 'Food and beverage outlets, meeting romms, ballrom romms and 248 Guest.' },
+   { name: 'Al-Dhafra Tourist Village Abu-Dhabi', role: 'Commis 1 – Bakery & Pastry', year: 'Jun 2009 - Feb 2011', color: '#3b82f6', logo: '/logos/aldhafra-logo.png', desc: 'from Jun 2009 to February 2011.' },
 ]
 
 /** Central Baker Figure */
@@ -241,7 +266,7 @@ export default function SkillsOrbit() {
                         bottom: 30,
                         left: '50%',
                         translateX: '-50%',
-                        width: 320,
+                        width: 480,
                         borderRadius: 16,
                         padding: '24px',
                         textAlign: 'center',
@@ -259,18 +284,40 @@ export default function SkillsOrbit() {
                         <img
                            src={SKILLS[selectedSkill].logo}
                            alt={SKILLS[selectedSkill].name}
-                           style={{ height: 52, objectFit: 'contain' }}
+                           style={{ height: 130, objectFit: 'contain' }}
                         />
                      </div>
-                     <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 18, color: SKILLS[selectedSkill].color, marginBottom: 10 }}>
+                     <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 18, color: SKILLS[selectedSkill].color, marginBottom: 12 }}>
                         {SKILLS[selectedSkill].name}
                      </div>
-                     <p style={{ fontSize: 13, color: 'rgba(255,248,240,0.7)', lineHeight: 1.6, fontFamily: 'Inter, sans-serif' }}>
-                        {SKILLS[selectedSkill].desc}
-                     </p>
+
+                     <div>
+                        {SKILLS[selectedSkill].experiences ? (
+                           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
+                              {SKILLS[selectedSkill].experiences.map((exp, idx) => (
+                                 <div key={idx} style={{ paddingBottom: idx !== SKILLS[selectedSkill].experiences!.length - 1 ? '16px' : '0', borderBottom: idx !== SKILLS[selectedSkill].experiences!.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+                                    <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#FFF8F0' }}>{exp.role}</div>
+                                    <div style={{ fontSize: 12, color: SKILLS[selectedSkill].color, marginBottom: 6, fontWeight: 500 }}>{exp.year}</div>
+                                    <p style={{ fontSize: 13, color: 'rgba(255,248,240,0.7)', lineHeight: 1.5, margin: 0, fontFamily: 'Inter, sans-serif' }}>
+                                       {exp.desc}
+                                    </p>
+                                 </div>
+                              ))}
+                           </div>
+                        ) : (
+                           <div style={{ textAlign: 'center' }}>
+                              <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, color: '#FFF8F0' }}>{SKILLS[selectedSkill].role}</div>
+                              <div style={{ fontSize: 12, color: SKILLS[selectedSkill].color, marginBottom: 10, fontWeight: 500 }}>{SKILLS[selectedSkill].year}</div>
+                              <p style={{ fontSize: 13, color: 'rgba(255,248,240,0.7)', lineHeight: 1.6, margin: 0, fontFamily: 'Inter, sans-serif' }}>
+                                 {SKILLS[selectedSkill].desc}
+                              </p>
+                           </div>
+                        )}
+                     </div>
+
                      <button
                         onClick={() => setSelectedSkill(null)}
-                        style={{ marginTop: 16, fontSize: 12, color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', padding: '6px 12px' }}
+                        style={{ marginTop: 20, fontSize: 12, color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', padding: '6px 12px' }}
                      >
                         Close ✕
                      </button>

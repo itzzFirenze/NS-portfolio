@@ -14,7 +14,7 @@ export default function SignatureText() {
       let trigger: ScrollTrigger
 
       // Fetch the new SVG file
-      fetch('/newtypo.svg')
+      fetch('/nirmagar.svg')
          .then(res => res.text())
          .then(svgText => {
             const parser = new DOMParser()
@@ -28,7 +28,7 @@ export default function SignatureText() {
             if (sourceSvg.getAttribute('viewBox')) {
                svg.setAttribute('viewBox', sourceSvg.getAttribute('viewBox')!)
             } else {
-               svg.setAttribute('viewBox', '0 0 503 112') // Fallback for newtypo.svg
+               svg.setAttribute('viewBox', '0 0 547 151') // Fallback for nirmagar.svg
             }
 
             // Clear existing elements

@@ -6,7 +6,7 @@ import CustomCursor from '@/components/ui/CustomCursor'
 import { Poppins, Caveat, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const poppins = Poppins({
    subsets: ["latin"],
@@ -20,11 +20,11 @@ export const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-   title: 'Joel A. | Senior Process Technologist',
-   description: 'Immersive portfolio of Joel A., Senior Process Technologist specializing in industrial bakery, food science, process optimization, and product innovation.',
+   title: 'Nir Bahadur | Senior Process Technologist',
+   description: 'Immersive portfolio of Nir Bahadur, Senior Process Technologist specializing in industrial bakery, food science, process optimization, and product innovation.',
    keywords: ['bakery', 'food science', 'process technologist', 'product development', 'industrial baking'],
    openGraph: {
-      title: 'Joel A. | Senior Process Technologist',
+      title: 'Nir Bahadur | Senior Process Technologist',
       description: 'An immersive 3D portfolio experience for a Senior Process Technologist in the bakery industry.',
       type: 'website',
    },

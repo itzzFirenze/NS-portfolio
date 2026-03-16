@@ -1,11 +1,13 @@
 'use client'
 import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
+import { useEffect } from 'react'
+import Loader from '@/components/ui/Loader'
 
 // Lazy-load heavy 3D sections
-const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), { 
+const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironment'), {
    ssr: false,
-   loading: () => <div className="w-full h-[200vh] bg-[#080605]" /> 
+   loading: () => <div className="w-full h-[200vh] bg-[#080605]" />
 })
 const HighlighterSection = dynamic(() => import('@/components/sections/HighlighterSection'), { ssr: false })
 const Scrollytelling = dynamic(() => import('@/components/sections/Scrollytelling'), { ssr: false })
@@ -19,7 +21,7 @@ function Footer() {
    return (
       <footer className="border-t border-white/5 py-10 px-6 text-center">
          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="font-display font-bold gradient-text">Neeraj S.</div>
+            <div className="font-display font-bold gradient-text">Nir Bahadur</div>
             <div className="text-xs text-white/30 tracking-widest uppercase">
                Senior Process Technologist · Bakery & Food Science
             </div>
@@ -37,8 +39,16 @@ function Footer() {
 }
 
 export default function Home() {
+   useEffect(() => {
+      if ('scrollRestoration' in history) {
+         history.scrollRestoration = 'manual'
+      }
+      window.scrollTo(0, 0)
+   }, [])
+
    return (
       <>
+         <Loader />
          {/* Hero: full 3D environment */}
          <HeroEnvironment />
 

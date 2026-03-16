@@ -1,6 +1,8 @@
 import { Highlighter } from "@/components/ui/highlighter"
 import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, Suspense } from "react"
+import { Canvas } from "@react-three/fiber"
+import FlourParticles from "@/components/3d/FlourParticles"
 
 export default function HighlighterSection() {
    const ref = useRef(null)
@@ -10,6 +12,20 @@ export default function HighlighterSection() {
       <section ref={ref} className="relative w-full h-[100vh] px-6 bg-[#080605] overflow-hidden flex items-center justify-center">
          {/* Subtle background glow */}
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-64 bg-[#FF6B35]/5 blur-[100px] rounded-full pointer-events-none" />
+
+         {/* Flour Particle Effect */}
+         <div className="absolute inset-0 z-0 pointer-events-none">
+            <Canvas
+               camera={{ position: [0, 0, 5], fov: 50 }}
+               dpr={[1, 1.5]}
+               frameloop={isInView ? "always" : "never"}
+               gl={{ antialias: true, alpha: true }}
+            >
+               <Suspense fallback={null}>
+                  <FlourParticles count={150} spread={10} color="#FFF8F0" />
+               </Suspense>
+            </Canvas>
+         </div>
 
          <div className="max-w-4xl mx-auto text-center relative z-10">
             <motion.div

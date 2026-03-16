@@ -5,7 +5,6 @@ import { Environment, Stars } from '@react-three/drei'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import * as THREE from 'three'
 import FlourParticles from '@/components/3d/FlourParticles'
-import Loader from '@/components/ui/Loader'
 import SignatureText from '@/components/ui/SignatureText'
 import ScrollVelocity from '@/components/ui/ScrollVelocity'
 
@@ -89,8 +88,6 @@ export default function HeroEnvironment() {
                   <SceneContent />
                </Suspense>
             </Canvas>
-
-            <Loader />
 
             {/* ── ScrollVelocity text — behind the profile image ── */}
             <motion.div
