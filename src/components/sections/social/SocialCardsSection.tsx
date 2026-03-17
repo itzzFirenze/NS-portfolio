@@ -111,6 +111,7 @@ export default function SocialCardsSection() {
    return (
       <section
          ref={sectionRef}
+         id='socials'
          className="relative w-full h-screen min-h-[800px] flex items-center justify-center overflow-hidden bg-var-bg-dark"
          style={{ perspective: '1200px' }}
       >

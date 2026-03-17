@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const NAV_LINKS = [
    { label: 'About', href: '#about' },
-   { label: 'Process', href: '#process' },
+   { label: 'Gallery', href: '/gallery' },
    { label: 'Skills', href: '#skills' },
-   { label: 'Timeline', href: '#timeline' },
+   { label: 'Socials', href: '#socials' },
    { label: 'Contact', href: '#contact' },
 ]
 
@@ -19,6 +19,17 @@ export default function Navbar() {
       window.addEventListener('scroll', handler, { passive: true })
       return () => window.removeEventListener('scroll', handler)
    }, [])
+
+   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      if (href.startsWith('#')) {
+         e.preventDefault()
+         const targetId = href.substring(1)
+         const elem = document.getElementById(targetId)
+         if (elem) {
+            elem.scrollIntoView({ behavior: 'smooth' })
+         }
+      }
+   }
 
    return (
       <motion.nav
@@ -80,11 +91,13 @@ export default function Navbar() {
                   <motion.a
                      key={link.label}
                      href={link.href}
+                     onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, link.href)}
                      style={{
                         fontSize: 13,
                         fontWeight: 500,
                         letterSpacing: '0.05em',
-                        color: 'rgba(255,248,240,0.7)',
+                        color: scrolled ? 'rgba(255,248,240,0.7)' : '#000',
+                        transition: 'color 0.3s ease',
                         textDecoration: 'none',
                         position: 'relative',
                         fontFamily: 'Inter, sans-serif',
@@ -114,6 +127,7 @@ export default function Navbar() {
                <motion.a
                   href="#contact"
                   className="desktop-cta"
+                  onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleNavClick(e, '#contact')}
                   style={{
                      padding: '8px 20px',
                      borderRadius: 999,
@@ -177,12 +191,19 @@ export default function Navbar() {
                            padding: '14px 0',
                            color: 'rgba(255,248,240,0.8)',
                            fontSize: 18,
-                           fontFamily: 'Outfit, sans-serif',
+                        fontFamily: 'Outfit, sans-serif',
                            fontWeight: 500,
                            textDecoration: 'none',
                            borderBottom: '1px solid rgba(255,255,255,0.05)',
                         }}
-                        onClick={() => setMobileOpen(false)}
+                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                           handleNavClick(e, link.href);
+                           if (link.href.startsWith('#')) {
+                              setTimeout(() => setMobileOpen(false), 100);
+                           } else {
+                              setMobileOpen(false);
+                           }
+                        }}
                      >
                         {link.label}
                      </a>

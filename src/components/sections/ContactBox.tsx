@@ -71,14 +71,36 @@ export default function ContactBox() {
    const [submitted, setSubmitted] = useState(false)
    const [burst, setBurst] = useState(false)
    const [form, setForm] = useState({ name: '', email: '', message: '' })
+   const [isSubmitting, setIsSubmitting] = useState(false)
    const containerRef = useRef<HTMLElement>(null)
    const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
 
-   const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault()
-      setSubmitted(true)
-      setBurst(true)
-      setTimeout(() => setBurst(false), 4000)
+      setIsSubmitting(true)
+
+      try {
+         const response = await fetch('https://formspree.io/f/mqeyyrje', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'
+            },
+            body: JSON.stringify(form)
+         })
+
+         if (response.ok) {
+            setSubmitted(true)
+            setBurst(true)
+            setTimeout(() => setBurst(false), 4000)
+         } else {
+            console.error('Form submission failed')
+         }
+      } catch (error) {
+         console.error('Form submission error:', error)
+      } finally {
+         setIsSubmitting(false)
+      }
    }
 
    return (
@@ -187,11 +209,12 @@ export default function ContactBox() {
                               </div>
                               <motion.button
                                  type="submit"
-                                 style={{ width: '100%', padding: '14px', borderRadius: 12, fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 15, color: '#fff', background: 'linear-gradient(135deg, #FF6B35, #FF2D78)', border: 'none', cursor: 'pointer', letterSpacing: '0.05em' }}
-                                 whileHover={{ scale: 1.02 }}
-                                 whileTap={{ scale: 0.97 }}
+                                 disabled={isSubmitting}
+                                 style={{ width: '100%', padding: '14px', borderRadius: 12, fontFamily: 'Outfit, sans-serif', fontWeight: 700, fontSize: 15, color: '#fff', background: 'linear-gradient(135deg, #FF6B35, #FF2D78)', border: 'none', cursor: isSubmitting ? 'not-allowed' : 'pointer', letterSpacing: '0.05em', opacity: isSubmitting ? 0.7 : 1 }}
+                                 whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                                 whileTap={{ scale: isSubmitting ? 1 : 0.97 }}
                               >
-                                 Send Message 🍩
+                                 {isSubmitting ? 'Sending...' : 'Send Message 🍩'}
                               </motion.button>
                            </motion.form>
                         ) : (

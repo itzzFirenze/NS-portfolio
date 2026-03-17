@@ -239,7 +239,7 @@ export default function SkillsOrbit() {
       <section
          ref={containerRef}
          id="skills"
-         style={{ background: '#080605', padding: '24px 0 60px', position: 'relative', overflow: 'hidden' }}
+         style={{ background: '#080605', padding: '24px 0 60px', position: 'relative', overflow: 'hidden', scrollMarginTop: '40px' }}
       >
          {/* Full-section flour particle overlay */}
          <FlourParticlesOverlay count={80} position="absolute" />
@@ -362,7 +362,7 @@ export default function SkillsOrbit() {
             justifyContent: 'center',
             gap: '12px 20px',
             maxWidth: 1200,
-            margin: '24px auto',
+            margin: '2px auto',
             padding: '0 24px',
             position: 'relative',
             zIndex: 10

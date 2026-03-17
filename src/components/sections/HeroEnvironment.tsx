@@ -103,7 +103,7 @@ export default function HeroEnvironment() {
                   scrollerStyle={{
                      fontSize: 'clamp(1.8rem, 5vw, 4rem)',
                      color: '#ffffff',
-                     lineHeight: 1,
+                     lineHeight: 1.2,
                   }}
                />
             </motion.div>
@@ -117,7 +117,7 @@ export default function HeroEnvironment() {
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  src="/profile3.webp"
+                  src="/profile.webp"
                   alt="Owner"
                   className="w-full h-full object-cover object-center"
                />
