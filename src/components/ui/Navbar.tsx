@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const NAV_LINKS = [
@@ -13,6 +14,8 @@ const NAV_LINKS = [
 export default function Navbar() {
    const [scrolled, setScrolled] = useState(false)
    const [mobileOpen, setMobileOpen] = useState(false)
+   const pathname = usePathname()
+   const isGallery = pathname === '/gallery'
 
    useEffect(() => {
       const handler = () => setScrolled(window.scrollY > 60)
@@ -40,11 +43,11 @@ export default function Navbar() {
             right: 0,
             zIndex: 100,
             transition: 'all 0.5s ease',
-            background: scrolled ? 'rgba(8,6,5,0.85)' : 'transparent',
-            backdropFilter: scrolled ? 'blur(20px)' : 'none',
-            WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-            borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
-            padding: scrolled ? '12px 0' : '20px 0',
+            background: (scrolled || isGallery) ? 'rgba(8,6,5,0.85)' : 'transparent',
+            backdropFilter: (scrolled || isGallery) ? 'blur(20px)' : 'none',
+            WebkitBackdropFilter: (scrolled || isGallery) ? 'blur(20px)' : 'none',
+            borderBottom: (scrolled || isGallery) ? '1px solid rgba(255,255,255,0.08)' : '1px solid transparent',
+            padding: (scrolled || isGallery) ? '12px 0' : '20px 0',
          }}
          initial={{ y: -80, opacity: 0 }}
          animate={{ y: 0, opacity: 1 }}
@@ -96,7 +99,7 @@ export default function Navbar() {
                         fontSize: 13,
                         fontWeight: 500,
                         letterSpacing: '0.05em',
-                        color: scrolled ? 'rgba(255,248,240,0.7)' : '#000',
+                        color: (scrolled || isGallery) ? 'rgba(255,248,240,0.7)' : '#000',
                         transition: 'color 0.3s ease',
                         textDecoration: 'none',
                         position: 'relative',

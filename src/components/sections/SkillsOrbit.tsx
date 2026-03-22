@@ -43,7 +43,7 @@ const SKILLS: Skill[] = [
       logo: '/logos/crowne-logo.png',
       experiences: [
          {
-            role: 'Head Baker',
+            role: 'Complex Head Baker',
             year: 'Dec 2016 - Nov 2021'
          },
          {

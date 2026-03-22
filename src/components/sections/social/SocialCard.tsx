@@ -14,6 +14,7 @@ interface SocialCardProps {
    mouseY: number;
    url: string;
    isMobile: boolean;
+   onMobileTap: (index: number) => void; // ← new
 }
 
 export default function SocialCard({
@@ -25,7 +26,8 @@ export default function SocialCard({
    mouseX,
    mouseY,
    url,
-   isMobile
+   isMobile,
+   onMobileTap,
 }: SocialCardProps) {
    const cardRef = useRef<HTMLDivElement>(null)
 
@@ -69,9 +71,23 @@ export default function SocialCard({
 
    const Icon = card.icon
 
+   const handleTap = () => {
+      if (isMobile) {
+         // First tap: expand the card. Second tap on an already-active card: open URL.
+         if (isHovered) {
+            window.open(card.url, '_blank')
+         } else {
+            onMobileTap(index)
+         }
+      } else {
+         window.open(card.url, '_blank')
+      }
+   }
+
    return (
       <motion.div
          ref={cardRef}
+         data-social-card   // ← used by outside-tap detection
          className="absolute top-1/2 left-1/2 origin-center cursor-pointer shadow-2xl"
          style={{ zIndex }}
          initial={{ x: '-50%', y: '-50%' }}
@@ -87,9 +103,10 @@ export default function SocialCard({
             damping: 30,
             mass: 1
          }}
-         onMouseEnter={() => setHoveredIndex(index)}
-         onMouseLeave={() => setHoveredIndex(null)}
-         onClick={() => window.open(card.url, '_blank')}
+         onMouseEnter={() => !isMobile && setHoveredIndex(index)}
+         onMouseLeave={() => !isMobile && setHoveredIndex(null)}
+         onTouchStart={() => onMobileTap(index)}
+         onClick={handleTap}
       >
          {/* Card Body */}
          <div
@@ -98,37 +115,28 @@ export default function SocialCard({
                borderColor: isHovered ? card.color : 'rgba(255, 255, 255, 0.08)'
             }}
          >
-            {/* Background Image */}
             <motion.div
-               className="absolute inset-[-10%] w-[120%] h-[120%] bg-cover bg-center transition-transform duration-700 ease-out"
-               style={{
-                  backgroundImage: `url(${card.bgImage})`,
-               }}
+               className="absolute inset-[-10%] w-[120%] h-[120%] bg-cover bg-center"
+               style={{ backgroundImage: `url(${card.bgImage})` }}
                animate={{
                   x: parallaxX,
                   y: parallaxY,
                   scale: isHovered ? 1.05 : 1
                }}
             />
-
-            {/* Gradient overlay — slightly heavier at top so header content is legible */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/25" />
 
             {isHovered && (
                <div
-                  className="absolute inset-0 opacity-30 blur-3xl transition-opacity duration-300 pointer-events-none"
+                  className="absolute inset-0 opacity-30 blur-3xl pointer-events-none"
                   style={{ backgroundColor: card.color }}
                />
             )}
 
-            {/* ── Content ── inset-8 = 32px padding on all sides, well away from edges */}
             <div className="absolute inset-8 flex flex-col justify-between z-10">
-
-               {/* Top row: icon + handle pill */}
                <div className="flex items-start justify-between">
-                  {/* Icon bubble */}
                   <div
-                     className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                     className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
                      style={{
                         color: isHovered ? card.color : 'white',
                         backgroundColor: isHovered ? 'white' : 'rgba(255,255,255,0.12)',
@@ -137,35 +145,32 @@ export default function SocialCard({
                   >
                      <Icon className="w-5 h-5" />
                   </div>
-
-                  {/* Handle pill — max-width so it never bleeds to the edge */}
                   <div
-                     className="glass px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase max-w-[52%] truncate transition-colors duration-300"
+                     className="glass px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase max-w-[52%] truncate"
                      style={{ color: isHovered ? card.color : 'rgba(255,255,255,0.65)' }}
                   >
                      {card.handle}
                   </div>
                </div>
 
-               {/* Bottom block: platform name + CTA */}
                <div>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 text-white leading-tight group-hover:drop-shadow-lg">
+                  <h3 className="text-2xl md:text-3xl font-display font-bold mb-2 text-white leading-tight">
                      {card.platform}
                   </h3>
 
+                  {/* On mobile: show "Tap to open" hint when active, otherwise show "Explore" */}
                   <motion.div
                      className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider overflow-hidden"
                      style={{ color: card.color }}
                      initial={{ opacity: 0, height: 0 }}
                      animate={{ opacity: isHovered ? 1 : 0, height: isHovered ? 'auto' : 0 }}
                   >
-                     <span>Explore</span>
+                     <span>{isMobile ? 'Tap to open' : 'Explore'}</span>
                      <svg className="w-3 h-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                      </svg>
                   </motion.div>
                </div>
-
             </div>
          </div>
       </motion.div>

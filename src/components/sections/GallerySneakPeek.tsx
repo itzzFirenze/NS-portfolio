@@ -227,7 +227,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y1 }} className="gallery-img-col">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/open-crumbs/crumb1.png" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/christmas-striped-pastries.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
@@ -236,8 +236,17 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/1.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/decorative-bread-art-loaf.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
+                  </div>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/sneak-peek/savory-vegetable-danish-pastries.jpg" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
@@ -249,7 +258,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y2 }} className="gallery-img-col gallery-img-col--mid">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/2.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/artisan-bread-chefs-presentation.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
@@ -258,7 +267,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/open-crumbs/crumb3.png" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/chocolate-caramel-dessert-cake.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
@@ -271,17 +280,26 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y3 }} className="gallery-img-col">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/open-crumbs/crumb6.png" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/purple-artisan-sourdough-bread.png" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
-                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '1rem', overflow: 'hidden' }}
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/5.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/seeded-artisan-bread-loaves.png" alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
+                        style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
+                        className="group-hover:scale-110" />
+                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
+                        className="group-hover:bg-transparent" />
+                  </div>
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
+                     className="group">
+                     <Image src="/sneak-peek/decorative-artisan-bread-display.jpg" alt="Gallery preview" fill
+                        sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                         className="group-hover:scale-110" />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}

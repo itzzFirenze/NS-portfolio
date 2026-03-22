@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import Background3D from './Background3D'
@@ -52,9 +52,13 @@ export default function SocialCardsSection() {
    const sectionRef = useRef<HTMLDivElement>(null)
    const containerRef = useRef<HTMLDivElement>(null)
    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-
    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
    const [isMobile, setIsMobile] = useState(false)
+
+   // Refs to manage auto-cycle and dismiss timeout
+   const autoCycleRef = useRef<ReturnType<typeof setInterval> | null>(null)
+   const dismissTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+   const isUserInteractingRef = useRef(false)
 
    useEffect(() => {
       const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -63,22 +67,76 @@ export default function SocialCardsSection() {
       return () => window.removeEventListener('resize', checkMobile)
    }, [])
 
+   // Auto-cycle cards on mobile when user is not interacting
+   const startAutoCycle = useCallback(() => {
+      if (autoCycleRef.current) clearInterval(autoCycleRef.current)
+      let i = 0
+      autoCycleRef.current = setInterval(() => {
+         if (!isUserInteractingRef.current) {
+            setHoveredIndex(i % SOCIAL_CARDS.length)
+            i++
+         }
+      }, 3000)
+   }, [])
+
+   const stopAutoCycle = useCallback(() => {
+      if (autoCycleRef.current) {
+         clearInterval(autoCycleRef.current)
+         autoCycleRef.current = null
+      }
+   }, [])
+
+   useEffect(() => {
+      if (!isMobile) return
+      startAutoCycle()
+      return () => stopAutoCycle()
+   }, [isMobile, startAutoCycle, stopAutoCycle])
+
+   // Handle mobile card tap: highlight the card, auto-dismiss after 2.5s, then resume cycle
+   const handleMobileCardTap = useCallback((index: number) => {
+      isUserInteractingRef.current = true
+      stopAutoCycle()
+      setHoveredIndex(index)
+
+      if (dismissTimeoutRef.current) clearTimeout(dismissTimeoutRef.current)
+      dismissTimeoutRef.current = setTimeout(() => {
+         setHoveredIndex(null)
+         isUserInteractingRef.current = false
+         startAutoCycle()
+      }, 2500)
+   }, [startAutoCycle, stopAutoCycle])
+
+   // Dismiss on tap outside cards (mobile)
+   useEffect(() => {
+      if (!isMobile) return
+      const handleTouchOutside = (e: TouchEvent) => {
+         const target = e.target as HTMLElement
+         if (!target.closest('[data-social-card]')) {
+            if (dismissTimeoutRef.current) clearTimeout(dismissTimeoutRef.current)
+            setHoveredIndex(null)
+            isUserInteractingRef.current = false
+            startAutoCycle()
+         }
+      }
+      document.addEventListener('touchstart', handleTouchOutside)
+      return () => document.removeEventListener('touchstart', handleTouchOutside)
+   }, [isMobile, startAutoCycle])
+
+   // Desktop mouse-tilt logic (unchanged)
    useEffect(() => {
       const section = sectionRef.current
-      if (!section) return
+      if (!section || isMobile) return
 
       const handleMouseMove = (e: MouseEvent) => {
          const rect = section.getBoundingClientRect()
          const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2)
          const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2)
-
          setMousePos({ x, y })
 
          if (containerRef.current) {
-            const tiltMax = window.innerWidth < 768 ? 2 : 10
             gsap.to(containerRef.current, {
-               rotateY: x * tiltMax,
-               rotateX: -y * tiltMax,
+               rotateY: x * 10,
+               rotateX: -y * 10,
                duration: 0.5,
                ease: 'power2.out',
             })
@@ -88,7 +146,6 @@ export default function SocialCardsSection() {
       const handleMouseLeave = () => {
          setMousePos({ x: 0, y: 0 })
          setHoveredIndex(null)
-
          if (containerRef.current) {
             gsap.to(containerRef.current, {
                rotateY: 0,
@@ -101,12 +158,11 @@ export default function SocialCardsSection() {
 
       section.addEventListener('mousemove', handleMouseMove)
       section.addEventListener('mouseleave', handleMouseLeave)
-
       return () => {
          section.removeEventListener('mousemove', handleMouseMove)
          section.removeEventListener('mouseleave', handleMouseLeave)
       }
-   }, [])
+   }, [isMobile])
 
    return (
       <section
@@ -154,6 +210,7 @@ export default function SocialCardsSection() {
                   mouseY={mousePos.y}
                   url={card.url}
                   isMobile={isMobile}
+                  onMobileTap={handleMobileCardTap}
                />
             ))}
          </div>

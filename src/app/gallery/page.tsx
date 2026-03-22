@@ -4,9 +4,9 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-const MyWorks = dynamic(() => import('@/components/sections/MyWorks'), { ssr: false })
-const OpenCrumbs = dynamic(() => import('@/components/sections/OpenCrumbs'), { ssr: false })
-const CircularGallery = dynamic(() => import('@/components/ui/CircularGallery'), { ssr: false })
+const NaturalFermentation = dynamic(() => import('@/components/sections/gallery/NaturalFermentation'), { ssr: false })
+const LayersOfLamination = dynamic(() => import('@/components/sections/gallery/LayersOfLamination'), { ssr: false })
+const DisplayArt = dynamic(() => import('@/components/ui/DisplayArt'), { ssr: false })
 
 const containerVariants = {
    hidden: { opacity: 0 },
@@ -21,8 +21,8 @@ const containerVariants = {
 
 const itemVariants = {
    hidden: { opacity: 0, y: 60 },
-   visible: { 
-      opacity: 1, 
+   visible: {
+      opacity: 1,
       y: 0,
       transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] as any }
    }
@@ -110,7 +110,7 @@ export default function GalleryPage() {
 
          {/* ── My Works Gallery ── */}
          <motion.div variants={itemVariants} style={{ width: '100%' }}>
-            <MyWorks />
+            <NaturalFermentation />
          </motion.div>
 
          {/* ── Divider ── */}
@@ -118,9 +118,9 @@ export default function GalleryPage() {
             <Divider />
          </motion.div>
 
-         {/* ── Open Crumbs Gallery ── */}
+         {/* ── Layers of Lamination Gallery ── */}
          <motion.div variants={itemVariants} style={{ width: '100%' }}>
-            <OpenCrumbs />
+            <LayersOfLamination />
          </motion.div>
 
          {/* ── Divider ── */}
@@ -128,7 +128,7 @@ export default function GalleryPage() {
             <Divider />
          </motion.div>
 
-         {/* ── Circular Gallery ── */}
+         {/* ── Display Art Gallery ── */}
          <motion.section variants={itemVariants} style={{ width: '100%', padding: '64px 0' }}>
             <div style={{
                marginBottom: '48px',
@@ -147,7 +147,7 @@ export default function GalleryPage() {
                   margin: 0,
                   textAlign: 'center',
                }}>
-                  Circular View
+                  Display Art
                </h2>
                <p style={{
                   color: 'rgba(255,255,255,0.4)',
@@ -163,7 +163,7 @@ export default function GalleryPage() {
             </div>
 
             <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-               <CircularGallery
+               <DisplayArt
                   items={[
                      { image: '/open-crumbs/crumb1.png', text: 'Morning Prep' },
                      { image: '/open-crumbs/crumb2.png', text: 'Dough Hydration' },
