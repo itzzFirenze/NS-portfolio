@@ -76,7 +76,7 @@ export default function GalleryPage() {
                   marginTop: '16px',
                   maxWidth: '480px',
                }}>
-                  A comprehensive look at our baking process, finished products,
+                  A comprehensive look at my baking process, finished products,
                   and the science behind the perfect crumb.
                </p>
             </div>
@@ -119,9 +119,9 @@ export default function GalleryPage() {
          </motion.div>
 
          {/* ── Layers of Lamination Gallery ── */}
-         <motion.div variants={itemVariants} style={{ width: '100%' }}>
+         {/* <motion.div variants={itemVariants} style={{ width: '100%' }}>
             <LayersOfLamination />
-         </motion.div>
+         </motion.div> */}
 
          {/* ── Divider ── */}
          <motion.div variants={itemVariants} style={{ width: '100%' }}>
@@ -158,19 +158,34 @@ export default function GalleryPage() {
                   maxWidth: '400px',
                   textAlign: 'center',
                }}>
-                  Drag to explore the crumb structures from different angles.
+                  Drag to explore
                </p>
             </div>
 
             <div style={{ width: '100%', height: '600px', position: 'relative' }}>
                <DisplayArt
                   items={[
-                     { image: '/open-crumbs/crumb1.png', text: 'Morning Prep' },
-                     { image: '/open-crumbs/crumb2.png', text: 'Dough Hydration' },
-                     { image: '/open-crumbs/crumb3.png', text: 'Scoring' },
-                     { image: '/open-crumbs/crumb4.png', text: 'Oven Spring' },
-                     { image: '/open-crumbs/crumb5.png', text: 'Cooling Racks' },
-                     { image: '/open-crumbs/crumb6.png', text: 'Perfect Crumb' },
+                     { image: '/display-art/da1.png', text: 'Morning Prep' },
+                     { image: '/display-art/da2.jpg', text: 'Dough Hydration' },
+                     { image: '/display-art/da3.jpg', text: 'Scoring' },
+                     { image: '/display-art/da4.jpg', text: 'Oven Spring' },
+                     { image: '/display-art/da5.jpg', text: 'Cooling Racks' },
+                     { image: '/display-art/da6.jpg', text: 'Perfect Crumb' },
+                     { image: '/display-art/da7-new.jpg', text: 'Morning Prep' },
+                     { image: '/display-art/da8.jpg', text: 'Dough Hydration' },
+                     { image: '/display-art/da9.jpg', text: 'Scoring' },
+                     { image: '/display-art/da10.jpg', text: 'Oven Spring' },
+                     { image: '/display-art/da12.jpg', text: 'Perfect Crumb' },
+                     { image: '/display-art/da13.jpg', text: 'Morning Prep' },
+                     { image: '/display-art/da14.jpg', text: 'Dough Hydration' },
+                     { image: '/display-art/da15.jpg', text: 'Scoring' },
+                     { image: '/display-art/da16.jpg', text: 'Oven Spring' },
+                     { image: '/display-art/da17.jpg', text: 'Cooling Racks' },
+                     { image: '/display-art/da18.png', text: 'Perfect Crumb' },
+                     { image: '/display-art/da19.jpg', text: 'Morning Prep' },
+                     { image: '/display-art/da20.jpg', text: 'Dough Hydration' },
+                     { image: '/display-art/da21.jpg', text: 'Scoring' },
+                     { image: '/display-art/da22.png', text: 'Oven Spring' },
                   ]}
                   bend={3}
                   textColor="#ffffff"

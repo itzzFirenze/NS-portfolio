@@ -13,6 +13,30 @@ const ALL_IMAGES = [
    { id: 7, src: '/natural-fermentation/nf10.png', alt: 'Dessert Plating' },
    { id: 8, src: '/natural-fermentation/nf16.jpeg', alt: 'Pastry Close-up' },
    { id: 9, src: '/natural-fermentation/nf14.png', alt: 'Fermented Dough' },
+   { id: 10, src: '/layers-of-lamination/lol4.jpeg', alt: 'Artisan Bread' },
+   { id: 11, src: '/layers-of-lamination/lol2.jpg', alt: 'Pastry Art' },
+   { id: 12, src: '/layers-of-lamination/lol3.jpg', alt: 'Sourdough Loaf' },
+   { id: 13, src: '/layers-of-lamination/lol1.png', alt: 'Golden Crust' },
+   { id: 14, src: '/layers-of-lamination/lol5.jpg', alt: 'Wild Starter' },
+   { id: 15, src: '/layers-of-lamination/lol6.jpg', alt: 'Crumb Structure' },
+   { id: 16, src: '/layers-of-lamination/lol7.jpg', alt: 'Dessert Plating' },
+   { id: 17, src: '/layers-of-lamination/lol8.jpg', alt: 'Pastry Close-up' },
+   { id: 18, src: '/layers-of-lamination/lol9.jpg', alt: 'Fermented Dough' },
+   { id: 19, src: '/layers-of-lamination/lol10.jpg', alt: 'Artisan Bread' },
+   { id: 20, src: '/layers-of-lamination/lol19.jpg', alt: 'Pastry Art' },
+   { id: 21, src: '/layers-of-lamination/lol12.jpg', alt: 'Sourdough Loaf' },
+   { id: 22, src: '/layers-of-lamination/lol13.jpg', alt: 'Golden Crust' },
+   { id: 23, src: '/layers-of-lamination/lol14.jpg', alt: 'Wild Starter' },
+   { id: 24, src: '/layers-of-lamination/lol15.png', alt: 'Crumb Structure' },
+   { id: 25, src: '/layers-of-lamination/lol16.jpg', alt: 'Dessert Plating' },
+   { id: 26, src: '/layers-of-lamination/lol17.jpg', alt: 'Pastry Close-up' },
+   { id: 27, src: '/layers-of-lamination/lol18.jpg', alt: 'Fermented Dough' },
+   { id: 28, src: '/layers-of-lamination/lol11.jpg', alt: 'Artisan Bread' },
+   { id: 29, src: '/layers-of-lamination/lol20.jpg', alt: 'Pastry Art' },
+   { id: 30, src: '/layers-of-lamination/lol21.jpg', alt: 'Sourdough Loaf' },
+   { id: 30, src: '/layers-of-lamination/lol22.jpg', alt: 'Sourdough Loaf' },
+   { id: 31, src: '/layers-of-lamination/lol24.png', alt: 'Golden Crust' },
+   { id: 32, src: '/layers-of-lamination/lol23.jpg', alt: 'Wild Starter' },
 ]
 
 const CARDS_PER_ROW = 3
@@ -121,7 +145,7 @@ function RowSection({
       <div ref={rowRef} className="relative" style={{ height: '60vh' }}>
          <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-6">
 
-            {isFirst && (
+            {/* {isFirst && (
                <div className="z-50 text-center pointer-events-none select-none pb-12 md:pb-16">
                   <h2 className="flex flex-col items-center leading-none">
                      <span
@@ -141,7 +165,7 @@ function RowSection({
                      </span>
                   </h2>
                </div>
-            )}
+            )} */}
 
             {/*
                All 3 cards are absolutely positioned relative to this container's center.
