@@ -1,166 +1,191 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 
-const works = [
-   { id: 1, title: 'Artisan Bread', src: '/natural-fermentation/nf1.png', year: '2025' },
-   { id: 2, title: 'Pastry Art', src: '/natural-fermentation/nf2.png', year: '2026' },
-   { id: 3, title: 'Sourdough Loaf', src: '/natural-fermentation/nf3.png', year: '2025' },
-   { id: 4, title: 'Dessert Plating', src: '/natural-fermentation/nf4.png', year: '2026' },
+const ALL_IMAGES = [
+   { id: 1, src: '/natural-fermentation/nf15.jpeg', alt: 'Artisan Bread' },
+   { id: 2, src: '/natural-fermentation/nf13.jpg', alt: 'Pastry Art' },
+   { id: 3, src: '/natural-fermentation/nf5.jpg', alt: 'Sourdough Loaf' },
+   { id: 4, src: '/natural-fermentation/nf9.png', alt: 'Golden Crust' },
+   { id: 5, src: '/natural-fermentation/nf12.jpg', alt: 'Wild Starter' },
+   { id: 6, src: '/natural-fermentation/nf11.jpg', alt: 'Crumb Structure' },
+   { id: 7, src: '/natural-fermentation/nf10.png', alt: 'Dessert Plating' },
+   { id: 8, src: '/natural-fermentation/nf16.jpeg', alt: 'Pastry Close-up' },
+   { id: 9, src: '/natural-fermentation/nf14.png', alt: 'Fermented Dough' },
 ]
 
-export default function NaturalFermentation() {
-   const targetRef = useRef<HTMLDivElement>(null)
-   const containerRef = useRef<HTMLDivElement>(null)
-   const [xRange, setXRange] = useState(0)
-   const [activeId, setActiveId] = useState<number | null>(null)
+const CARDS_PER_ROW = 3
+const ROW_COUNT = ALL_IMAGES.length / CARDS_PER_ROW
 
-   const { scrollYProgress } = useScroll({
-      target: targetRef,
-      offset: ['start start', 'end end'],
-   })
+// Card dimensions (px)
+const CARD_W = 340
+const CARD_H = CARD_W * (4 / 3)
 
-   // Spring physics for a butter-smooth scroll feel matching LayersOfLamination
-   const smoothProgress = useSpring(scrollYProgress, {
-      stiffness: 60,
-      damping: 25,
-      restDelta: 0.001
-   })
+// Distance from center to side card centers when fully spread
+const SPREAD = CARD_W + 24
 
-   // Recalculate precisely how far the track can move so that the right edge of the track matches the screen right edge
-   useEffect(() => {
-      const updateWidth = () => {
-         if (containerRef.current) {
-            // scrollWidth gets the actual real width of everything inside the flex container combined
-            const totalWidth = containerRef.current.scrollWidth
-            const windowWidth = window.innerWidth
-            // We want to translate negatively by the total amount minus exactly one screen size
-            setXRange(-(totalWidth - windowWidth))
-         }
-      }
+// Per-slot config: where each card ends up and its initial stacking rotation
+const SLOTS = [
+   { finalX: -SPREAD, initRotate: 6, zIndex: 10 }, // Left  – behind
+   { finalX: 0, initRotate: 0, zIndex: 20 }, // Center – on top
+   { finalX: SPREAD, initRotate: -6, zIndex: 10 }, // Right – behind
+]
 
-      // Calculate right away and on resize
-      updateWidth()
-      window.addEventListener('resize', updateWidth)
+const ENTRY_END = 0.5
 
-      // Since images can have lazily loaded widths, also run very briefly after mount
-      const to = setTimeout(updateWidth, 100)
+// ─── Single Card ──────────────────────────────────────────────────────────────
+function Card({
+   src,
+   alt,
+   slotIndex,
+   scrollYProgress,
+}: {
+   src: string
+   alt: string
+   slotIndex: number
+   scrollYProgress: MotionValue<number>
+}) {
+   const slot = SLOTS[slotIndex]
 
-      return () => {
-         window.removeEventListener('resize', updateWidth)
-         clearTimeout(to)
-      }
-   }, [])
+   // Side cards trail center slightly
+   const stagger = slotIndex === 1 ? 0 : 0.07
+   const entryStart = stagger
+   const entryEnd = ENTRY_END + stagger
 
-   // Instead of failing with a CSS calc string, we pass hard JS numbers
-   const x = useTransform(smoothProgress, [0, 1], [0, xRange])
+   // Phase 1 – REVEAL: all start at x=0 (stacked), spread out to final x
+   const x = useTransform(scrollYProgress, [entryStart, entryEnd], [0, slot.finalX])
+   const rotate = useTransform(scrollYProgress, [entryStart, entryEnd], [slot.initRotate, 0])
+   const scale = useTransform(scrollYProgress, [entryStart, entryEnd], [0.88, 1])
+
+   // Phase 2 – EXIT: drift upward as user scrolls past
+   const exitY = useTransform(scrollYProgress, [ENTRY_END, 1], [0, -200])
+   const exitScale = useTransform(scrollYProgress, [ENTRY_END, 1], [1, 0.93])
+
+   const finalScale = useTransform(
+      [scale, exitScale] as const,
+      ([s, es]: number[]) => s * es
+   )
 
    return (
-      <section className="w-full relative">
+      <motion.div
+         style={{
+            x,
+            y: exitY,
+            rotate,
+            scale: finalScale,
+            zIndex: slot.zIndex,
+            position: 'absolute',
+            // All cards share the same origin: center of the container
+            left: '50%',
+            top: '50%',
+            marginLeft: -(CARD_W / 2),
+            marginTop: -(CARD_H / 2),
+            width: CARD_W,
+         }}
+         className="will-change-transform"
+      >
          <div
-            ref={targetRef}
-            className="relative h-[300vh] bg-black z-10"
+            className="w-full rounded-2xl overflow-hidden shadow-[0_20px_56px_rgba(0,0,0,0.65)]"
+            style={{ aspectRatio: '3 / 4' }}
          >
-            <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+            <img
+               src={src}
+               alt={alt}
+               className="w-full h-full object-cover"
+               onError={(e) => {
+                  ; (e.target as HTMLImageElement).style.display = 'none'
+               }}
+            />
+         </div>
+      </motion.div>
+   )
+}
 
-               <motion.div
-                  ref={containerRef}
-                  style={{ x }}
-                  className="flex h-screen items-center w-max will-change-transform"
-               >
-                  {/* 1. Introductory Screen-sized colored block */}
-                  <div className="w-[100vw] h-full flex flex-col items-start justify-center pl-[5vw] md:pl-[10vw] pr-[5vw] bg-black relative shrink-0">
+// ─── Row Section ──────────────────────────────────────────────────────────────
+function RowSection({
+   images,
+   isFirst,
+}: {
+   images: typeof ALL_IMAGES
+   isFirst: boolean
+}) {
+   const rowRef = useRef<HTMLDivElement>(null)
 
-                     <div className="relative z-10 w-full">
-                        <h2 className="flex flex-col text-left">
-                           {/* Huge background/ambient text - Outline style */}
-                           <span
-                              className="font-display text-[7rem] sm:text-[12rem] md:text-[16rem] font-black uppercase leading-[0.8] tracking-tighter text-transparent"
-                              style={{ WebkitTextStroke: '2px rgba(255,255,255,0.5)' }}
-                           >
-                              Natural
-                           </span>
-                           {/* Foreground vivid text slightly overlapping */}
-                           <span className="font-editorial text-[5rem] sm:text-[9rem] md:text-[13rem] italic leading-[0.8] text-transparent bg-clip-text bg-gradient-to-r from-[#FFFFFF] to-[#FFFFFF] ml-4 sm:ml-16 md:ml-32 mt-[-1rem] sm:mt-[-3rem] md:mt-[-5rem]">
-                              Fermentation
-                           </span>
-                        </h2>
+   const { scrollYProgress } = useScroll({
+      target: rowRef,
+      offset: ['start end', 'end start'],
+   })
 
-                        {/* Decorative element & Scroll prompt */}
-                        <div className="mt-12 md:mt-24 ml-4 sm:ml-16 md:ml-32 flex items-center gap-6">
-                           <div className="w-12 md:w-24 h-[1px] bg-white/30"></div>
-                           <p className="text-white/70 font-display text-xs md:text-sm uppercase tracking-[0.5em] font-medium">
-                              Scroll to explore
-                           </p>
-                        </div>
-                     </div>
+   return (
+      <div ref={rowRef} className="relative" style={{ height: '60vh' }}>
+         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-6">
 
-                     {/* Visual Indicator to scroll right */}
-                     <div className="absolute bottom-12 right-12 text-[#FF6B35]/50 text-6xl font-light z-10 animate-pulse hidden md:block font-editorial italic">
-                        &rarr;
-                     </div>
-                  </div>
+            {isFirst && (
+               <div className="z-50 text-center pointer-events-none select-none pb-12 md:pb-16">
+                  <h2 className="flex flex-col items-center leading-none">
+                     <span
+                        className="font-caveat text-[4rem] sm:text-[5.5rem] md:text-[7rem] font-bold leading-[0.85]"
+                        style={{
+                           color: '#92d55f',
+                           textShadow: '0 0 60px rgba(39,161,51,0.45), 0 0 120px rgba(255,107,53,0.2)',
+                        }}
+                     >
+                        Natural
+                     </span>
+                     <span
+                        className="font-display text-[1.8rem] sm:text-[3rem] md:text-[4rem] font-black uppercase leading-[0.85] tracking-[-0.03em] mt-1"
+                        style={{ color: '#FFF8F0' }}
+                     >
+                        Fermentation
+                     </span>
+                  </h2>
+               </div>
+            )}
 
-                  {/* 2. Gallery Area */}
-                  {/* Adding a consistent padding to the right boundary so it stops nicely framing the last image */}
-                  <div className="flex items-center gap-8 sm:gap-16 md:gap-24 px-[5vw] md:pl-[10vw] pr-[5vw] md:pr-[10vw] shrink-0">
-                     {works.map((work, index) => {
-                        // Make all images portrait uniformly
-                        const widthClass = 'w-[50vw] sm:w-[45vw] md:w-[30vw] lg:w-[20vw]';
-                        const heightClass = 'h-[42vh] sm:h-[45vh] md:h-[50vh]';
-
-                        // Varied vertical alignment
-                        const yOffset = index % 2 === 0 ? '-5vh' : '5vh'
-
-                        return (
-                           <div
-                              key={work.id}
-                              className={`group relative ${widthClass} ${heightClass} flex-shrink-0 cursor-pointer`}
-                              style={{ transform: `translateY(${yOffset})` }}
-                              onClick={() => setActiveId(activeId === work.id ? null : work.id)}
-                           >
-                              <div className="w-full h-full relative">
-                                 {/* Removed the inset background overlay, borders, and hardcoded bg colors */}
-                                 <img
-                                    src={work.src}
-                                    alt={work.title}
-                                    className="w-full h-full object-contain transform scale-110 group-hover:scale-100 transition-transform duration-[1.2s] ease-[0.16,1,0.3,1]"
-                                    onError={(e) => {
-                                       (e.target as HTMLImageElement).style.display = 'none';
-                                    }}
-                                 />
-
-                                 <div className="absolute inset-0 -z-10 flex items-center justify-center">
-                                    <div className="flex flex-col items-center">
-                                       <span className="text-white/10 font-display text-6xl font-black uppercase tracking-widest">{work.id}</span>
-                                       <span className="text-white/20 font-body text-xs mt-4 tracking-[0.2em] uppercase">Coming Soon</span>
-                                    </div>
-                                 </div>
-                              </div>
-
-                              <div className={`absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-end transition-all duration-500 z-20 bg-black/40 backdrop-blur-md p-4 rounded-lg border border-white/10 ${activeId === work.id
-                                 ? 'opacity-100 translate-y-0'
-                                 : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
-                                 }`}>
-                                 <h3 className="text-xl md:text-3xl font-display font-bold text-white uppercase tracking-tighter drop-shadow-lg">
-                                    {work.title}
-                                 </h3>
-                                 <span className="text-[#FF6B35] font-body text-xs md:text-sm font-bold tracking-[0.15em] drop-shadow-md">
-                                    {work.year}
-                                 </span>
-                              </div>
-                           </div>
-                        )
-                     })}
-                  </div>
-
-                  {/* Trailing empty space after the last image */}
-                  <div className="w-[20vw] md:w-[35vw] h-full shrink-0" />
-
-               </motion.div>
+            {/*
+               All 3 cards are absolutely positioned relative to this container's center.
+               At scroll=0 they all sit at x=0 → perfectly stacked.
+               On scroll they slide to their final x positions.
+               DOM order: left first, right second, center last → center paints on top.
+            */}
+            <div
+               style={{
+                  position: 'relative',
+                  width: CARD_W * 3 + 80,
+                  height: CARD_H,
+               }}
+            >
+               {[0, 2, 1].map((slotIdx) => (
+                  <Card
+                     key={images[slotIdx].id}
+                     src={images[slotIdx].src}
+                     alt={images[slotIdx].alt}
+                     slotIndex={slotIdx}
+                     scrollYProgress={scrollYProgress}
+                  />
+               ))}
             </div>
          </div>
+      </div>
+   )
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+export default function NaturalFermentation() {
+   const rows = Array.from({ length: ROW_COUNT }, (_, i) =>
+      ALL_IMAGES.slice(i * CARDS_PER_ROW, i * CARDS_PER_ROW + CARDS_PER_ROW)
+   )
+
+   return (
+      <section className="w-full bg-black">
+         {rows.map((rowImages, rowIdx) => (
+            <RowSection
+               key={rowIdx}
+               images={rowImages}
+               isFirst={rowIdx === 0}
+            />
+         ))}
       </section>
    )
 }
