@@ -39,6 +39,7 @@ export default function CustomCursor() {
       <>
          <motion.div
             ref={cursorRef}
+            className="hidden md:block"
             style={{
                position: 'fixed',
                top: 0,
@@ -58,6 +59,7 @@ export default function CustomCursor() {
          />
          <div
             ref={dotRef}
+            className="hidden md:block"
             style={{
                position: 'fixed',
                width: 8,

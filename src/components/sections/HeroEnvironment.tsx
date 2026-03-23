@@ -7,17 +7,14 @@ import * as THREE from 'three'
 import FlourParticles from '@/components/3d/FlourParticles'
 import SignatureText from '@/components/ui/SignatureText'
 import ScrollVelocity from '@/components/ui/ScrollVelocity'
-
 function CameraRig() {
    const { camera } = useThree()
    const mouse = useRef({ x: 0, y: 0 })
-
    useFrame(() => {
       camera.position.x = THREE.MathUtils.lerp(camera.position.x, mouse.current.x * 0.8, 0.04)
       camera.position.y = THREE.MathUtils.lerp(camera.position.y, mouse.current.y * 0.4 + 0.5, 0.04)
       camera.lookAt(0, 0, 0)
    })
-
    return (
       <mesh
          onPointerMove={(e) => {
@@ -31,11 +28,9 @@ function CameraRig() {
       </mesh>
    )
 }
-
 function SceneContent() {
    const { camera } = useThree()
    camera.position.set(0, 0.5, 5)
-
    return (
       <>
          <ambientLight intensity={0.3} />
@@ -49,7 +44,6 @@ function SceneContent() {
       </>
    )
 }
-
 export default function HeroEnvironment() {
    const containerRef = useRef<HTMLElement>(null)
    const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
@@ -57,27 +51,57 @@ export default function HeroEnvironment() {
       target: containerRef,
       offset: ["start start", "end end"]
    })
-
-   // Grayscale + blur on scroll
    const imgGrayscale = useTransform(scrollYProgress, [0, 0.8], ["grayscale(0%) blur(0px)", "grayscale(100%) blur(8px)"])
    const imgScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.4])
-
-   const contentOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
-   const contentY = useTransform(scrollYProgress, [0.6, 0.8], [40, 0])
-   const contentPointerEvents = useTransform(scrollYProgress, (v) => v > 0.7 ? "auto" : "none")
-
-   // ScrollVelocity text fades in as image starts graying out
    const tickerOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1])
-
    return (
-      <section ref={containerRef} className="relative w-full h-[200vh]" id="hero">
-         <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <section
+         ref={containerRef}
+         id="hero"
+         style={{
+            position: 'relative',
+            width: '100%',
+            height: '200vh',
+            // Break out of any parent padding on mobile
+            marginLeft: 0,
+            marginRight: 0,
+         }}
+      >
+         <div
+            style={{
+               position: 'sticky',
+               top: 0,
+               // Use 100dvw to account for dynamic viewport on mobile browsers
+               // and negative margins to escape any parent horizontal padding
+               width: '100vw',
+               left: 0,
+               marginLeft: 'calc(-1 * ((100vw - 100%) / 2))',
+               height: '100dvh',
+               overflow: 'hidden',
+               background: '#080605',
+            }}
+         >
             {/* Background */}
-            <div className="absolute inset-0 z-0" style={{ background: '#080605' }} />
+            <div
+               style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 0,
+                  background: '#080605',
+                  width: '100%',
+                  height: '100%',
+               }}
+            />
 
             {/* 3D Canvas */}
             <Canvas
-               className="absolute inset-0 z-10"
+               style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 10,
+                  width: '100% !important' as never,
+                  height: '100% !important' as never,
+               }}
                camera={{ position: [0, 0.5, 5], fov: 50 }}
                dpr={[1, 1.5]}
                frameloop={isInView ? 'always' : 'never'}
@@ -89,10 +113,22 @@ export default function HeroEnvironment() {
                </Suspense>
             </Canvas>
 
-            {/* ── ScrollVelocity text — behind the profile image ── */}
+            {/* ScrollVelocity text — behind the profile image */}
             <motion.div
-               style={{ opacity: tickerOpacity }}
-               className="absolute inset-0 z-[14] flex flex-col justify-center pointer-events-none select-none"
+               style={{
+                  opacity: tickerOpacity,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 14,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+               }}
             >
                <ScrollVelocity
                   texts={['Crafting the perfect recipe', 'Where science meets flavour']}
@@ -100,6 +136,13 @@ export default function HeroEnvironment() {
                   numCopies={4}
                   className="font-display font-semibold tracking-tight"
                   parallaxClassName="py-2"
+                  parallaxStyle={{
+                     width: '100vw',
+                     position: 'relative',
+                     left: '50%',
+                     transform: 'translateX(-50%)',
+                     overflow: 'hidden',
+                  }}
                   scrollerStyle={{
                      fontSize: 'clamp(1.8rem, 5vw, 4rem)',
                      color: '#ffffff',
@@ -110,8 +153,17 @@ export default function HeroEnvironment() {
 
             {/* Profile image — ON TOP of the ticker text */}
             <motion.div
-               style={{ scale: imgScale, filter: imgGrayscale }}
-               className="absolute inset-0 z-[15] pointer-events-none drop-shadow-[0_0_80px_rgba(255,107,53,0.35)]"
+               style={{
+                  scale: imgScale,
+                  filter: imgGrayscale,
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 15,
+                  pointerEvents: 'none',
+                  width: '100%',
+                  height: '100%',
+               }}
+               className="drop-shadow-[0_0_80px_rgba(255,107,53,0.35)]"
             >
                <motion.img
                   initial={{ opacity: 0, scale: 1.05 }}
@@ -119,77 +171,34 @@ export default function HeroEnvironment() {
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
                   src="/profile.webp"
                   alt="Owner"
-                  className="w-full h-full object-cover object-center"
+                  style={{
+                     width: '100%',
+                     height: '100%',
+                     objectFit: 'cover',
+                     objectPosition: 'center',
+                     display: 'block',
+                  }}
                />
             </motion.div>
 
             {/* Hero Overlay Text */}
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-between text-center px-6 pt-24 pb-12 pointer-events-none">
-               {/* Center Area: Signature */}
-               <div className="relative flex items-center justify-center w-full flex-grow">
+            <div
+               style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 20,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  textAlign: 'center',
+                  padding: '96px 24px 48px',
+                  pointerEvents: 'none',
+               }}
+            >
+               <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', flexGrow: 1 }}>
                   <SignatureText />
                </div>
-
-               {/* Bottom Area: Buttons */}
-               {/* <motion.div
-                  style={{ opacity: contentOpacity, y: contentY, pointerEvents: contentPointerEvents as any }}
-                  className="absolute bottom-16 left-0 right-0 flex flex-col items-center z-30 px-6"
-               >
-                  <div className="flex gap-4 flex-wrap justify-center items-center">
-                     <a
-                        href="#process"
-                        className="group"
-                        style={{
-                           display: 'inline-flex',
-                           alignItems: 'center',
-                           justifyContent: 'center',
-                           padding: '14px 32px',
-                           borderRadius: 9999,
-                           fontFamily: 'Outfit, sans-serif',
-                           fontWeight: 700,
-                           fontSize: 15,
-                           color: '#fff',
-                           textDecoration: 'none',
-                           position: 'relative',
-                           overflow: 'hidden',
-                           background: 'linear-gradient(135deg, #FF6B35, #FF2D78)',
-                           border: 'none',
-                           cursor: 'pointer',
-                        }}
-                     >
-                        <span style={{ position: 'relative', zIndex: 1 }}>Explore My Work</span>
-                        <div
-                           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                           style={{ background: 'linear-gradient(135deg, #FF2D78, #FFD23F)' }}
-                        />
-                     </a>
-                     <a
-                        href="#contact"
-                        style={{
-                           display: 'inline-flex',
-                           alignItems: 'center',
-                           justifyContent: 'center',
-                           padding: '14px 32px',
-                           borderRadius: 9999,
-                           fontFamily: 'Outfit, sans-serif',
-                           fontWeight: 700,
-                           fontSize: 15,
-                           color: '#FFF8F0',
-                           textDecoration: 'none',
-                           background: 'rgba(255,255,255,0.05)',
-                           backdropFilter: 'blur(20px)',
-                           WebkitBackdropFilter: 'blur(20px)',
-                           border: '1px solid rgba(255,255,255,0.1)',
-                           cursor: 'pointer',
-                           transition: 'border-color 0.3s ease',
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.borderColor = '#FF6B35')}
-                        onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)')}
-                     >
-                        Get In Touch
-                     </a>
-                  </div>
-               </motion.div> */}
             </div>
 
             {/* Scroll hint */}

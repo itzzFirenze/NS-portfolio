@@ -63,7 +63,12 @@ body {
    color: var(--cream);
    font-family: 'Inter', sans-serif;
    overflow-x: hidden;
-   cursor: none;
+}
+
+@media (min-width: 768px) {
+   body, a, button, [role="button"] {
+      cursor: none !important;
+   }
 }
 
 ::-webkit-scrollbar {
