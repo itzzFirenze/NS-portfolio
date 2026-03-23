@@ -202,7 +202,7 @@ function MechanicalCore({ progressRef }: { progressRef: React.MutableRefObject<n
    )
 }
 
-export default function DisplayArt() {
+export default function BakingProcess() {
    const sectionRef = useRef<HTMLDivElement>(null)
    const stickyRef = useRef<HTMLDivElement>(null)
    const progressRef = useRef(0)

@@ -259,8 +259,8 @@ export default function ContactBox() {
                      <div style={{ fontFamily: 'Outfit, sans-serif', fontWeight: 600, fontSize: 18, color: '#FFF8F0', marginBottom: 8 }}>Ready to collaborate?</div>
                      <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>Open the box to start a conversation about your next bakery innovation project.</p>
                      <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'Inter, sans-serif' }}>
-                        <div>📍 Based in the UK</div>
-                        <div>🕐 Available for consultancy &amp; full-time roles</div>
+                        <div>📍 Based in Kingdom of Saudi Arabia</div>
+                        <div>🕐 Available for full-time roles</div>
                      </div>
                   </motion.div>
                )}

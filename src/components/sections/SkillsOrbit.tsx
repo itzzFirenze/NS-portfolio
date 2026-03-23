@@ -25,7 +25,7 @@ type Skill = {
 const SKILLS: Skill[] = [
    {
       name: 'Al Hatab Bakery, KSA',
-      role: 'Research & Development Baker',
+      role: 'Senior Research & Development Baker',
       year: 'Aug 2024 - Present',
       color: '#1d982d',
       logo: '/logos/al-hatab-logo.png'
@@ -38,7 +38,7 @@ const SKILLS: Skill[] = [
       logo: '/logos/othman-logo.png'
    },
    {
-      name: 'Crowne Plaza, Abu-Dhabi',
+      name: 'Crowne Plaza Staybridge Suites, Abu-Dhabi',
       color: '#a855f7',
       logo: '/logos/crowne-logo.png',
       experiences: [

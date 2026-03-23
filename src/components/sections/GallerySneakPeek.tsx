@@ -230,7 +230,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/christmas-striped-pastries.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -239,7 +239,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/decorative-bread-art-loaf.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -248,7 +248,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/savory-vegetable-danish-pastries.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -261,7 +261,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/artisan-bread-chefs-presentation.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -270,7 +270,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/chocolate-caramel-dessert-cake.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -283,7 +283,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/purple-artisan-sourdough-bread.png" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -292,7 +292,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/seeded-artisan-bread-loaves.png" alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>
@@ -301,7 +301,7 @@ export default function GallerySneakPeek() {
                      <Image src="/sneak-peek/decorative-artisan-bread-display.jpg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
-                        className="group-hover:scale-110" />
+                     />
                      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', transition: 'background 0.5s' }}
                         className="group-hover:bg-transparent" />
                   </div>

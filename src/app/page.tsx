@@ -10,7 +10,7 @@ const HeroEnvironment = dynamic(() => import('@/components/sections/HeroEnvironm
    loading: () => <div className="w-full h-[200vh] bg-[#080605]" />
 })
 const HighlighterSection = dynamic(() => import('@/components/sections/HighlighterSection'), { ssr: false })
-const DisplayArt = dynamic(() => import('@/components/sections/gallery/DisplayArt'), { ssr: false })
+const BakingProcess = dynamic(() => import('@/components/sections/BakingProcess'), { ssr: false })
 const BentoGrid = dynamic(() => import('@/components/sections/BentoGrid'), { ssr: false })
 const GallerySneakPeek = dynamic(() => import('@/components/sections/GallerySneakPeek'), { ssr: false })
 const SkillsOrbit = dynamic(() => import('@/components/sections/SkillsOrbit'), { ssr: false })
@@ -55,8 +55,8 @@ export default function Home() {
          {/* Highlighter Demo Section */}
          <HighlighterSection />
 
-         {/* DisplayArt: 5-stage baking narrative */}
-         {/* <DisplayArt /> */}
+         {/* BakingProcess: 5-stage baking narrative */}
+         {/* <BakingProcess /> */}
 
          {/* Bento Grid: projects, stats, certifications */}
          <BentoGrid />
