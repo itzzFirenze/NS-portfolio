@@ -227,7 +227,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y1 }} className="gallery-img-col">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/christmas-striped-pastries.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/2.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -245,7 +245,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/savory-vegetable-danish-pastries.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/3.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -258,7 +258,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y2 }} className="gallery-img-col gallery-img-col--mid">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/artisan-bread-chefs-presentation.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/4.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -267,7 +267,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/chocolate-caramel-dessert-cake.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/5.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -280,7 +280,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y3 }} className="gallery-img-col">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/purple-artisan-sourdough-bread.png" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/6.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -289,7 +289,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/seeded-artisan-bread-loaves.png" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/7.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -298,7 +298,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src="/sneak-peek/decorative-artisan-bread-display.jpg" alt="Gallery preview" fill
+                     <Image src="/sneak-peek/8.jpeg" alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />

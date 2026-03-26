@@ -21,7 +21,6 @@ type Skill = {
    experiences?: SkillExperience[];
 };
 
-// Added a 'logo' property to each skill pointing to distinct PNGs
 const SKILLS: Skill[] = [
    {
       name: 'Al Hatab Bakery, KSA',
@@ -91,7 +90,7 @@ function BakerModel() {
    )
 }
 
-/** 4 distinct orbits displaying unique logos */
+/** 5 distinct orbits displaying unique logos */
 function OrbitNodes({ onSelect, selected }: {
    onSelect: (i: number) => void
    selected: number | null
@@ -99,7 +98,6 @@ function OrbitNodes({ onSelect, selected }: {
    const groupRefs = useRef<(THREE.Group | null)[]>([])
    const scaleTargets = useRef<number[]>(SKILLS.map(() => 1))
 
-   // Load an array of textures based on the SKILLS logo paths
    const texturePaths = SKILLS.map(skill => skill.logo)
    const textures = useLoader(THREE.TextureLoader, texturePaths)
 
@@ -110,7 +108,7 @@ function OrbitNodes({ onSelect, selected }: {
       })
    }, [textures])
 
-   // Define expanding radius and unique speeds for each of the 4 orbits
+   // Define expanding radius and unique speeds for each of the 5 orbits
    const RADII = [2.2, 3.1, 4.0, 4.9, 5.8]
    const SPEEDS = [0.22, 0.14, 0.18, 0.11, 0.16] // Prime-ish variations so they don't align often
 
@@ -149,7 +147,7 @@ function OrbitNodes({ onSelect, selected }: {
                   color={SKILLS[i].color}
                   transparent
                   opacity={0.15}
-                  depthWrite={false} // <-- Added
+                  depthWrite={false}
                />
             </mesh>
          ))}
@@ -166,22 +164,22 @@ function OrbitNodes({ onSelect, selected }: {
                onPointerEnter={(e) => {
                   e.stopPropagation()
                   document.body.style.cursor = 'pointer'
-                  scaleTargets.current[i] = 1.4 // Scale up on hover
+                  scaleTargets.current[i] = 1.4
                }}
                onPointerOut={(e) => {
                   e.stopPropagation()
                   document.body.style.cursor = 'auto'
-                  scaleTargets.current[i] = 1 // Reset scale
+                  scaleTargets.current[i] = 1
                }}
             >
                {/* Solid backing to occlude the orbit rings */}
-               <mesh position={[0, 0, -0.03]}> {/* Pushed slightly further back */}
+               <mesh position={[0, 0, -0.03]}>
                   <circleGeometry args={[0.75, 32]} />
                   <meshBasicMaterial
                      color="#080605"
                      depthWrite={true}
                      polygonOffset={true}
-                     polygonOffsetFactor={-1} // Gentle pull forward
+                     polygonOffsetFactor={-1}
                      polygonOffsetUnits={-1}
                   />
                </mesh>
@@ -195,11 +193,10 @@ function OrbitNodes({ onSelect, selected }: {
                      opacity={0.15}
                      depthWrite={false}
                      polygonOffset={true}
-                     polygonOffsetFactor={-2} // Pulled slightly more forward than backing
+                     polygonOffsetFactor={-2}
                   />
                </mesh>
 
-               {/* Clean border ring to frame the logo nicely */}
                <mesh position={[0, 0, 0.01]}>
                   <ringGeometry args={[0.72, 0.75, 32]} />
                   <meshBasicMaterial
@@ -212,8 +209,7 @@ function OrbitNodes({ onSelect, selected }: {
                   />
                </mesh>
 
-               {/* The actual PNG Logo mapped to a flat plane */}
-               <mesh position={[0, 0, 0.02]}> {/* Pulled slightly forward physically */}
+               <mesh position={[0, 0, 0.02]}>
                   <planeGeometry args={[1.0, 1.0]} />
                   <meshBasicMaterial
                      map={textures[i]}
@@ -221,7 +217,7 @@ function OrbitNodes({ onSelect, selected }: {
                      alphaTest={0.05}
                      depthWrite={false}
                      polygonOffset={true}
-                     polygonOffsetFactor={-3} // Pulled the most forward so it always sits on top
+                     polygonOffsetFactor={-3}
                   />
                </mesh>
             </group>
@@ -257,7 +253,7 @@ export default function SkillsOrbit() {
 
          {/* Section header */}
          <motion.div
-            style={{ textAlign: 'center', marginBottom: 0, position: 'relative', zIndex: 2 }} // Changed marginBottom to 0
+            style={{ textAlign: 'center', marginBottom: 0, position: 'relative', zIndex: 2 }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -270,7 +266,6 @@ export default function SkillsOrbit() {
 
          {/* 3D Canvas Area */}
          <div style={{ position: 'relative', maxWidth: 900, margin: '-120px auto 0', height: 550 }}>
-            {/* Changed margin to pull the canvas up */}
             <Canvas
                camera={{ position: [0, 6.5, 12], fov: 45 }}
                dpr={[1, 2]}
@@ -374,19 +369,18 @@ export default function SkillsOrbit() {
                   style={{
                      background: selectedSkill === i ? `${s.color}22` : 'rgba(255,255,255,0.03)',
                      border: `1px solid ${selectedSkill === i ? s.color : 'rgba(255,255,255,0.08)'}`,
-                     borderRadius: 16, // Reduced from 999 to look better with stacked content
-                     padding: '12px 16px', // Adjusted padding for vertical height
+                     borderRadius: 16,
+                     padding: '12px 16px',
                      fontSize: 12,
                      color: selectedSkill === i ? s.color : 'rgba(255,255,255,0.6)',
                      cursor: 'pointer',
                      fontFamily: 'Inter, sans-serif',
                      transition: 'all 0.3s ease',
-                     // --- NEW STYLES TO CENTER CONTENT ---
                      display: 'flex',
                      flexDirection: 'column',
                      alignItems: 'center',
                      justifyContent: 'center',
-                     gap: '8px', // Space between logo and text
+                     gap: '8px',
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.borderColor = s.color)}
                   onMouseLeave={(e) => {
@@ -397,7 +391,7 @@ export default function SkillsOrbit() {
                      src={s.logo}
                      alt={s.name}
                      style={{
-                        width: 20, // Slightly larger usually looks better when centered
+                        width: 20,
                         height: 20,
                         objectFit: 'contain'
                      }}
