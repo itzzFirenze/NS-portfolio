@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { useGLTF } from '@react-three/drei'
 import FlourParticles from '../3d/FlourParticles'
 import FlourParticlesOverlay from '../ui/FlourParticlesOverlay'
+import { images } from '../../data/images'
 
 type SkillExperience = {
    role: string;
@@ -27,19 +28,19 @@ const SKILLS: Skill[] = [
       role: 'Senior Research & Development Baker',
       year: 'Aug 2024 - Present',
       color: '#1d982d',
-      logo: '/logos/al-hatab-logo.png'
+      logo: images.skillsOrbit[0]
    },
    {
       name: 'Kempinski Al Othman Hotel, KSA',
       role: 'Head Baker',
       year: 'Oct 2022 - Aug 2024',
       color: '#FFD23F',
-      logo: '/logos/othman-logo.png'
+      logo: images.skillsOrbit[1]
    },
    {
       name: 'Crowne Plaza Staybridge Suites, Abu-Dhabi',
       color: '#a855f7',
-      logo: '/logos/crowne-logo.png',
+      logo: images.skillsOrbit[2],
       experiences: [
          {
             role: 'Complex Head Baker',
@@ -60,14 +61,14 @@ const SKILLS: Skill[] = [
       role: 'Demi Chef De Partie Bakery & Pastry',
       year: 'May 2011 - April 2013',
       color: '#FF6B35',
-      logo: '/logos/lameridien-logo.png'
+      logo: images.skillsOrbit[3]
    },
    {
       name: 'Al-Dhafra Tourist Village, Abu-Dhabi',
       role: 'Commis 1 – Bakery & Pastry',
       year: 'Jun 2009 - Feb 2011',
       color: '#3b82f6',
-      logo: '/logos/aldhafra-logo.png'
+      logo: images.skillsOrbit[4]
    },
 ]
 

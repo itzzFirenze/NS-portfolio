@@ -7,6 +7,8 @@ import * as THREE from 'three'
 import FlourParticles from '@/components/3d/FlourParticles'
 import SignatureText from '@/components/ui/SignatureText'
 import ScrollVelocity from '@/components/ui/ScrollVelocity'
+import { images } from '@/data/images'
+
 function CameraRig() {
    const { camera } = useThree()
    const mouse = useRef({ x: 0, y: 0 })
@@ -169,7 +171,8 @@ export default function HeroEnvironment() {
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  src="/profile.webp"
+                  src={images.hero[0]}
+                  // src="/profile.webp"
                   alt="Owner"
                   style={{
                      width: '100%',

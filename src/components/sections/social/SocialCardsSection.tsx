@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import Background3D from './Background3D'
 import SocialCard from './SocialCard'
+import { images } from '../../../data/images'
 
 export interface CardData {
    id: string;
@@ -23,7 +24,7 @@ const SOCIAL_CARDS: CardData[] = [
       id: 'ig',
       platform: 'Instagram',
       handle: '@magarniranjan',
-      bgImage: 'socials/instagram.jpg',
+      bgImage: images.socials[0],
       color: '#E1306C',
       icon: FaInstagram,
       url: 'https://www.instagram.com/magarniranjan?igsh=eDJnOHdnMmdtZ2J1'
@@ -32,7 +33,7 @@ const SOCIAL_CARDS: CardData[] = [
       id: 'yt',
       platform: 'Linkedin',
       handle: 'Nir Bahadur Palli Magar',
-      bgImage: 'socials/linkedin.jpg',
+      bgImage: images.socials[1],
       color: '#087ebb',
       icon: FaLinkedin,
       url: 'https://www.linkedin.com/in/nir-bahadur-palli-magar-4216337a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app'
@@ -41,7 +42,7 @@ const SOCIAL_CARDS: CardData[] = [
       id: 'tt',
       platform: 'Facebook',
       handle: 'Niranjan Palli Magar',
-      bgImage: 'socials/fb.jpg',
+      bgImage: images.socials[2],
       color: '#3a5da0',
       icon: FaFacebook,
       url: 'https://www.facebook.com/share/14Vy5EaDnsz/?mibextid=wwXIfr'
