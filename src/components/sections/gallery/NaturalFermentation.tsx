@@ -4,39 +4,39 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 
 const ALL_IMAGES = [
-   { id: 1, src: '/natural-fermentation/nf15.jpeg', alt: 'Artisan Bread' },
-   { id: 2, src: '/natural-fermentation/nf13.jpg', alt: 'Pastry Art' },
-   { id: 3, src: '/natural-fermentation/nf5.jpg', alt: 'Sourdough Loaf' },
+   { id: 1, src: '/nb-images/nb1-newnew.png', alt: 'Pastry Art' },
+   { id: 2, src: '/natural-fermentation/nf15.jpeg', alt: 'Artisan Bread' },
+   { id: 3, src: '/nb-images/nb2-new.png', alt: 'Sourdough Loaf' },
    { id: 4, src: '/natural-fermentation/nf9.png', alt: 'Golden Crust' },
-   { id: 5, src: '/natural-fermentation/nf12.jpg', alt: 'Wild Starter' },
-   { id: 6, src: '/natural-fermentation/nf11.jpg', alt: 'Crumb Structure' },
-   { id: 7, src: '/natural-fermentation/nf10.png', alt: 'Dessert Plating' },
-   { id: 8, src: '/natural-fermentation/nf16.jpeg', alt: 'Pastry Close-up' },
-   { id: 9, src: '/natural-fermentation/nf14.png', alt: 'Fermented Dough' },
+   { id: 5, src: '/nb-images/nb5.png', alt: 'Crumb Structure' },
+   { id: 6, src: '/nb-images/nb3.png', alt: 'Wild Starter' },
+   { id: 7, src: '/natural-fermentation/nf10.png', alt: 'Pastry Close-up' },
+   { id: 8, src: '/nb-images/nb6.jpg', alt: 'Dessert Plating' },
+   { id: 9, src: '/nb-images/nb7.png', alt: 'Fermented Dough' },
    { id: 10, src: '/layers-of-lamination/lol4.jpeg', alt: 'Artisan Bread' },
-   { id: 11, src: '/layers-of-lamination/lol2.jpg', alt: 'Pastry Art' },
-   { id: 12, src: '/layers-of-lamination/lol3.jpg', alt: 'Sourdough Loaf' },
+   { id: 11, src: '/nb-images/nb14-newnewnew.png', alt: 'Pastry Art' },
+   { id: 12, src: '/nb-images/nb15.png', alt: 'Sourdough Loaf' },
    { id: 13, src: '/layers-of-lamination/lol1.png', alt: 'Golden Crust' },
-   { id: 14, src: '/layers-of-lamination/lol5.jpg', alt: 'Wild Starter' },
-   { id: 15, src: '/layers-of-lamination/lol6.jpg', alt: 'Crumb Structure' },
-   { id: 16, src: '/layers-of-lamination/lol7.jpg', alt: 'Dessert Plating' },
-   { id: 17, src: '/layers-of-lamination/lol8.jpg', alt: 'Pastry Close-up' },
-   { id: 18, src: '/layers-of-lamination/lol9.jpg', alt: 'Fermented Dough' },
+   { id: 14, src: '/nb-images/nb8.jpg', alt: 'Wild Starter' },
+   { id: 15, src: '/nb-images/nb9.jpg', alt: 'Crumb Structure' },
+   { id: 16, src: '/nb-images/nb12.jpg', alt: 'Pastry Close-up' },
+   { id: 17, src: '/layers-of-lamination/lol7.jpg', alt: 'Dessert Plating' },
+   { id: 18, src: '/nb-images/nb10.jpg', alt: 'Fermented Dough' },
    { id: 19, src: '/layers-of-lamination/lol10.jpg', alt: 'Artisan Bread' },
    { id: 20, src: '/layers-of-lamination/lol19.jpg', alt: 'Pastry Art' },
-   { id: 21, src: '/layers-of-lamination/lol12.jpg', alt: 'Sourdough Loaf' },
-   { id: 22, src: '/layers-of-lamination/lol13.jpg', alt: 'Golden Crust' },
-   { id: 23, src: '/layers-of-lamination/lol14.jpg', alt: 'Wild Starter' },
+   { id: 21, src: '/nb-images/nb13.png', alt: 'Sourdough Loaf' },
+   { id: 22, src: '/nb-images/nb17.jpg', alt: 'Wild Starter' },
+   { id: 23, src: '/layers-of-lamination/lol13.jpg', alt: 'Golden Crust' },
    { id: 24, src: '/layers-of-lamination/lol15.png', alt: 'Crumb Structure' },
-   { id: 25, src: '/layers-of-lamination/lol16.jpg', alt: 'Dessert Plating' },
+   { id: 25, src: '/layers-of-lamination/lol14.jpg', alt: 'Dessert Plating' },
    { id: 26, src: '/layers-of-lamination/lol17.jpg', alt: 'Pastry Close-up' },
    { id: 27, src: '/layers-of-lamination/lol18.jpg', alt: 'Fermented Dough' },
-   { id: 28, src: '/layers-of-lamination/lol11.jpg', alt: 'Artisan Bread' },
-   { id: 29, src: '/layers-of-lamination/lol20.jpg', alt: 'Pastry Art' },
-   { id: 30, src: '/layers-of-lamination/lol21.jpg', alt: 'Sourdough Loaf' },
-   { id: 30, src: '/layers-of-lamination/lol22.jpg', alt: 'Sourdough Loaf' },
-   { id: 31, src: '/layers-of-lamination/lol24.png', alt: 'Golden Crust' },
-   { id: 32, src: '/layers-of-lamination/lol23.jpg', alt: 'Wild Starter' },
+   { id: 28, src: '/nb-images/nb16-new.jpg', alt: 'Artisan Bread' },
+   { id: 29, src: '/layers-of-lamination/lol21.jpg', alt: 'Sourdough Loaf' },
+   { id: 30, src: '/nb-images/nb18.png', alt: 'Pastry Art' },
+   { id: 31, src: '/nb-images/nb21.jpg', alt: 'Golden Crust' },
+   { id: 32, src: '/layers-of-lamination/lol22.jpg', alt: 'Sourdough Loaf' },
+   { id: 33, src: '/nb-images/nb22-newnew.png', alt: 'Wild Starter' },
 ]
 
 const CARDS_PER_ROW = 3
@@ -142,8 +142,8 @@ function RowSection({
    })
 
    return (
-      <div ref={rowRef} className="relative" style={{ height: '60vh' }}>
-         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-6">
+      <div ref={rowRef} className="relative h-[25vh] md:h-[60vh]">
+         <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-start pt-[20vh] md:justify-center md:pt-0 overflow-hidden px-6">
 
             {/* {isFirst && (
                <div className="z-50 text-center pointer-events-none select-none pb-12 md:pb-16">
@@ -174,6 +174,7 @@ function RowSection({
                DOM order: left first, right second, center last → center paints on top.
             */}
             <div
+               className="scale-[0.37] md:scale-100 origin-center"
                style={{
                   position: 'relative',
                   width: CARD_W * 3 + 80,

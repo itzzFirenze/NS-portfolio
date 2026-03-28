@@ -237,7 +237,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src={images.sneakPeek[1]} alt="Gallery preview" fill
+                     <Image src={images.sneakPeek[2]} alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -246,7 +246,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src={images.sneakPeek[2]} alt="Gallery preview" fill
+                     <Image src={images.sneakPeek[3]} alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -259,7 +259,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y2 }} className="gallery-img-col gallery-img-col--mid">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src={images.sneakPeek[3]} alt="Gallery preview" fill
+                     <Image src={images.sneakPeek[1]} alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -281,7 +281,7 @@ export default function GallerySneakPeek() {
                <motion.div style={{ y: y3 }} className="gallery-img-col">
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src={images.sneakPeek[5]} alt="Gallery preview" fill
+                     <Image src={images.sneakPeek[6]} alt="Gallery preview" fill
                         sizes="(max-width: 480px) 33vw, (max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />
@@ -290,7 +290,7 @@ export default function GallerySneakPeek() {
                   </div>
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '4/4', borderRadius: '1rem', overflow: 'hidden' }}
                      className="group">
-                     <Image src={images.sneakPeek[6]} alt="Gallery preview" fill
+                     <Image src={images.sneakPeek[5]} alt="Gallery preview" fill
                         sizes="(max-width: 768px) 33vw, 20vw"
                         style={{ objectFit: 'cover', transition: 'transform 0.7s' }}
                      />

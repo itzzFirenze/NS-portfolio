@@ -45,12 +45,54 @@ export default function GalleryPage() {
          }}
       >
 
+         {/* ── Floating Back Button ── */}
+         <div style={{
+            position: 'fixed',
+            top: '100px',
+            width: '100%',
+            maxWidth: '1280px',
+            padding: '0 24px',
+            pointerEvents: 'none',
+            zIndex: 110,
+            display: 'flex',
+            justifyContent: 'flex-end',
+         }}>
+            <Link href="/" style={{
+               pointerEvents: 'auto',
+               display: 'inline-block',
+               padding: '10px 24px',
+               borderRadius: '9999px',
+               border: '1px solid rgba(255,255,255,0.2)',
+               background: 'rgba(3,3,3,0.6)',
+               backdropFilter: 'blur(8px)',
+               color: '#FFF8F0',
+               fontWeight: 500,
+               fontSize: '0.75rem',
+               letterSpacing: '0.12em',
+               textTransform: 'uppercase',
+               textDecoration: 'none',
+               whiteSpace: 'nowrap',
+               transition: 'background 0.2s ease, border-color 0.2s ease',
+            }}
+               onMouseEnter={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.08)'
+                     ; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.4)'
+               }}
+               onMouseLeave={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(3,3,3,0.6)'
+                     ; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)'
+               }}
+            >
+               ← Home
+            </Link>
+         </div>
+
          {/* ── Page Header ── */}
          <motion.div variants={itemVariants} style={{
             width: '100%',
             maxWidth: '1280px',
             padding: '0 24px',
-            marginBottom: '80px',
+            marginBottom: '20px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-end',
@@ -80,32 +122,6 @@ export default function GalleryPage() {
                   and the science behind the perfect crumb.
                </p>
             </div>
-
-            <Link href="/" style={{
-               display: 'inline-block',
-               padding: '12px 32px',
-               borderRadius: '9999px',
-               border: '1px solid rgba(255,255,255,0.2)',
-               color: '#FFF8F0',
-               fontWeight: 500,
-               fontSize: '0.75rem',
-               letterSpacing: '0.12em',
-               textTransform: 'uppercase',
-               textDecoration: 'none',
-               whiteSpace: 'nowrap',
-               transition: 'background 0.2s ease, border-color 0.2s ease',
-            }}
-               onMouseEnter={e => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.08)'
-                     ; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.4)'
-               }}
-               onMouseLeave={e => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
-                     ; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.2)'
-               }}
-            >
-               ← Back to Home
-            </Link>
          </motion.div>
 
          {/* ── My Works Gallery ── */}
@@ -171,21 +187,21 @@ export default function GalleryPage() {
                      { image: '/display-art/da4.jpg', text: 'Oven Spring' },
                      { image: '/display-art/da5.jpg', text: 'Cooling Racks' },
                      { image: '/display-art/da6.jpg', text: 'Perfect Crumb' },
-                     { image: '/display-art/da7-new.jpg', text: 'Morning Prep' },
+                     { image: '/nb-images/nb24.jpg', text: 'Morning Prep' },
                      { image: '/display-art/da8.jpg', text: 'Dough Hydration' },
-                     { image: '/display-art/da9.jpg', text: 'Scoring' },
-                     { image: '/display-art/da10.jpg', text: 'Oven Spring' },
-                     { image: '/display-art/da12.jpg', text: 'Perfect Crumb' },
-                     { image: '/display-art/da13.jpg', text: 'Morning Prep' },
+                     { image: '/nb-images/nb27.jpg', text: 'Scoring' },
+                     { image: '/nb-images/nb26.jpg', text: 'Oven Spring' },
+                     { image: '/nb-images/nb28.jpg', text: 'Perfect Crumb' },
+                     { image: '/nb-images/nb29.jpg', text: 'Morning Prep' },
                      { image: '/display-art/da14.jpg', text: 'Dough Hydration' },
                      { image: '/display-art/da15.jpg', text: 'Scoring' },
-                     { image: '/display-art/da16.jpg', text: 'Oven Spring' },
-                     { image: '/display-art/da17.jpg', text: 'Cooling Racks' },
-                     { image: '/display-art/da18.png', text: 'Perfect Crumb' },
-                     { image: '/display-art/da19.jpg', text: 'Morning Prep' },
+                     { image: '/nb-images/nb25.jpg', text: 'Oven Spring' },
+                     { image: '/nb-images/nb30.png', text: 'Oven Spring' },
+                     { image: '/nb-images/nb31.jpg', text: 'Oven Spring' },
+                     { image: '/nb-images/nb32.jpg', text: 'Oven Spring' },
                      { image: '/display-art/da20.jpg', text: 'Dough Hydration' },
                      { image: '/display-art/da21.jpg', text: 'Scoring' },
-                     { image: '/display-art/da22.png', text: 'Oven Spring' },
+                     { image: '/nb-images/nb33.jpg', text: 'Oven Spring' },
                   ]}
                   bend={3}
                   textColor="#ffffff"

@@ -1,12 +1,12 @@
 export const images = {
    sneakPeek: [
-      "https://ucarecdn.com/ca04de18-23ba-4a0e-b522-f5b4600812f0/-/preview/800x1000/",
+      "https://ucarecdn.com/305ed7f7-35b2-48c6-af93-edc9eb48f5b8/-/preview/652x1000/",
       "https://ucarecdn.com/2e9484e7-d59b-4d0c-8322-f157dbf9851f/-/preview/1000x1000/",
       "https://ucarecdn.com/1643385b-22fe-4c00-b507-12f414277203/-/preview/1000x940/",
       "https://ucarecdn.com/28ae57df-56b9-43b6-a2bd-27c29c44c31b/-/preview/836x1000/",
-      "https://ucarecdn.com/6716af25-c7e5-4119-9b64-4c5347b53927/-/preview/715x1000/",
+      "https://ucarecdn.com/00f62193-08af-4bc4-ac2d-f0d463fd8dcf/-/preview/818x1000/",
       "https://ucarecdn.com/1e359624-94a3-4214-8de0-0246488239de/-/preview/928x1000/",
-      "https://ucarecdn.com/a8d51e04-adae-451e-abd1-5594d763ea0c/-/preview/1000x1000/",
+      "https://ucarecdn.com/6c97a8fc-7547-47ac-a3b7-ab4e4149c7d1/-/preview/930x921/",
       "https://ucarecdn.com/f1d458e6-5356-437c-b53b-c2617248b743/-/preview/953x1000/"
    ],
    hero: [
