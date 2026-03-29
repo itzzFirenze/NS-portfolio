@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState, Suspense, useMemo } from 'react'
+import { useRef, useState, Suspense, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import * as THREE from 'three'
@@ -229,8 +229,22 @@ function OrbitNodes({ onSelect, selected }: {
 
 export default function SkillsOrbit() {
    const [selectedSkill, setSelectedSkill] = useState<number | null>(null)
+   const [modelLoaded, setModelLoaded] = useState(false)
    const containerRef = useRef<HTMLElement>(null)
    const isInView = useInView(containerRef, { margin: "0px 0px 500px 0px" })
+
+   // Probe when the asset has fully loaded via HEAD request interval
+   useEffect(() => {
+      // Preload the asset and flip state once done
+      const img = new window.Image()
+      // Use fetch to detect when the GLB is available in cache
+      fetch('/baker-compressed.glb', { method: 'HEAD', cache: 'force-cache' })
+         .then(() => {
+            // Flip after a short delay to let Three.js finish parsing
+            setTimeout(() => setModelLoaded(true), 800)
+         })
+         .catch(() => setModelLoaded(true)) // fallback: show anyway
+   }, [])
 
    return (
       <section
@@ -279,7 +293,12 @@ export default function SkillsOrbit() {
                <pointLight position={[0, 6, 6]} intensity={2.5} color="#FFD23F" />
                <pointLight position={[6, -3, 6]} intensity={1.5} color="#FF6B35" />
 
-               <Suspense fallback={null}>
+               <Suspense fallback={
+                  <mesh position={[0, 0, 0]}>
+                     <sphereGeometry args={[0.01, 4, 4]} />
+                     <meshBasicMaterial transparent opacity={0} />
+                  </mesh>
+               }>
                   <FlourParticles count={350} spread={16} size={0.04} speed={0.12} />
                   <BakerModel />
                   <OrbitNodes onSelect={i => setSelectedSkill(i === selectedSkill ? null : i)} selected={selectedSkill} />
@@ -404,3 +423,5 @@ export default function SkillsOrbit() {
       </section>
    )
 }
+
+useGLTF.preload('/baker-compressed.glb')
