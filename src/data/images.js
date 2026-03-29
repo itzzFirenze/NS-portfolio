@@ -81,5 +81,8 @@ export const images = {
       'https://ucarecdn.com/d33a259e-ee2d-4333-8f7a-c5380b14cf4c/-/preview/828x602/',
       'https://ucarecdn.com/06565b67-5971-4b1a-b586-05656222b10c/-/preview/473x1000/',
       'https://ucarecdn.com/820463e3-1aa2-457e-9dfc-83d6fba5485a/-/preview/1000x750/'
+   ],
+   logo: [
+      'https://ucarecdn.com/44c11841-e6ae-4dc4-a8eb-4381af274c04/-/preview/800x800/'
    ]
 };

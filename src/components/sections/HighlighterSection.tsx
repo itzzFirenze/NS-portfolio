@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion"
 import { useRef, Suspense } from "react"
 import { Canvas } from "@react-three/fiber"
 import FlourParticles from "@/components/3d/FlourParticles"
+import { images } from '../../data/images'
 
 export default function HighlighterSection() {
    const ref = useRef(null)
@@ -34,7 +35,7 @@ export default function HighlighterSection() {
                transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
             >
                <div className="flex justify-center items-center w-full mb-10">
-                  <img src="/logos/baker-logo.png" alt="Logo Placeholder" className="w-50 h-50 object-contain opacity-80" />
+                  <img src={images.logo[0]} alt="Logo Placeholder" className="w-50 h-50 object-contain opacity-80" />
                </div>
                <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-white/90 leading-tight">
                   Refining {" "}

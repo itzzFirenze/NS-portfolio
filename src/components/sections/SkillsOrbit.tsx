@@ -75,7 +75,7 @@ const SKILLS: Skill[] = [
 /** Central Baker Figure */
 function BakerModel() {
    const groupRef = useRef<THREE.Group>(null)
-   const { scene } = useGLTF('/baker.glb')
+   const { scene } = useGLTF('/baker-compressed.glb')
 
    useFrame((_, delta) => {
       if (groupRef.current) groupRef.current.rotation.y += delta * 0.3
