@@ -26,13 +26,10 @@ function Footer() {
                Baker · Bakery & Food Science
             </div>
             <div className="flex gap-4 text-xs text-white/30">
-               <a href="mailto:neeraj@example.com" className="hover:text-[#FF6B35] transition-colors no-underline">Email</a>
-               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6B35] transition-colors no-underline">LinkedIn</a>
-               <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6B35] transition-colors no-underline">GitHub</a>
+               <a href="mailto:nirpalli02@gmail.com" className="hover:text-[#FF6B35] transition-colors no-underline">Email</a>
+               <a href="https://www.linkedin.com/in/nir-bahadur-palli-magar-4216337a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6B35] transition-colors no-underline">LinkedIn</a>
+               <a href="https://www.facebook.com/share/14Vy5EaDnsz/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF6B35] transition-colors no-underline">Facebook</a>
             </div>
-         </div>
-         <div className="mt-6 text-[10px] text-white/15 tracking-widest uppercase">
-            © 2026 · Built with React Three Fiber, GSAP & Framer Motion
          </div>
       </footer>
    )

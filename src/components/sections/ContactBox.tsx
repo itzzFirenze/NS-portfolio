@@ -80,7 +80,7 @@ export default function ContactBox() {
       setIsSubmitting(true)
 
       try {
-         const response = await fetch('https://formspree.io/f/mqeyyrje', {
+         const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_URL as string, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -260,6 +260,7 @@ export default function ContactBox() {
                      <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, lineHeight: 1.7, fontFamily: 'Inter, sans-serif' }}>Open the box to start a conversation about your next bakery innovation project.</p>
                      <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 10, fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'Inter, sans-serif' }}>
                         <div>📍 Based in Kingdom of Saudi Arabia</div>
+                        <div>📞 +966 56 965 1885</div>
                         <div>🕐 Available for full-time roles</div>
                      </div>
                   </motion.div>

@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { images } from '../../data/images'
 
 const NaturalFermentation = dynamic(() => import('@/components/sections/gallery/NaturalFermentation'), { ssr: false })
 const LayersOfLamination = dynamic(() => import('@/components/sections/gallery/LayersOfLamination'), { ssr: false })
@@ -181,27 +182,27 @@ export default function GalleryPage() {
             <div style={{ width: '100%', height: '600px', position: 'relative' }}>
                <DisplayArt
                   items={[
-                     { image: '/display-art/da1.png', text: 'Morning Prep' },
-                     { image: '/display-art/da2.jpg', text: 'Dough Hydration' },
-                     { image: '/display-art/da3.jpg', text: 'Scoring' },
-                     { image: '/display-art/da4.jpg', text: 'Oven Spring' },
-                     { image: '/display-art/da5.jpg', text: 'Cooling Racks' },
-                     { image: '/display-art/da6.jpg', text: 'Perfect Crumb' },
-                     { image: '/nb-images/nb24.jpg', text: 'Morning Prep' },
-                     { image: '/display-art/da8.jpg', text: 'Dough Hydration' },
-                     { image: '/nb-images/nb27.jpg', text: 'Scoring' },
-                     { image: '/nb-images/nb26.jpg', text: 'Oven Spring' },
-                     { image: '/nb-images/nb28.jpg', text: 'Perfect Crumb' },
-                     { image: '/nb-images/nb29.jpg', text: 'Morning Prep' },
-                     { image: '/display-art/da14.jpg', text: 'Dough Hydration' },
-                     { image: '/display-art/da15.jpg', text: 'Scoring' },
-                     { image: '/nb-images/nb25.jpg', text: 'Oven Spring' },
-                     { image: '/nb-images/nb30.png', text: 'Oven Spring' },
-                     { image: '/nb-images/nb31.jpg', text: 'Oven Spring' },
-                     { image: '/nb-images/nb32.jpg', text: 'Oven Spring' },
-                     { image: '/display-art/da20.jpg', text: 'Dough Hydration' },
-                     { image: '/display-art/da21.jpg', text: 'Scoring' },
-                     { image: '/nb-images/nb33.jpg', text: 'Oven Spring' },
+                     { image: images.displayArt[0], text: 'Morning Prep' },
+                     { image: images.displayArt[1], text: 'Dough Hydration' },
+                     { image: images.displayArt[2], text: 'Scoring' },
+                     { image: images.displayArt[3], text: 'Oven Spring' },
+                     { image: images.displayArt[4], text: 'Cooling Racks' },
+                     { image: images.displayArt[5], text: 'Perfect Crumb' },
+                     { image: images.displayArt[6], text: 'Morning Prep' },
+                     { image: images.displayArt[7], text: 'Dough Hydration' },
+                     { image: images.displayArt[8], text: 'Scoring' },
+                     { image: images.displayArt[9], text: 'Oven Spring' },
+                     { image: images.displayArt[10], text: 'Perfect Crumb' },
+                     { image: images.displayArt[11], text: 'Morning Prep' },
+                     { image: images.displayArt[12], text: 'Dough Hydration' },
+                     { image: images.displayArt[13], text: 'Scoring' },
+                     { image: images.displayArt[14], text: 'Oven Spring' },
+                     { image: images.displayArt[15], text: 'Oven Spring' },
+                     { image: images.displayArt[16], text: 'Oven Spring' },
+                     { image: images.displayArt[17], text: 'Oven Spring' },
+                     { image: images.displayArt[18], text: 'Dough Hydration' },
+                     { image: images.displayArt[19], text: 'Scoring' },
+                     { image: images.displayArt[20], text: 'Oven Spring' },
                   ]}
                   bend={3}
                   textColor="#ffffff"
