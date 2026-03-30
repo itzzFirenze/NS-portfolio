@@ -50,6 +50,37 @@ export default function Loader() {
       }
    }, [])
 
+   // Bulletproof scroll lock: position:fixed prevents any scroll while loader is up.
+   // We restore the exact scroll position so the page snaps back correctly on unlock.
+   useEffect(() => {
+      const scrollY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      document.body.style.overflow = 'hidden'
+
+      return () => {
+         document.body.style.position = ''
+         document.body.style.top = ''
+         document.body.style.left = ''
+         document.body.style.right = ''
+         document.body.style.overflow = ''
+         window.scrollTo(0, 0)
+      }
+   }, [])
+
+   useEffect(() => {
+      if (!show) {
+         document.body.style.position = ''
+         document.body.style.top = ''
+         document.body.style.left = ''
+         document.body.style.right = ''
+         document.body.style.overflow = ''
+         window.scrollTo(0, 0)
+      }
+   }, [show])
+
    // Baguette loaf body spans x=8 to x=114 in the viewBox
    const BAGUETTE_X_START = 8
    const BAGUETTE_WIDTH = 106
