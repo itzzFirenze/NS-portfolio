@@ -69,13 +69,18 @@ const RESPONSIBILITIES = [
 ]
 
 const BIO_WORDS = [
-   'Hi,', 'I', 'am', 'Nir', 'Magar', ',', 'a', 'bakery', 'professional', 'with', 'extensive',
+   'Hi,', 'I', 'am', 'Nir', 'Magar,', 'a', 'bakery', 'professional', 'with', 'extensive',
    'experience', 'in', 'new', 'product', 'development', 'within', 'the', 'baking', 'industry.',
    'I', 'specialize', 'in', 'formulating', 'a', 'diverse', 'range', 'of', 'baked', 'goods,',
-   'from', 'artisanal', 'sourdoughs', 'to', 'pastries,', 'cookies', 'and', 'chocolates.',
+   'from', 'artisanal', 'sourdoughs', 'to', 'pastries,', 'cookies,', 'and', 'chocolates.',
+   'My', 'expertise', 'includes', 'natural', 'preservation,', 'natural', 'sourdough,',
+   'clean', 'label', 'cakes,', 'keto', 'products,', 'no', 'added', 'sugar,', 'and',
+   'yeast-raised', 'cakes.',
+   'I', 'bring', 'experience', 'ranging', 'from', 'artisanal', 'craft', 'baking', 'to',
+   'industrialized', 'artisanal', 'baking.',
    'Driven', 'by', 'creativity,', 'precision,', 'and', 'a', 'passion', 'for', 'baking,',
    'I', 'continuously', 'strive', 'to', 'develop', 'products', 'that', 'combine',
-   'craftsmanship,', 'innovation,', 'and', 'operational', 'excellence.',
+   'craftsmanship,', 'innovation,', 'and', 'operational', 'excellence.'
 ]
 
 const HIGHLIGHT_WORDS = ['Nir', 'Magar']
