@@ -79,8 +79,19 @@ export default function ContactBox() {
       e.preventDefault()
       setIsSubmitting(true)
 
+      const formspreeUrl = process.env.NEXT_PUBLIC_FORMSPREE_URL
+
+      // Guard: reject if the env var is missing or not a valid Formspree URL
+      if (!formspreeUrl || !formspreeUrl.startsWith('https://formspree.io/')) {
+         if (process.env.NODE_ENV !== 'production') {
+            console.warn('ContactBox: NEXT_PUBLIC_FORMSPREE_URL is missing or invalid.')
+         }
+         setIsSubmitting(false)
+         return
+      }
+
       try {
-         const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_URL as string, {
+         const response = await fetch(formspreeUrl, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json',
@@ -94,10 +105,15 @@ export default function ContactBox() {
             setBurst(true)
             setTimeout(() => setBurst(false), 4000)
          } else {
-            console.error('Form submission failed')
+            if (process.env.NODE_ENV !== 'production') {
+               console.warn('ContactBox: Form submission returned a non-OK status.')
+            }
          }
-      } catch (error) {
-         console.error('Form submission error:', error)
+      } catch {
+         // Swallow network errors silently in production to avoid leaking info
+         if (process.env.NODE_ENV !== 'production') {
+            console.warn('ContactBox: Form submission encountered a network error.')
+         }
       } finally {
          setIsSubmitting(false)
       }
