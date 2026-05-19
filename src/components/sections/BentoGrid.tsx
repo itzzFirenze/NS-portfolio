@@ -331,7 +331,7 @@ export default function BentoGrid() {
                               initial={{ opacity: 0, scale: 0 }}
                               whileInView={{ opacity: 1, scale: 1 }}
                               viewport={{ once: true }}
-                              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                              transition={{ type: 'spring', stiffness: 300, delay: 0.2 }}
                               style={{
                                  width: 72, height: 72, borderRadius: 20,
                                  background: 'linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,45,120,0.15))',

@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Environment, Stars } from '@react-three/drei'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import * as THREE from 'three'
+import Image from 'next/image'
 import FlourParticles from '@/components/3d/FlourParticles'
 import SignatureText from '@/components/ui/SignatureText'
 import ScrollVelocity from '@/components/ui/ScrollVelocity'
@@ -153,7 +154,6 @@ export default function HeroEnvironment() {
                />
             </motion.div>
 
-            {/* Profile image — ON TOP of the ticker text */}
             <motion.div
                style={{
                   scale: imgScale,
@@ -167,21 +167,21 @@ export default function HeroEnvironment() {
                }}
                className="drop-shadow-[0_0_80px_rgba(255,107,53,0.35)]"
             >
-               <motion.img
+               <motion.div
                   initial={{ opacity: 0, scale: 1.05 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                  src={images.hero[0]}
-                  // src="/profile.webp"
-                  alt="Owner"
-                  style={{
-                     width: '100%',
-                     height: '100%',
-                     objectFit: 'cover',
-                     objectPosition: 'center',
-                     display: 'block',
-                  }}
-               />
+                  style={{ width: '100%', height: '100%', position: 'relative' }}
+               >
+                  <Image
+                     src={images.hero[0]}
+                     alt="Owner"
+                     fill
+                     priority
+                     sizes="100vw"
+                     className="object-cover object-center"
+                  />
+               </motion.div>
             </motion.div>
 
             {/* Hero Overlay Text */}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
 import { images } from '../../../data/images'
 
@@ -111,16 +112,16 @@ function Card({
          className="will-change-transform"
       >
          <div
-            className="w-full rounded-2xl overflow-hidden shadow-[0_20px_56px_rgba(0,0,0,0.65)]"
-            style={{ aspectRatio: '3 / 4' }}
+            className="w-full rounded-2xl overflow-hidden shadow-[0_20px_56px_rgba(0,0,0,0.65)] relative"
+            style={{ aspectRatio: '3 / 4', position: 'relative' }}
          >
-            <img
+            <Image
                src={src}
                alt={alt}
-               className="w-full h-full object-cover"
-               onError={(e) => {
-                  ; (e.target as HTMLImageElement).style.display = 'none'
-               }}
+               fill
+               sizes="(max-width: 768px) 100vw, 340px"
+               className="object-cover"
+               loading="lazy"
             />
          </div>
       </motion.div>

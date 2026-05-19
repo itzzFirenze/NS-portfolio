@@ -176,7 +176,11 @@ class Media {
       });
       const img = new Image();
       img.crossOrigin = 'anonymous';
-      img.src = this.image;
+      if (this.image.startsWith('http')) {
+         img.src = `/_next/image?url=${encodeURIComponent(this.image)}&w=640&q=75`;
+      } else {
+         img.src = this.image;
+      }
       img.onload = () => {
          texture.image = img;
          this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
